@@ -2,6 +2,7 @@
     <string name="app_name">Picnic</string>
     <string name="all_text_content_title">Content</string>
 
+    <!--COMMENT_VIEW-->
     <dimen name="material_text_button">14sp</dimen>
     <dimen name="material_text_menu">14sp</dimen>
     <dimen name="material_text_caption">12sp</dimen>
@@ -15,4 +16,7 @@
     <dimen name="material_text_display3">56sp</dimen>
     <dimen name="material_text_display4">112sp</dimen>
 
+
+    <!--RECOMMENT_MENU_VIEW-->
+    <string name="title_recommend">이런 피크닉, 어때요?</string>
 </resources>
