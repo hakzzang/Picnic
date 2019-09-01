@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="content_card_side_dimen">8dp</dimen>
+    <dimen name="content_title_title_height">44dp</dimen>
+    <dimen name="content_title_rating_height">24dp</dimen>
+    <dimen name="content_content_title_height">32dp</dimen>
+    <dimen name="ratingbar_space_with_text">8dp</dimen>
+    <dimen name="toolbar_max_height">194dp</dimen>
+    <dimen name="content_flex_top_padding">14dp</dimen>
+    <dimen name="content_flex_bottom_padding">20dp</dimen>
+    <dimen name="button_radius_amount">12dp</dimen>
+    <dimen name="button_hash_tag_space">8dp</dimen>
+</resources>
