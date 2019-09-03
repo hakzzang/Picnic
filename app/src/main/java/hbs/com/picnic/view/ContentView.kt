@@ -31,6 +31,4 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             }
         }
     }
-
-
 }

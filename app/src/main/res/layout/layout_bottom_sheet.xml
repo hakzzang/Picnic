@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:behavior_peekHeight="@dimen/bottom_sheet_min_height"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        app:cardElevation="@dimen/bottom_sheet_card_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+                style="@style/TextViewHeadline6"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottom_sheet_item_height"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="bottom"
+                android:text="묻고 답하기"
+                android:paddingStart="@dimen/bottom_sheet_item_padding_start"
+                android:paddingBottom="@dimen/bottom_sheet_item_padding_bottom"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

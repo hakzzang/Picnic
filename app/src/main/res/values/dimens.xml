@@ -10,4 +10,10 @@
     <dimen name="content_flex_bottom_padding">20dp</dimen>
     <dimen name="button_radius_amount">12dp</dimen>
     <dimen name="button_hash_tag_space">8dp</dimen>
+    <dimen name="bottom_sheet_min_height">56dp</dimen>
+    <dimen name="bottom_sheet_radius_corner">24dp</dimen>
+    <dimen name="bottom_sheet_card_elevation">8dp</dimen>
+    <dimen name="bottom_sheet_item_height">56dp</dimen>
+    <dimen name="bottom_sheet_item_padding_start">16dp</dimen>
+    <dimen name="bottom_sheet_item_padding_bottom">20dp</dimen>
 </resources>
