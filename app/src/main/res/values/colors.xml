@@ -4,6 +4,14 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+
+    <color name="colorBit">#69a9ff</color>
+    <color name="black_color_00">#000000</color>
+    <color name="white_color_00">#ffffff</color>
+
+    <color name="chatting_background_color">#f4f5f5</color>
+
+
     <!--grey-->
     <color name="md_grey_50">#FAFAFA</color>
     <color name="md_grey_100">#F5F5F5</color>
@@ -17,4 +25,5 @@
     <color name="md_grey_900">#212121</color>
     <color name="md_black_1000">#000000</color>
     <color name="md_white_1000">#ffffff</color>
+    <color name="view_content_background">#f6f6f6</color>
 </resources>
