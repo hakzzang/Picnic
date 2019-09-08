@@ -1,12 +1,11 @@
-package hbs.com.picnic.view.presenter
+package hbs.com.picnic.view.content.presenter
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.ImageView
 import hbs.com.picnic.R
 import hbs.com.picnic.utils.AnimationUtils
-import hbs.com.picnic.view.ContentViewContract
+import hbs.com.picnic.view.content.ContentViewContract
 
 class ContentViewPresenter(private val view: ContentViewContract.View) : ContentViewContract.Presenter {
     private var isAnimation = false

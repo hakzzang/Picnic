@@ -1,6 +1,5 @@
-package hbs.com.picnic.view
+package hbs.com.picnic.view.content
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
