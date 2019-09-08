@@ -9,8 +9,8 @@
     <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:contentScrim="?attr/colorPrimary"
             app:title="안녕.">
         <ImageView
