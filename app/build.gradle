@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def NAVER_CLIENT_ID = MAP_CLIENT_ID ?: "Define Your Seoul Api Key"
+def NAVER_CLIENT_SECRET = MAP_CLIENT_SECRET ?: "Define Your Job Cafe Name"
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -13,6 +16,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField  "String", "CLIENT_ID", NAVER_CLIENT_ID
+        buildConfigField  "String", "CLIENT_SECRET", NAVER_CLIENT_SECRET
     }
     buildTypes {
         release {
