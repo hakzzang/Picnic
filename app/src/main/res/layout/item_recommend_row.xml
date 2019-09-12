@@ -12,22 +12,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingTop="@dimen/recommend_menu_padding"
+            android:paddingBottom="@dimen/recommend_menu_padding"
+            android:paddingStart="@dimen/recommend_padding"
             android:gravity="center_vertical">
         <ImageView
                 android:id="@+id/iv_menu_icon"
-                android:layout_width="42dp" android:layout_height="42dp"
-                android:src="@drawable/ic_store_line"/>
+                android:layout_width="@dimen/recommend_menu_icon_size"
+                android:layout_height="@dimen/recommend_menu_icon_size"/>
         <TextView
                 android:id="@+id/tv_menu_title"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="시장거리"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_marginTop="8dp"/>
+                style="@style/Recommend.Menu.Text"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
