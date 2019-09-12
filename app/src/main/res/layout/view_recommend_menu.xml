@@ -2,25 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_marginTop="@dimen/recommend_top_margin"
+              android:layout_height="@dimen/recommend_menu_height">
     <TextView
             android:id="@+id/tv_recommend_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/title_recommend"
-            android:textStyle="bold"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="@dimen/recommend_padding"
             android:background="@drawable/bg_textview_line"
-            android:layout_marginTop="36dp"/>
+            style="@style/Recommend.Title.Text"/>
     <GridView
             android:id="@+id/gv_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="3"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="24dp"
-            android:verticalSpacing="8dp"
-            android:horizontalSpacing="8dp"/>
+            android:layout_marginStart="@dimen/recommend_menu_space_horizontal"
+            android:layout_marginEnd="@dimen/recommend_menu_space_horizontal"
+            android:layout_marginTop="@dimen/recommend_top_margin"
+            android:verticalSpacing="@dimen/recommend_menu_space_vertical"
+            android:horizontalSpacing="@dimen/recommend_menu_space_horizontal"/>
 </LinearLayout>
