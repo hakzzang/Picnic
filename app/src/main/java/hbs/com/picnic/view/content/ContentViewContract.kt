@@ -1,4 +1,4 @@
-package hbs.com.picnic.view
+package hbs.com.picnic.view.content
 
 import android.text.TextWatcher
 import android.widget.ImageView

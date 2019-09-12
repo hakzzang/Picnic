@@ -9,7 +9,7 @@ import hbs.com.picnic.utils.AnimationUtils.Property.SCALE_DURATION
 import hbs.com.picnic.utils.AnimationUtils.Property.SCALE_INTERPOLATOR
 import hbs.com.picnic.utils.AnimationUtils.Property.SIZE_0
 import hbs.com.picnic.utils.AnimationUtils.Property.SIZE_1
-import hbs.com.picnic.view.ContentViewContract
+import hbs.com.picnic.view.content.ContentViewContract
 
 class AnimationUtils {
     object Property {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/content_content_title_height"
+            android:gravity="bottom"
+            android:id="@+id/rv_content_content_title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="위치"
+            style="@style/TextViewHeadline6"/>
+    <ImageView
+            android:id="@+id/iv_static_map"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/static_map_height"
+            app:layout_constraintTop_toBottomOf="@id/rv_content_content_title"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/md_grey_300"
+            app:layout_constraintTop_toBottomOf="@id/iv_static_map"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

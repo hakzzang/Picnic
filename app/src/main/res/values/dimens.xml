@@ -25,4 +25,5 @@
     <dimen name="iv_send_chat_margin">8dp</dimen>
     <dimen name="send_chat_padding">18dp</dimen>
     <dimen name="send_chat_text_size">12sp</dimen>
+    <dimen name="static_map_height">240dp</dimen>
 </resources>

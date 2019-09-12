@@ -1,4 +1,4 @@
-package hbs.com.picnic.view
+package hbs.com.picnic.view.content
 
 import android.content.Context
 import android.util.AttributeSet
@@ -9,26 +9,34 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import hbs.com.picnic.content.adapter.ChattingAdapter
 import hbs.com.picnic.databinding.ViewContentBinding
 import hbs.com.picnic.utils.AnimationUtils
-import hbs.com.picnic.view.presenter.ContentViewPresenter
+import hbs.com.picnic.view.content.presenter.ContentViewPresenter
 import kotlinx.android.synthetic.main.layout_bottom_sheet.view.*
+import java.io.InputStream
 
 class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     FrameLayout(context, attrs, defStyleAttr), ContentViewContract.View {
     private val presenter by lazy {
         ContentViewPresenter(this)
     }
-
     private val viewContentBinding = provideDataBinding()
     private val bottomSheetContainer = viewContentBinding.bottomSheetContainer
+
     private val chattingList: ArrayList<String> = arrayListOf()
+    private val contentMap = hashMapOf<String, ByteArray>()
+    private val contentAdapter = ContentAdapter(contentMap)
     init {
         presenter.initView()
+    }
+
+    fun updateMap(mapImage : ByteArray){
+        contentMap["MAP"] = mapImage
+        contentAdapter.notifyItemChanged(3)
     }
 
     override fun initView() {
         viewContentBinding.let {
             it.rvContents.apply {
-                adapter = ContentAdapter()
+                adapter = contentAdapter
                 layoutManager = LinearLayoutManager(context)
             }
             it.bottomSheetContainer.rv_chat.apply {

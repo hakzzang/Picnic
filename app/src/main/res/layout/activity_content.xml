@@ -3,7 +3,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <hbs.com.picnic.view.ContentView
+    <hbs.com.picnic.view.content.ContentView
+            android:id="@+id/content_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 </LinearLayout>
