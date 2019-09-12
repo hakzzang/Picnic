@@ -5,13 +5,15 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import hbs.com.picnic.content.adapter.ChattingAdapter
+import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.databinding.ViewContentBinding
 import hbs.com.picnic.utils.AnimationUtils
 import hbs.com.picnic.view.content.presenter.ContentViewPresenter
 import kotlinx.android.synthetic.main.layout_bottom_sheet.view.*
-import java.io.InputStream
+import java.util.*
 
 class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     FrameLayout(context, attrs, defStyleAttr), ContentViewContract.View {
@@ -21,9 +23,9 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val viewContentBinding = provideDataBinding()
     private val bottomSheetContainer = viewContentBinding.bottomSheetContainer
 
-    private val chattingList: ArrayList<String> = arrayListOf()
     private val contentMap = hashMapOf<String, ByteArray>()
     private val contentAdapter = ContentAdapter(contentMap)
+    private val chattingAdapter = ChattingAdapter()
     init {
         presenter.initView()
     }
@@ -40,10 +42,11 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 layoutManager = LinearLayoutManager(context)
             }
             it.bottomSheetContainer.rv_chat.apply {
-                adapter = ChattingAdapter(chattingList)
+                adapter = chattingAdapter
                 layoutManager = LinearLayoutManager(context)
             }
         }
+        presenter.getChatContents("0001")
     }
 
     override fun addTextWatcherForAnimation() {
@@ -61,16 +64,22 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     override fun sendChatting() {
-        chattingList.add(et_send_chat.text.toString())
+
     }
 
     override fun updateChatRooms() {
 
     }
 
+    override fun updateChattingContents(chatMessages: List<ChatMessage>) {
+        chattingAdapter.setData(chatMessages)
+    }
+
     override fun addSendListener() {
         bottomSheetContainer.iv_send_chat_icon.setOnClickListener {
-            presenter.sendChatting()
+            val message = bottomSheetContainer.et_send_chat.text.toString()
+            val chatMessage = ChatMessage("hakzzang", "hakzzang", message, Date().time.toString())
+            presenter.sendChatting("0001", chatMessage)
         }
     }
 
@@ -85,4 +94,8 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     private fun provideDataBinding() = ViewContentBinding.inflate(LayoutInflater.from(context), this, true)
+
+    override fun showFailToastMessage(failMessage: String) {
+        Toast.makeText(context, failMessage, Toast.LENGTH_SHORT).show()
+    }
 }

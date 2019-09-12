@@ -4,24 +4,37 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ImageView
 import hbs.com.picnic.R
+import hbs.com.picnic.content.usecase.ChattingUseCase
+import hbs.com.picnic.content.usecase.ChattingUseCaseImpl
+import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.utils.AnimationUtils
+import hbs.com.picnic.utils.BaseContract
 import hbs.com.picnic.view.content.ContentViewContract
 
-class ContentViewPresenter(private val view: ContentViewContract.View) : ContentViewContract.Presenter {
+class ContentViewPresenter(private val view: ContentViewContract.View) : BaseContract.Presenter(),
+    ContentViewContract.Presenter {
     private var isAnimation = false
+    private val chattingUseCase: ChattingUseCase = ChattingUseCaseImpl()
+    private val chattingList: ArrayList<ChatMessage> = arrayListOf()
     override fun initView() {
         view.initView()
         view.addSendListener()
         view.addTextWatcherForAnimation()
     }
 
-    override fun sendChatting() {
+    override fun sendChatting(roomId: String, chatMessage: ChatMessage) {
+        chattingUseCase.postChats(roomId, chatMessage)
         view.sendChatting()
         view.clearEditText()
     }
 
-    override fun getChatContents() {
-
+    override fun getChatContents(roomId: String) {
+        addDisposable(chattingUseCase.getChats(roomId).subscribe({ chatting ->
+            chattingList.add(chatting)
+            view.updateChattingContents(chattingList)
+        }, { error ->
+            view.showFailToastMessage(error.localizedMessage)
+        }))
     }
 
     override fun getChatRooms() {
