@@ -31,11 +31,16 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
     override fun getChatContents(roomId: String) {
         addDisposable(chattingUseCase.getChats(roomId).subscribe({ chatting ->
             chattingList.add(chatting)
-            view.updateChattingContents(chattingList)
-            view.refreshContentList()
+            view.initChattingContents(chattingList)
         }, { error ->
             view.showFailToastMessage(error.localizedMessage)
+        },{
+
         }))
+    }
+
+    override fun updateChatContents(roomId: String) {
+        view.refreshContentList()
     }
 
     override fun getChatRooms() {

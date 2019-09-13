@@ -11,6 +11,7 @@ import io.reactivex.subjects.BehaviorSubject
 
 interface ChattingUseCase {
     fun getChats(roomId: String): Observable<ChatMessage>
+    fun listenChats(roomId: String) : Observable<ChatMessage>
     fun postChats(roomId: String, chatMessage: ChatMessage)
 }
 
@@ -23,11 +24,8 @@ class ChattingUseCaseImpl : ChattingUseCase {
     }
 
     override fun getChats(roomId: String): Observable<ChatMessage> {
-        chatRepository.getChats(roomId).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-            if (firebaseFirestoreException != null) {
-                return@addSnapshotListener
-            }
-            documentSnapshot?.documentChanges?.let {
+        chatRepository.getChats(roomId).get().addOnSuccessListener {
+            it.documentChanges.let {
                 for (doc in it) {
                     ChatMessage().apply {
                         convertMapTo(doc.document.data)
@@ -35,10 +33,16 @@ class ChattingUseCaseImpl : ChattingUseCase {
                         chattingPublishSubject.onNext(it)
                     }
                 }
+                chattingPublishSubject.onComplete()
             }
         }
+
         return chattingPublishSubject
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.computation())
+    }
+
+    override fun listenChats(roomId: String): Observable<ChatMessage> {
+        return 
     }
 }

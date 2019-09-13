@@ -1,8 +1,8 @@
 package hbs.com.picnic.view.content
 
+import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
 import hbs.com.picnic.data.model.ChatMessage
-import javax.annotation.Nullable
 
 class ChattingDiffUtil(private val oldList: List<ChatMessage>, private val newList: List<ChatMessage>) :
     DiffUtil.Callback() {

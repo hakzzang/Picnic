@@ -19,7 +19,6 @@ class ChatRepositoryImpl : ChatRepository {
         .document(roomId)
         .collection(CHAT)
 
-
     override fun postChats(roomId: String, chatMessage: ChatMessage) {
         fireDatabase
             .collection(ROOM_MESSAGES)

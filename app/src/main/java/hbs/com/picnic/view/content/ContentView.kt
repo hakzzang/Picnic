@@ -19,7 +19,6 @@ import java.util.*
 
 class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     FrameLayout(context, attrs, defStyleAttr), ContentViewContract.View {
-
     private val presenter by lazy {
         ContentViewPresenter(this)
     }
@@ -28,9 +27,12 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val contentMap = hashMapOf<String, ByteArray>()
     private val contentAdapter = ContentAdapter(contentMap)
-    private val chattingAdapter = ChattingAdapter()
+    private val chattingAdapter = ChattingAdapter().apply {
+
+    }
     init {
         presenter.initView()
+        presenter.getChatContents("0001")
     }
 
     fun updateMap(mapImage : ByteArray){
@@ -101,8 +103,25 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private fun provideDataBinding() = ViewContentBinding.inflate(LayoutInflater.from(context), this, true)
 
+    override fun initChattingContents(chatMessages: List<ChatMessage>) {
+        bottomSheetContainer.rv_chat.layoutManager?.let {
+            chattingAdapter.setData(chatMessages)
+            it.scrollToPosition(chatMessages.lastIndex)
+        } ?: run {
+            return
+        }
+    }
+
     override fun updateChattingContents(chatMessages: List<ChatMessage>) {
-        chattingAdapter.setData(chatMessages)
+        bottomSheetContainer.rv_chat.layoutManager?.let {
+            chattingAdapter.setData(chatMessages)
+            val linearLayoutManager = it as LinearLayoutManager
+            if (linearLayoutManager.findLastVisibleItemPosition() == chatMessages.lastIndex - 1) {
+                linearLayoutManager.scrollToPosition(0)
+            }
+        } ?: run {
+            return
+        }
     }
 
     override fun refreshContentList() {
@@ -119,7 +138,7 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             if(!viewContentBinding.srlContents.isRefreshing){
                 viewContentBinding.srlContents.isRefreshing = true
             }
-            presenter.getChatContents("0001")
+            presenter.updateChatContents("0001")
         }
     }
 }
