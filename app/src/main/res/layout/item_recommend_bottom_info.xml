@@ -9,7 +9,6 @@
             android:id="@+id/iv_bottom_img"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:src="@drawable/test_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintDimensionRatio="V, 1:1"/>
     <View android:layout_width="match_parent" android:layout_height="0dp"
