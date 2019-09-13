@@ -11,6 +11,7 @@ import hbs.com.picnic.content.adapter.ChattingAdapter
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.databinding.ViewContentBinding
 import hbs.com.picnic.utils.AnimationUtils
+import hbs.com.picnic.view.content.adapter.ContentAdapter
 import hbs.com.picnic.view.content.presenter.ContentViewPresenter
 import kotlinx.android.synthetic.main.layout_bottom_sheet.view.*
 import java.util.*

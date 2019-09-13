@@ -18,8 +18,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "CLIENT_ID", NAVER_CLIENT_ID
-        buildConfigField "String", "CLIENT_SECRET", NAVER_CLIENT_SECRET
+        buildConfigField  "String", "CLIENT_ID", NAVER_CLIENT_ID
+        buildConfigField  "String", "CLIENT_SECRET", NAVER_CLIENT_SECRET
+        resValue("string", "naver_map_id", NAVER_CLIENT_ID)
+
     }
     buildTypes {
         release {
@@ -73,8 +75,14 @@ dependencies {
     //flex layoaut
     implementation 'com.google.android:flexbox:1.1.0'
 
+    //naver map
+    implementation 'com.naver.maps:map-sdk:3.5.0'
+
     // alternatively - without Android dependencies for testing
     testImplementation "androidx.paging:paging-common:$paging_version" // For Kotlin use paging-common-ktx
+
+    //using for FusedLocationSource
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
     // required if you want to use Mockito for Android tests
     testImplementation 'org.mockito:mockito-core:2.24.5'
