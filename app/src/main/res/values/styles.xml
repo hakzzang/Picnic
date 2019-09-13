@@ -37,4 +37,9 @@
         <item name="android:maxWidth">120dip</item>
         <item name="android:maxHeight">92dip</item>
     </style>
+
+    <style name="Toolbar.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/nanumbarungothic_light</item>
+        <item name="android:letterSpacing">0.5</item>
+    </style>
 </resources>
