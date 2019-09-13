@@ -1,6 +1,7 @@
-package hbs.com.picnic.view.content
+package hbs.com.picnic.view.content.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import hbs.com.picnic.databinding.ItemContentSubtitleBinding
+import hbs.com.picnic.map.MapActivity
 import kotlinx.android.synthetic.main.item_map.view.*
 
 
@@ -29,7 +31,9 @@ class ContentAdapter(private val contentMap: Map<String, ByteArray>) : RecyclerV
                 ContentViewHolder(makeInflater(parent, hbs.com.picnic.R.layout.item_content_content))
             }
             ContentViewType.MAP.num -> {
-                MapViewHolder(makeInflater(parent, hbs.com.picnic.R.layout.item_map))
+                MapViewHolder(makeInflater(parent, hbs.com.picnic.R.layout.item_map)).apply {
+                    bind(this)
+                }
             }
             ContentViewType.HASHTAG.num -> {
                 SubTitleViewHolder(makeDataBinding(parent, hbs.com.picnic.R.layout.item_content_subtitle))
@@ -59,16 +63,37 @@ class ContentAdapter(private val contentMap: Map<String, ByteArray>) : RecyclerV
         if (holder.itemViewType == ContentViewType.HASHTAG.num) {
             setHashTag(holder)
         } else if (holder.itemViewType == ContentViewType.MAP.num) {
-            if (contentMap.containsKey("MAP")) {
-                setMapImage(holder, contentMap["MAP"])
-            }
+            val mapViewHolder = holder as MapViewHolder
         }
     }
 
     inner class TitleViewHolder(view: View) : RecyclerView.ViewHolder(view)
     inner class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view)
     inner class SubTitleViewHolder(val binding: ItemContentSubtitleBinding) : RecyclerView.ViewHolder(binding.root)
-    inner class MapViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class MapViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(holder: RecyclerView.ViewHolder) {
+            if (contentMap.containsKey("MAP")) {
+                setMapImage(holder, contentMap["MAP"])
+            }
+            holder.itemView.setOnClickListener {
+                Intent(it.context, MapActivity::class.java).apply {
+                    putExtra("longitude", 127.1054221)
+                    putExtra("latitude", 37.3591614)
+                    it.context.startActivity(this)
+                }
+            }
+        }
+
+        private fun setMapImage(holder: RecyclerView.ViewHolder, mapImage: ByteArray?) {
+            val mapViewHolder = holder as MapViewHolder
+            mapImage?.apply {
+                val mapImageBitmap = BitmapFactory.decodeByteArray(mapImage, 0, mapImage.size)
+                provideRequestManager(mapViewHolder.itemView.context)
+                    .load(mapImageBitmap)
+                    .into(mapViewHolder.itemView.iv_static_map)
+            }
+        }
+    }
 
     private fun makeInflater(parent: ViewGroup, layout: Int): View =
         LayoutInflater.from(parent.context).inflate(layout, parent, false)
@@ -103,16 +128,6 @@ class ContentAdapter(private val contentMap: Map<String, ByteArray>) : RecyclerV
                     )
                 )
             }
-        }
-    }
-
-    private fun setMapImage(holder: RecyclerView.ViewHolder, mapImage: ByteArray?) {
-        val mapViewHolder = holder as MapViewHolder
-        mapImage?.apply {
-            val mapImageBitmap = BitmapFactory.decodeByteArray(mapImage, 0, mapImage.size)
-            provideRequestManager(mapViewHolder.itemView.context)
-                .load(mapImageBitmap)
-                .into(mapViewHolder.itemView.iv_static_map)
         }
     }
 }

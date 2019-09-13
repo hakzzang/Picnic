@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import hbs.com.picnic.content.adapter.ChattingAdapter
 import hbs.com.picnic.databinding.ViewContentBinding
 import hbs.com.picnic.utils.AnimationUtils
+import hbs.com.picnic.view.content.adapter.ContentAdapter
 import hbs.com.picnic.view.content.presenter.ContentViewPresenter
 import kotlinx.android.synthetic.main.layout_bottom_sheet.view.*
-import java.io.InputStream
 
 class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     FrameLayout(context, attrs, defStyleAttr), ContentViewContract.View {

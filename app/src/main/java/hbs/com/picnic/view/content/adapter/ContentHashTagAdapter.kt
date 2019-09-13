@@ -1,4 +1,4 @@
-package hbs.com.picnic.view.content
+package hbs.com.picnic.view.content.adapter
 
 import android.view.LayoutInflater
 import android.view.View
