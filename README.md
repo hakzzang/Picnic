@@ -5,6 +5,10 @@
 ### 0. MVP 패턴을 위한 학습
 - MVP 패턴을 학습하기 위해서, 기본적인 예제를 통한 MVP구조를 이해하고, 구조를 깔끔하게 하는 것이 목표1.
 - 모델을 이해해서 각종 API를 효율적으로 사용할 수 있도록 하는 것이 목표2.
+
+### 0-0. 기술적 학습
+- 네스티드 스크롤뷰를 사용하지 않고, 다양한 뷰 표현하기 : https://gamjatwigim.tistory.com/102
+- CoordinatorLayout 안에 SwipeRefreshLayout 사용하기 : https://gamjatwigim.tistory.com/104
 ### 0-1. 계산기 패턴을 통한 MVP Contract 구조
 - https://medium.com/@PaperEd/android-how-to-mvp-1ff398b25cb1
 
@@ -20,3 +24,7 @@
 ### 2. 프로젝트 분리
 - Recommend : 메인 화면을 의미하고, 간단한 뷰를 통해서 피크닉 추천 장소를 보여준다.
 - Content : 메인 화면에서 넘어와서 상세화면을 보여주려고 한다.
+
+### 3. 네이버 지도 사용
+- 네이티브 지도 : https://navermaps.github.io/android-map-sdk/guide-ko/0.html
+- Static Map Image : https://docs.ncloud.com/ko/naveropenapi_v3/maps/static/static-map.html
