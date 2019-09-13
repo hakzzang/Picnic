@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import hbs.com.picnic.content.adapter.ChattingAdapter
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.databinding.ViewContentBinding
@@ -18,6 +19,7 @@ import java.util.*
 
 class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     FrameLayout(context, attrs, defStyleAttr), ContentViewContract.View {
+
     private val presenter by lazy {
         ContentViewPresenter(this)
     }
@@ -46,8 +48,10 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 adapter = chattingAdapter
                 layoutManager = LinearLayoutManager(context)
             }
+            it.srlContents.post {
+                it.srlContents.setOnRefreshListener(refreshListener)
+            }
         }
-        presenter.getChatContents("0001")
     }
 
     override fun addTextWatcherForAnimation() {
@@ -72,10 +76,6 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     }
 
-    override fun updateChattingContents(chatMessages: List<ChatMessage>) {
-        chattingAdapter.setData(chatMessages)
-    }
-
     override fun addSendListener() {
         bottomSheetContainer.iv_send_chat_icon.setOnClickListener {
             val message = bottomSheetContainer.et_send_chat.text.toString()
@@ -94,9 +94,32 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         imageView.setImageResource(resource)
     }
 
-    private fun provideDataBinding() = ViewContentBinding.inflate(LayoutInflater.from(context), this, true)
 
     override fun showFailToastMessage(failMessage: String) {
         Toast.makeText(context, failMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun provideDataBinding() = ViewContentBinding.inflate(LayoutInflater.from(context), this, true)
+
+    override fun updateChattingContents(chatMessages: List<ChatMessage>) {
+        chattingAdapter.setData(chatMessages)
+    }
+
+    override fun refreshContentList() {
+        presenter.initView()
+        viewContentBinding.srlContents.post {
+            if(viewContentBinding.srlContents.isRefreshing){
+                viewContentBinding.srlContents.isRefreshing = false
+            }
+        }
+    }
+
+    private val refreshListener = SwipeRefreshLayout.OnRefreshListener {
+        viewContentBinding.srlContents.post {
+            if(!viewContentBinding.srlContents.isRefreshing){
+                viewContentBinding.srlContents.isRefreshing = true
+            }
+            presenter.getChatContents("0001")
+        }
     }
 }

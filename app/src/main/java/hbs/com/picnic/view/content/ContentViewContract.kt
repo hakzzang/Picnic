@@ -17,6 +17,7 @@ interface ContentViewContract{
         fun showFailToastMessage(failMessage: String)
         fun addAnimation(view: ImageView, animationType: AnimationUtils.AnimationType)
         fun changeImageResource(imageView: ImageView, resource: Int)
+        fun refreshContentList()
     }
 
     interface Presenter{

@@ -32,6 +32,7 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
         addDisposable(chattingUseCase.getChats(roomId).subscribe({ chatting ->
             chattingList.add(chatting)
             view.updateChattingContents(chattingList)
+            view.refreshContentList()
         }, { error ->
             view.showFailToastMessage(error.localizedMessage)
         }))

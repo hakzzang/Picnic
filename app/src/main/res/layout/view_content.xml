@@ -12,14 +12,20 @@
             android:background="@color/view_content_background">
         <!-- 툴바 관련 -->
         <include layout="@layout/layout_coordinator_toolbar"/>
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_contents"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="@dimen/content_card_side_dimen"
-                android:paddingEnd="@dimen/content_card_side_dimen"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:paddingBottom="@dimen/bottom_sheet_min_height"/>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/srl_contents"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_contents"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/content_card_side_dimen"
+                    android:paddingEnd="@dimen/content_card_side_dimen"
+                    android:paddingBottom="@dimen/bottom_sheet_min_height"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <include
                 android:id="@+id/bottom_sheet_container"
                 layout="@layout/layout_bottom_sheet"/>
