@@ -27,9 +27,7 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val contentMap = hashMapOf<String, ByteArray>()
     private val contentAdapter = ContentAdapter(contentMap)
-    private val chattingAdapter = ChattingAdapter().apply {
-
-    }
+    private val chattingAdapter = ChattingAdapter()
     init {
         presenter.initView()
         presenter.getChatContents("0001")
@@ -106,7 +104,9 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     override fun initChattingContents(chatMessages: List<ChatMessage>) {
         bottomSheetContainer.rv_chat.layoutManager?.let {
             chattingAdapter.setData(chatMessages)
-            it.scrollToPosition(chatMessages.lastIndex)
+            bottomSheetContainer.rv_chat.postDelayed({
+                it.scrollToPosition(chatMessages.lastIndex)
+            }, 200)
         } ?: run {
             return
         }
@@ -117,7 +117,7 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             chattingAdapter.setData(chatMessages)
             val linearLayoutManager = it as LinearLayoutManager
             if (linearLayoutManager.findLastVisibleItemPosition() == chatMessages.lastIndex - 1) {
-                linearLayoutManager.scrollToPosition(0)
+                linearLayoutManager.scrollToPosition(chatMessages.lastIndex)
             }
         } ?: run {
             return
@@ -138,7 +138,7 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             if(!viewContentBinding.srlContents.isRefreshing){
                 viewContentBinding.srlContents.isRefreshing = true
             }
-            presenter.updateChatContents("0001")
+            presenter.getChatContents("0001")
         }
     }
 }

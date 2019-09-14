@@ -10,6 +10,7 @@ import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.utils.AnimationUtils
 import hbs.com.picnic.utils.BaseContract
 import hbs.com.picnic.view.content.ContentViewContract
+import io.reactivex.Observable
 
 class ContentViewPresenter(private val view: ContentViewContract.View) : BaseContract.Presenter(),
     ContentViewContract.Presenter {
@@ -29,18 +30,26 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
     }
 
     override fun getChatContents(roomId: String) {
+        onClear()
+        chattingList.clear()
         addDisposable(chattingUseCase.getChats(roomId).subscribe({ chatting ->
             chattingList.add(chatting)
-            view.initChattingContents(chattingList)
         }, { error ->
             view.showFailToastMessage(error.localizedMessage)
         },{
-
+            view.refreshContentList()
+            view.initChattingContents(chattingList)
+            updateChatContents(roomId)
         }))
     }
 
     override fun updateChatContents(roomId: String) {
-        view.refreshContentList()
+        addDisposable(chattingUseCase.listenChats(roomId).subscribe({ chatting ->
+            chattingList.add(chatting)
+            view.updateChattingContents(chattingList)
+        }, { error ->
+            view.showFailToastMessage(error.localizedMessage)
+        }))
     }
 
     override fun getChatRooms() {
