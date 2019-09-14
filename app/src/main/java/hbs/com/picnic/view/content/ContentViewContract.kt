@@ -9,7 +9,8 @@ interface ContentViewContract{
     interface View{
         fun initView()
         fun updateChatRooms()
-        fun updateChattingContents(chatMessage: List<ChatMessage>)
+        fun initChattingContents(chatMessages: List<ChatMessage>)
+        fun updateChattingContents(chatMessages: List<ChatMessage>)
         fun sendChatting()
         fun addSendListener()
         fun clearEditText()
@@ -22,6 +23,7 @@ interface ContentViewContract{
 
     interface Presenter{
         fun getChatContents(roomId: String)
+        fun updateChatContents(roomId: String)
         fun getChatRooms()
         fun sendChatting(roomId: String, chatMessage: ChatMessage)
         fun initView()
