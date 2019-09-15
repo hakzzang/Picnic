@@ -36,7 +36,7 @@ class ChattingUseCaseImpl : ChattingUseCase {
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .limit(25)
             .get().addOnSuccessListener {
-            it.documentChanges.let {
+                it.documentChanges.let {
                 for (doc in it) {
                     ChatMessage().apply {
                         convertMapTo(doc.document.data)

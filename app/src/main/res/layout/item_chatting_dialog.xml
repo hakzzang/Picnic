@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_profile_name"
-            android:text="새우버거"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toLeftOf="@id/iv_profile_image"
             app:layout_constraintTop_toTopOf="@id/iv_profile_image"
@@ -44,4 +43,12 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_profile_name"
             app:layout_constraintBottom_toBottomOf="parent">
     </TextView>
+    <TextView
+            android:id="@+id/tv_chat_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextViewCaption"
+            android:layout_marginRight="@dimen/chatting_timestamp_margin_right"
+            app:layout_constraintBottom_toBottomOf="@id/tv_chat_dialog"
+            app:layout_constraintRight_toLeftOf="@id/tv_chat_dialog"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

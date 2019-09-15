@@ -2,16 +2,19 @@ package hbs.com.picnic.view.content
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.content.adapter.ChattingAdapter
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.databinding.ViewContentBinding
 import hbs.com.picnic.utils.AnimationUtils
+import hbs.com.picnic.utils.NicknameManager
 import hbs.com.picnic.view.content.adapter.ContentAdapter
 import hbs.com.picnic.view.content.presenter.ContentViewPresenter
 import kotlinx.android.synthetic.main.layout_bottom_sheet.view.*
@@ -76,11 +79,17 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     }
 
-    override fun addSendListener() {
+    override fun addSendListener(firebaseUser: FirebaseUser?) {
+        val nicknameManager = NicknameManager()
         bottomSheetContainer.iv_send_chat_icon.setOnClickListener {
             val message = bottomSheetContainer.et_send_chat.text.toString()
-            val chatMessage = ChatMessage("hakzzang", "hakzzang", message, Date().time.toString())
-            presenter.sendChatting("0001", chatMessage)
+            if (firebaseUser == null) {
+                Toast.makeText(context, "네트워크 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                val nickname = nicknameManager.makeWording(firebaseUser.metadata?.creationTimestamp.toString())
+                val chatMessage = ChatMessage(firebaseUser.uid, nickname, message, Date().time.toString())
+                presenter.sendChatting("0001", chatMessage)
+            }
         }
     }
 

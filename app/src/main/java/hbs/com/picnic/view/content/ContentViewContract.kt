@@ -2,6 +2,7 @@ package hbs.com.picnic.view.content
 
 import android.text.TextWatcher
 import android.widget.ImageView
+import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.utils.AnimationUtils
 
@@ -12,13 +13,14 @@ interface ContentViewContract{
         fun initChattingContents(chatMessages: List<ChatMessage>)
         fun updateChattingContents(chatMessages: List<ChatMessage>)
         fun sendChatting()
-        fun addSendListener()
+        fun addSendListener(firebaseUser: FirebaseUser?)
         fun clearEditText()
         fun addTextWatcherForAnimation()
         fun showFailToastMessage(failMessage: String)
         fun addAnimation(view: ImageView, animationType: AnimationUtils.AnimationType)
         fun changeImageResource(imageView: ImageView, resource: Int)
         fun refreshContentList()
+
     }
 
     interface Presenter{

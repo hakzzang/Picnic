@@ -26,4 +26,5 @@
     <dimen name="send_chat_padding">18dp</dimen>
     <dimen name="send_chat_text_size">12sp</dimen>
     <dimen name="static_map_height">240dp</dimen>
+    <dimen name="chatting_timestamp_margin_right">6dp</dimen>
 </resources>

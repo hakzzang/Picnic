@@ -20,6 +20,7 @@ class ContentUseCaseImpl : ContentUseCase {
             .getStaticMap(width, height, marker)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-
     }
+
+
 }

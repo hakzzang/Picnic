@@ -1,5 +1,6 @@
 package hbs.com.picnic.view.content.presenter
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.ImageView
@@ -19,7 +20,6 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
     private val chattingList: ArrayList<ChatMessage> = arrayListOf()
     override fun initView() {
         view.initView()
-        view.addSendListener()
         view.addTextWatcherForAnimation()
     }
 
@@ -38,6 +38,7 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
             view.showFailToastMessage(error.localizedMessage)
         },{
             view.refreshContentList()
+            chattingList.reverse()
             view.initChattingContents(chattingList)
             updateChatContents(roomId)
         }))
@@ -45,7 +46,9 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
 
     override fun updateChatContents(roomId: String) {
         addDisposable(chattingUseCase.listenChats(roomId).subscribe({ chatting ->
-            chattingList.add(chatting)
+            if(!chattingList.contains(chatting)){
+                chattingList.add(chatting)
+            }
             view.updateChattingContents(chattingList)
         }, { error ->
             view.showFailToastMessage(error.localizedMessage)
