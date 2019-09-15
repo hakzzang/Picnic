@@ -15,9 +15,18 @@ interface MapAPI {
 
     @Headers("Content-Type: application/json", API.ID, API.KEY)
     @GET("/map-static/v2/raster")
-    fun getJobCafeList(
+    fun getStaticMap(
         @Query("w") width: String,
         @Query("h") height: String,
         @Query(value = "markers", encoded = true) marker: String
     ): Observable<ResponseBody>
+
+
+    @Headers("Content-Type: application/json", API.ID, API.KEY)
+    @GET("/map-reversegeocode/v2/gc")
+    fun getLocationInfo(
+        @Query("coords", encoded = true) coords:String,
+        @Query("orders", encoded = true) orders:String,
+        @Query("output", encoded = true) output:String
+    ):Observable<ResponseBody>
 }

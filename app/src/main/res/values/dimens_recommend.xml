@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="recommend_padding">12dp</dimen>
-    <dimen name="recommend_top_margin">24dp</dimen>
+    <dimen name="recommend_top_margin">20dp</dimen>
     <dimen name="recommend_menu_space_vertical">4dp</dimen>
     <dimen name="recommend_menu_space_horizontal">8dp</dimen>
-    <dimen name="recommend_menu_padding">16dp</dimen>
+    <dimen name="recommend_menu_padding">20dp</dimen>
     <dimen name="recommend_menu_icon_size">36dp</dimen>
-    <dimen name="recommend_menu_height">280dp</dimen>
+    <dimen name="recommend_menu_height">270dp</dimen>
 
-    <dimen name="recommend_bottom_space">36dp</dimen>
+    <dimen name="recommend_bottom_space">56dp</dimen>
 </resources>

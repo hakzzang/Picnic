@@ -1,4 +1,4 @@
-package hbs.com.picnic.view.recommend
+package hbs.com.picnic.view.recommend.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
