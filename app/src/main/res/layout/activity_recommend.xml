@@ -18,9 +18,14 @@
                 app:elevation="0dp"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/Theme.AppCompat.Light"
-                app:title="PICNIC"
-                app:titleTextAppearance="@style/Toolbar.Title"
-                android:background="@android:color/white"/>
+                android:background="@android:color/white">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PICNIC"
+                    android:layout_gravity="center"
+                    android:textAppearance="@style/Toolbar.Title"/>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -33,11 +38,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp"
+                    android:layout_margin="@dimen/recommend_padding">
+                <LinearLayout
+                        android:id="@+id/ll_recommend_map"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/lottie_pin"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_fileName="map_pin_drop.json"/>
+                    <TextView
+                            android:id="@+id/tv_recommend_map"
+                            android:gravity="center_vertical"
+                            android:text="경기도 용인시 기흥구"
+                            android:layout_marginTop="3dp"
+                            style="@style/Recommend.Map.Text"/>
+                    <ImageView
+                            android:id="@+id/iv_gps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:padding="14dp"
+                            android:src="@drawable/ic_gps_location"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <hbs.com.picnic.view.recommend.RecommendMenuView
                     android:id="@+id/reco_menu_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/recommend_top_margin"/>
+                    android:layout_height="wrap_content"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_recommend_bottom"

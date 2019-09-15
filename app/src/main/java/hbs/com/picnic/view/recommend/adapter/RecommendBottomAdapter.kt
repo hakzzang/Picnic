@@ -1,7 +1,6 @@
-package hbs.com.picnic.view.recommend
+package hbs.com.picnic.view.recommend.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +8,22 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import hbs.com.picnic.R
 import hbs.com.picnic.data.model.RecommendBottom
 import hbs.com.picnic.utils.CustomItemDecoration
-import kotlinx.android.synthetic.main.activity_recommend.*
-import kotlinx.android.synthetic.main.item_recommend_bottom_info.view.*
-import kotlinx.android.synthetic.main.item_recommend_row.view.*
 
 open class RecommendBottomAdapter(val context: Context, val datas: ArrayList<RecommendBottom>) :
     RecyclerView.Adapter<RecommendBottomAdapter.RecommendViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendViewHolder
-    = RecommendViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_recommend_bottom, parent, false))
+    = RecommendViewHolder(
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.item_recommend_bottom,
+            parent,
+            false
+        )
+    )
 
 
     override fun getItemCount(): Int = datas.size

@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Recommend.Title.Text" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="Recommend.Title.Text" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="fontFamily">@font/nanumbarungothic_bold</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="Recommend.Menu.Text" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="Recommend.Map.Text" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="fontFamily">@font/nanumbarungothic</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="Recommend.Menu.Text" parent="TextAppearance.AppCompat">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="fontFamily">@font/nanumbarungothic</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 </resources>

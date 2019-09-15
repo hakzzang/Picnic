@@ -17,7 +17,7 @@
             android:numColumns="3"
             android:layout_marginStart="@dimen/recommend_menu_space_horizontal"
             android:layout_marginEnd="@dimen/recommend_menu_space_horizontal"
-            android:layout_marginTop="@dimen/recommend_top_margin"
+            android:layout_marginTop="@dimen/recommend_menu_padding"
             android:verticalSpacing="@dimen/recommend_menu_space_vertical"
             android:horizontalSpacing="@dimen/recommend_menu_space_horizontal"/>
 </LinearLayout>

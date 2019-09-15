@@ -13,7 +13,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingTop="@dimen/recommend_menu_padding"
-            android:paddingBottom="@dimen/recommend_menu_padding"
+            android:paddingBottom="@dimen/recommend_padding"
             android:paddingStart="@dimen/recommend_padding"
             android:gravity="center_vertical">
         <ImageView
@@ -22,6 +22,7 @@
                 android:layout_height="@dimen/recommend_menu_icon_size"/>
         <TextView
                 android:id="@+id/tv_menu_title"
+                android:letterSpacing="0.1"
                 style="@style/Recommend.Menu.Text"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
