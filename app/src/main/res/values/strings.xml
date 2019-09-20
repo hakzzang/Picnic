@@ -16,10 +16,12 @@
     <dimen name="material_text_display3">56sp</dimen>
     <dimen name="material_text_display4">112sp</dimen>
 
+    <string name="all_text_layout_bottom_sheet_comment_count">(%d)</string>
+
 
     <!--RECOMMENT_MENU_VIEW-->
     <string name="title_recommend">이런 피크닉, 어때요?</string>
-    <string name="all_text_layout_bttom_sheet_title">묻고 답하기</string>
+    <string name="all_text_layout_bottom_sheet_title">묻고 답하기</string>
 
 
 </resources>

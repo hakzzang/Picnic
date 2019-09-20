@@ -2,7 +2,6 @@ package hbs.com.picnic.view.content
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -10,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.auth.FirebaseUser
+import hbs.com.picnic.R
 import hbs.com.picnic.content.adapter.ChattingAdapter
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.databinding.ViewContentBinding
@@ -20,7 +20,11 @@ import hbs.com.picnic.view.content.presenter.ContentViewPresenter
 import kotlinx.android.synthetic.main.layout_bottom_sheet.view.*
 import java.util.*
 
-class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+class ContentView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) :
     FrameLayout(context, attrs, defStyleAttr), ContentViewContract.View {
     private val presenter by lazy {
         ContentViewPresenter(this)
@@ -31,12 +35,13 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val contentMap = hashMapOf<String, ByteArray>()
     private val contentAdapter = ContentAdapter(contentMap)
     private val chattingAdapter = ChattingAdapter()
+
     init {
         presenter.initView()
         presenter.getChatContents("0001")
     }
 
-    fun updateMap(mapImage : ByteArray){
+    fun updateMap(mapImage: ByteArray) {
         contentMap["MAP"] = mapImage
         contentAdapter.notifyItemChanged(3)
     }
@@ -59,8 +64,9 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     override fun addTextWatcherForAnimation() {
         et_send_chat.apply {
-            bottomSheetContainer.apply{
-                val textWatcher = presenter.makeTextWatcher(iv_send_chat_container, iv_send_chat_icon)
+            bottomSheetContainer.apply {
+                val textWatcher =
+                    presenter.makeTextWatcher(iv_send_chat_container, iv_send_chat_icon)
                 addTextChangedListener(textWatcher)
             }
         }
@@ -86,8 +92,10 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             if (firebaseUser == null) {
                 Toast.makeText(context, "네트워크 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
             } else {
-                val nickname = nicknameManager.makeWording(firebaseUser.metadata?.creationTimestamp.toString())
-                val chatMessage = ChatMessage(firebaseUser.uid, nickname, message, Date().time.toString())
+                val nickname =
+                    nicknameManager.makeWording(firebaseUser.metadata?.creationTimestamp.toString())
+                val chatMessage =
+                    ChatMessage(firebaseUser.uid, nickname, message, Date().time.toString())
                 presenter.sendChatting("0001", chatMessage)
             }
         }
@@ -108,11 +116,15 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         Toast.makeText(context, failMessage, Toast.LENGTH_SHORT).show()
     }
 
-    private fun provideDataBinding() = ViewContentBinding.inflate(LayoutInflater.from(context), this, true)
+    private fun provideDataBinding() =
+        ViewContentBinding.inflate(LayoutInflater.from(context), this, true)
 
     override fun initChattingContents(chatMessages: List<ChatMessage>) {
         bottomSheetContainer.rv_chat.layoutManager?.let {
             chattingAdapter.setData(chatMessages)
+            bottomSheetContainer.tv_bottom_sheet_comment_count.text = context.getString(
+                R.string.all_text_layout_bottom_sheet_comment_count, chattingAdapter.itemCount
+            )
             bottomSheetContainer.rv_chat.postDelayed({
                 it.scrollToPosition(chatMessages.lastIndex)
             }, 200)
@@ -124,6 +136,9 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     override fun updateChattingContents(chatMessages: List<ChatMessage>) {
         bottomSheetContainer.rv_chat.layoutManager?.let {
             chattingAdapter.setData(chatMessages)
+            bottomSheetContainer.tv_bottom_sheet_comment_count.text = context.getString(
+                R.string.all_text_layout_bottom_sheet_comment_count, chattingAdapter.itemCount
+            )
             val linearLayoutManager = it as LinearLayoutManager
             if (linearLayoutManager.findLastVisibleItemPosition() == chatMessages.lastIndex - 1) {
                 linearLayoutManager.scrollToPosition(chatMessages.lastIndex)
@@ -136,7 +151,7 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
     override fun refreshContentList() {
         presenter.initView()
         viewContentBinding.srlContents.post {
-            if(viewContentBinding.srlContents.isRefreshing){
+            if (viewContentBinding.srlContents.isRefreshing) {
                 viewContentBinding.srlContents.isRefreshing = false
             }
         }
@@ -144,7 +159,7 @@ class ContentView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private val refreshListener = SwipeRefreshLayout.OnRefreshListener {
         viewContentBinding.srlContents.post {
-            if(!viewContentBinding.srlContents.isRefreshing){
+            if (!viewContentBinding.srlContents.isRefreshing) {
                 viewContentBinding.srlContents.isRefreshing = true
             }
             presenter.getChatContents("0001")
