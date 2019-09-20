@@ -3,9 +3,9 @@ package hbs.com.picnic.data.model
 import com.google.gson.annotations.SerializedName
 
 data class CloudMessage(
-    @SerializedName("topic") var topic: String,
+    @SerializedName("to") var topic: String,
     @SerializedName("notification") var notification: Notification
 )
 
-data class Notification(@SerializedName("body") var body: String,
+data class Notification(@SerializedName("message") var message: String,
                         @SerializedName("title") var title: String)

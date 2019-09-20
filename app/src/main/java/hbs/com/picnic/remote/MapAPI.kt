@@ -12,7 +12,7 @@ interface MapAPI {
     object API {
         const val ID = "X-NCP-APIGW-API-KEY-ID: " + BuildConfig.CLIENT_ID
         const val KEY = "X-NCP-APIGW-API-KEY: " + BuildConfig.CLIENT_SECRET
-        const val SENDER_ID = "Authorization: Bearer " + BuildConfig.FCM_SENDER
+        const val SENDER_ID = "Authorization: key=" + BuildConfig.FCM_SENDER
     }
 
     @Headers("Content-Type: application/json", API.ID, API.KEY)

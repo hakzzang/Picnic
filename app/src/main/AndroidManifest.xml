@@ -40,10 +40,10 @@
             </intent-filter>
         </activity>
         <service
-                android:name=".utils.FcmService"
-                android:exported="false">
+                android:name=".utils.FcmService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 

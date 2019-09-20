@@ -37,14 +37,14 @@ class ContentActivity : AppCompatActivity(), ContentContract.View {
         val fcmFcmRepository =
             FcmRepositoryImpl(RetrofitProvider.provideFcmApi(BaseUrl.FIREBASE.url))
 
-        /*FirebaseMessaging.getInstance().subscribeToTopic("hello")
+        FirebaseMessaging.getInstance().subscribeToTopic("hello")
 
-        fcmFcmRepository.sendMessage("hello", CloudMessage("hello1", Notification("h","j")))
+        fcmFcmRepository.sendMessage("/topics/hello", CloudMessage("hello1", Notification("h","j")))
             .subscribe ({
-                Log.d("reponse",it.toString())
+                Log.d("reponse",it.string())
             },{
                 Log.d("reponsed",it.toString())
-            })*/
+            })
         contentPresenter.getAuth(this)
     }
 

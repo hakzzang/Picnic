@@ -6,7 +6,7 @@ import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface FcmAPI{
-    @Headers("Content-Type: application/json", MapAPI.API.SENDER_ID)
+    @Headers(MapAPI.API.SENDER_ID, "Content-Type: application/json")
     @POST("send")
     fun sendMessageToTopic(@Body cloudMessage: CloudMessage) : Observable<ResponseBody>
 }
