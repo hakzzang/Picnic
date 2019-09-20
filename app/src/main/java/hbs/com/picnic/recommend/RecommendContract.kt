@@ -4,8 +4,9 @@ import android.app.Activity
 
 interface RecommendContract {
     interface View {
-        fun setLocation(name:String)
-        fun updateDatas()
+        fun showGPSDialogAgain()
+        fun updateLocation(name:String)
+        fun updateBottoms()
     }
 
     interface Presenter {

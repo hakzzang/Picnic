@@ -1,5 +1,7 @@
 package hbs.com.picnic.recommend
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -16,12 +18,21 @@ import hbs.com.picnic.view.recommend.adapter.RecommendBottomAdapter
 import kotlinx.android.synthetic.main.activity_recommend.*
 import kotlin.collections.ArrayList
 import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.net.Uri
+import android.provider.Settings
+import android.util.Log
 import org.json.JSONObject
 
 
 class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnClickListener {
+    val REQUEST_SELECT_CODE: Int = 1002;
+
+    private val locationManager by lazy {
+        getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
     private val recommendPresenter by lazy {
-        RecommendPresenter(this)
+        RecommendPresenter(this, locationManager)
     }
 
     private val bottomAdapter: RecommendBottomAdapter by lazy {
@@ -90,6 +101,9 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
             )
         )
 
+    private var longitude: Double = 0.0
+    private var latitude: Double = 0.0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,21 +111,17 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        ll_recommend_map.setOnClickListener(this)
+        iv_gps.setOnClickListener(this)
+
         rv_recommend_bottom.apply {
             layoutManager = LinearLayoutManager(this@RecommendActivity, RecyclerView.VERTICAL, false)
             addItemDecoration(itemDecoration as RecyclerView.ItemDecoration)
             adapter = bottomAdapter
         }
 
-        ll_recommend_map.setOnClickListener(this)
-        iv_gps.setOnClickListener(this)
-
         recommendPresenter
-            .getLocationInfo(
-                coords = "126.98955,37.5651",
-                orders = "roadaddr",
-                output = "json"
-            )
+            .getGpsInfo(this@RecommendActivity)
 
     }
 
@@ -120,9 +130,10 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
             R.id.ll_recommend_map -> {
                 Intent(this@RecommendActivity, MapActivity::class.java)
                     .apply {
-                        putExtra("longitude", 126.98955)
-                        putExtra("latitude", 37.5651)
-                        startActivity(this)
+                        putExtra("longitude", longitude)
+                        putExtra("latitude", latitude)
+                        putExtra("type", MapActivity.Type.SELECT_MAP.value)
+                        startActivityForResult(this, REQUEST_SELECT_CODE)
                     }
             }
 
@@ -133,14 +144,50 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
     }
 
 
-    override fun setLocation(name: String) {
+    override fun updateLocation(name: String) {
         tv_recommend_map.text = getLocationFrom(name)
-        Toast.makeText(this, "위치 정보가 업데이트되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@RecommendActivity, resources.getString(R.string.update_location), Toast.LENGTH_SHORT).show()
     }
 
-    override fun updateDatas() {
+    override fun updateBottoms() {
+
     }
 
+    override fun showGPSDialogAgain() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            .apply {
+                setTitle(resources.getString(R.string.app_name))
+                setMessage(resources.getString(R.string.permission_message))
+                    .setPositiveButton(resources.getString(R.string.go_to_setting)) { _, _ ->
+                        Intent(
+                            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.parse("package:" + context.packageName)
+                        )
+                            .apply {
+                                addCategory(Intent.CATEGORY_DEFAULT)
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                context.startActivity(this)
+                            }
+                    }
+                    .setNegativeButton(resources.getString(R.string.text_cancel)) { dialog, _ -> dialog?.dismiss() }
+            }
+        builder.show()
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_SELECT_CODE) {
+            data?.let { location ->
+                recommendPresenter.getLocationInfo(
+                    coords = "${location.getDoubleExtra("longitude", 0.0)}," +
+                            "${location.getDoubleExtra("latitude", 0.0)}",
+                    orders = "roadaddr",
+                    output = "json"
+                )
+            }
+        }
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
@@ -148,27 +195,32 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
                 if (grantResults.isNotEmpty() && grantResults[0] === PackageManager.PERMISSION_GRANTED) {
                     recommendPresenter.getGpsInfo(this@RecommendActivity)
                 } else {
-                    Toast.makeText(this, "아직 승인받지 않았습니다.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, resources.getString(R.string.permission_message), Toast.LENGTH_LONG).show()
                 }
-
             }
         }
     }
 
-
-    private fun getLocationFrom(jsonString: String):String{
-        var resultString = ""
+    private fun getLocationFrom(jsonString: String): String {
+        var resultString = "위치 정보를 불러오지 못했습니다."
         val jsonObject = JSONObject(jsonString)
         with(jsonObject) {
             val regionObject = getJSONArray("results")
                 .getJSONObject(0)
                 .getJSONObject("region")
 
-            with(regionObject){
+            with(regionObject) {
                 resultString =
                     "${getJSONObject("area1").getString("name")} " +
                             "${getJSONObject("area2").getString("name")} " +
                             "${getJSONObject("area3").getString("name")}"
+
+                val coordsObj = getJSONObject("area3")
+                    .getJSONObject("coords")
+                    .getJSONObject("center")
+
+                longitude = coordsObj.getDouble("x")
+                latitude = coordsObj.getDouble("y")
             }
         }
         return resultString

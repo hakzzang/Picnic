@@ -16,8 +16,15 @@
     <dimen name="material_text_display3">56sp</dimen>
     <dimen name="material_text_display4">112sp</dimen>
 
+    <!--COMMON-->
+    <string name="text_cancel">취소</string>
 
-    <!--RECOMMENT_MENU_VIEW-->
+    <!--RECOMMEND_ACTIVITY-->
+    <string name="update_location">위치 정보가 업데이트 되었습니다.</string>
+    <string name="permission_message">현재 위치 정보를 사용하고자 위치 권한을 허용해주세요.</string>
+    <string name="go_to_setting">설정으로 이동</string>
+
+    <!--RECOMMEND_MENU_VIEW-->
     <string name="title_recommend">이런 피크닉, 어때요?</string>
     <string name="all_text_layout_bttom_sheet_title">묻고 답하기</string>
 
