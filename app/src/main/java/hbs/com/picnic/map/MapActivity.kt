@@ -1,61 +1,121 @@
 package hbs.com.picnic.map
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
+import hbs.com.picnic.map.presenter.MapPresenter
 import kotlinx.android.synthetic.main.activity_map.*
 
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(),
+    MapContract.View,
+    OnMapReadyCallback {
+
+    enum class Type(val value: Int) {
+        FULL_MAP(0), SELECT_MAP(1), LIST_MAP(2)
+    }
+
+
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
-    private val latitude by lazy {
-        intent.getDoubleExtra("latitude", 0.0)
-    }
-    private val longitude by lazy {
-        intent.getDoubleExtra("longitude", 0.0)
+    private val type by lazy {
+        intent.getIntExtra("type", Type.FULL_MAP.value)
     }
 
-    private val placeCaption = "테스트 캡션"
+    private val mapPresenter by lazy {
+        MapPresenter(this)
+    }
+
+    private var latitude:Double = 0.0
+    private var longitude:Double = 0.0
+
+    private lateinit var naverMap: NaverMap
+    private lateinit var cameraUpdate: CameraUpdate
 
     private lateinit var fusedLocationSource: FusedLocationSource
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(hbs.com.picnic.R.layout.activity_map)
+
+        latitude = intent.getDoubleExtra("latitude", 0.0)
+        longitude = intent.getDoubleExtra("longitude", 0.0)
+
         fusedLocationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         map_view.getMapAsync(this)
+
+        btn_select.setOnClickListener {
+            intent.putExtra("latitude", latitude)
+            intent.putExtra("longitude", longitude)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
     }
 
     override fun onMapReady(mapInstance: NaverMap) {
+        naverMap = mapInstance
+
+        when (type) {
+            Type.SELECT_MAP.value or Type.FULL_MAP.value -> {
+                initMap()
+
+                naverMap.apply {
+                    isIndoorEnabled = true
+                }
+                naverMap.uiSettings.apply {
+                    isIndoorLevelPickerEnabled = true
+                    isZoomControlEnabled = true
+                    isCompassEnabled = true
+                    isLogoClickEnabled = true
+                    isLocationButtonEnabled = true
+                }
+
+                if (type == Type.SELECT_MAP.value) {
+                    tv_select.visibility = VISIBLE
+                    naverMap.setOnMapClickListener { _, latLng ->
+                        latitude = latLng.latitude
+                        longitude = latLng.longitude
+
+                        cameraUpdate = CameraUpdate.scrollTo(latLng)
+                            .animate(CameraAnimation.Easing)
+                        mapPresenter.selectMap(latLng)
+                        tv_select.visibility = GONE
+                        btn_select.visibility = VISIBLE
+                    }
+                }
+            }
+            Type.LIST_MAP.value -> {
+
+            }
+            else -> {
+                initMap()
+            }
+        }
+
+    }
+
+    private fun initMap() {
         val latLng = LatLng(latitude, longitude)
-        val cameraUpdate = CameraUpdate.scrollTo(latLng)
+
+        cameraUpdate = CameraUpdate.scrollTo(latLng)
             .animate(CameraAnimation.Easing)
+        naverMap.moveCamera(cameraUpdate)
+        mapPresenter.fullMap(latLng)
+    }
 
-        Marker().apply {
-            position = latLng
-            isIconPerspectiveEnabled = true
-            captionText = placeCaption
-            map = mapInstance
-        }
+    override fun singleMarker(marker: Marker) {
+        marker.map = naverMap
+        naverMap.moveCamera(cameraUpdate)
+    }
 
-        mapInstance.apply {
-            isIndoorEnabled = true
-            symbolScale = 2f
-            locationSource = fusedLocationSource
-        }
-        mapInstance.uiSettings.apply {
-            isIndoorLevelPickerEnabled = true
-            isZoomControlEnabled = true
-            isCompassEnabled = true
-            isLogoClickEnabled = true
-            isLocationButtonEnabled = true
-        }
+    override fun multipleMarker(markers: List<Marker>) {
 
-        mapInstance.moveCamera(cameraUpdate)
     }
 
     override fun onRequestPermissionsResult(

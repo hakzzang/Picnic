@@ -1,5 +1,8 @@
 package hbs.com.picnic.recommend.usecase
 
+import android.annotation.SuppressLint
+import android.location.Location
+import android.location.LocationManager
 import hbs.com.picnic.remote.MapRepositoryImpl
 import hbs.com.picnic.remote.RetrofitProvider
 import hbs.com.picnic.utils.BaseUrl
@@ -11,13 +14,15 @@ import okhttp3.ResponseBody
 
 interface RecommendUseCase {
     fun getLocationInfo(
-        coords:String,
-        orders:String,
-        output:String
-    ):Observable<ResponseBody>
+        coords: String,
+        orders: String,
+        output: String
+    ): Observable<ResponseBody>
+
+    fun getLastLocation(): Location?
 }
 
-class RecommendUseCaseImpl : RecommendUseCase{
+class RecommendUseCaseImpl(private val locationManager: LocationManager) : RecommendUseCase {
     private val mapRepository = MapRepositoryImpl(RetrofitProvider.provideMapApi(BaseUrl.MAP.url))
 
     override fun getLocationInfo(coords: String, orders: String, output: String): Observable<ResponseBody> {
@@ -25,4 +30,10 @@ class RecommendUseCaseImpl : RecommendUseCase{
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    @SuppressLint("MissingPermission")
+    override fun getLastLocation(): Location? =
+        locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+
 }
