@@ -7,6 +7,7 @@ apply plugin: 'com.google.gms.google-services'
 
 def NAVER_CLIENT_ID = MAP_CLIENT_ID ?: "Define Your Seoul Api Key"
 def NAVER_CLIENT_SECRET = MAP_CLIENT_SECRET ?: "Define Your Job Cafe Name"
+def NOTIFICATION_FCM_SENDER = FCM_SENDER ?: "Define Your Job Cafe Name"
 
 android {
     compileSdkVersion 28
@@ -20,8 +21,8 @@ android {
 
         buildConfigField  "String", "CLIENT_ID", NAVER_CLIENT_ID
         buildConfigField  "String", "CLIENT_SECRET", NAVER_CLIENT_SECRET
+        buildConfigField "String", "FCM_SENDER", NOTIFICATION_FCM_SENDER
         resValue("string", "naver_map_id", NAVER_CLIENT_ID)
-
     }
     buildTypes {
         release {
@@ -65,6 +66,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.0.7'
 
     //firebase
+    implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.firebase:firebase-firestore:21.0.0'
     implementation 'com.google.firebase:firebase-auth:19.0.0'
@@ -85,6 +87,9 @@ dependencies {
 
     //using for FusedLocationSource
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    implementation "com.kakao.sdk:usermgmt:1.21.1"
+    implementation "com.kakao.sdk:kakaolink:1.21.1"
 
     // required if you want to use Mockito for Android tests
     testImplementation 'org.mockito:mockito-core:2.24.5'

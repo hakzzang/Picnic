@@ -18,6 +18,8 @@
 
     <!--COMMON-->
     <string name="text_cancel">취소</string>
+    <string name="all_text_layout_bottom_sheet_comment_count">(%d)</string>
+
 
     <!--RECOMMEND_ACTIVITY-->
     <string name="update_location">위치 정보가 업데이트 되었습니다.</string>
@@ -26,7 +28,10 @@
 
     <!--RECOMMEND_MENU_VIEW-->
     <string name="title_recommend">이런 피크닉, 어때요?</string>
-    <string name="all_text_layout_bttom_sheet_title">묻고 답하기</string>
+    <string name="all_text_layout_bottom_sheet_title">묻고 답하기</string>
+    <string name="all_text_kakao_link_title">피크닉 가요~</string>
+    <string name="all_text_kakao_link_on_success">친구에게 피크닉 공유하는 것을 완료했어요~</string>
+    <string name="all_text_kakao_link_on_fail">공유하는 것을 실패했어요. 다시 시도해주세요.</string>
 
 
 </resources>

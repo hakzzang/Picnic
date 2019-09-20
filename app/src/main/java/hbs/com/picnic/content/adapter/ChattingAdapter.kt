@@ -4,19 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.utils.AuthManager
-import hbs.com.picnic.view.content.ChattingDiffUtil
 import kotlinx.android.synthetic.main.item_chatting_dialog.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ChattingAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val chattingList: ArrayList<ChatMessage> = arrayListOf()
+class ChattingAdapter : ListAdapter<ChatMessage, RecyclerView.ViewHolder>(ChattingDiffCallBack()) {
     private val simpleDataFormat = SimpleDateFormat("HH:mm")
     private val MY_CHATTING_VIEWHOLDER = 0
     private val YOUR_CHATTING_VIEWHOLDER = 1
@@ -32,11 +31,9 @@ class ChattingAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    override fun getItemCount(): Int = chattingList.size
-
     override fun getItemViewType(position: Int): Int {
         AuthManager.getUserId()?.let { myUserId ->
-            return if (chattingList[position].userId == myUserId) {
+            return if (getItem(position).userId == myUserId) {
                 MY_CHATTING_VIEWHOLDER
             } else {
                 YOUR_CHATTING_VIEWHOLDER
@@ -44,12 +41,14 @@ class ChattingAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
         return YOUR_CHATTING_VIEWHOLDER
     }
+
     fun setData(newChattingList: List<ChatMessage>) {
-        val diffCallback = ChattingDiffUtil(chattingList, newChattingList)
+        submitList(newChattingList)
+        /*val diffCallback = ChattingDiffUtil(chattingList, newChattingList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         chattingList.clear()
         chattingList.addAll(newChattingList)
-        diffResult.dispatchUpdatesTo(this)
+        diffResult.dispatchUpdatesTo(this)*/
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -62,11 +61,11 @@ class ChattingAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class ChattingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindView(position: Int) {
-            itemView.tv_chat_dialog.text = chattingList[position].message
-            itemView.tv_profile_name.text = chattingList[position].name
+            itemView.tv_chat_dialog.text = getItem(position).message
+            itemView.tv_profile_name.text = getItem(position).name
 
             itemView.tv_chat_timestamp.apply {
-                text = simpleDataFormat.format(Date(chattingList[position].timestamp.toLong()))
+                text = simpleDataFormat.format(Date(getItem(position).timestamp.toLong()))
             }
             Glide
                 .with(itemView.iv_profile_image)
@@ -78,10 +77,17 @@ class ChattingAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class ChattingMyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindView(position: Int) {
-            itemView.tv_chat_dialog.text = chattingList[position].message
+            itemView.tv_chat_dialog.text = getItem(position).message
             itemView.tv_chat_timestamp.apply {
-                text = simpleDataFormat.format(Date(chattingList[position].timestamp.toLong()))
+                text = simpleDataFormat.format(Date(getItem(position).timestamp.toLong()))
             }
         }
+    }
+
+    class ChattingDiffCallBack : DiffUtil.ItemCallback<ChatMessage>(){
+        override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean = oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean = oldItem == newItem
+
     }
 }
