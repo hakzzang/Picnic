@@ -10,9 +10,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:minHeight="?attr/actionBarSize"
             app:contentScrim="?attr/colorPrimary"
-            app:title="안녕.">
+            app:title="안녕."
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp">
         <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -23,7 +26,26 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin" />
+                android:minHeight="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical">
+                <ImageView
+                        android:id="@+id/toolbar_share"
+                        android:layout_width="@dimen/toolbar_menu_size"
+                        android:layout_height="@dimen/toolbar_menu_size"
+                        android:padding="@dimen/toolbar_menu_padding"
+                        android:src="@drawable/ic_share_24dp"/>
+                <ImageView
+                        android:id="@+id/toolbar_bookmark"
+                        android:layout_width="@dimen/toolbar_menu_size"
+                        android:layout_height="@dimen/toolbar_menu_size"
+                        android:padding="@dimen/toolbar_menu_padding"
+                        android:src="@drawable/ic_bookmark_off_24dp"/>
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 </com.google.android.material.appbar.AppBarLayout>

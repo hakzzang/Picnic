@@ -10,11 +10,11 @@
     <dimen name="content_flex_bottom_padding">20dp</dimen>
     <dimen name="button_radius_amount">12dp</dimen>
     <dimen name="button_hash_tag_space">8dp</dimen>
-    <dimen name="bottom_sheet_min_height">56dp</dimen>
+    <dimen name="bottom_sheet_min_height">64dp</dimen>
     <dimen name="bottom_sheet_radius_corner">24dp</dimen>
     <dimen name="bottom_sheet_card_elevation">8dp</dimen>
     <dimen name="bottom_sheet_item_height">56dp</dimen>
-    <dimen name="bottom_sheet_item_padding_start">16dp</dimen>
+    <dimen name="bottom_sheet_item_padding_start">6dp</dimen>
     <dimen name="bottom_sheet_item_padding_bottom">20dp</dimen>
     <dimen name="message_sending_container_size">64dp</dimen>
     <dimen name="send_chat_icon_padding">18dp</dimen>
@@ -26,7 +26,7 @@
     <dimen name="send_chat_padding">18dp</dimen>
     <dimen name="send_chat_text_size">12sp</dimen>
     <dimen name="static_map_height">240dp</dimen>
-    <dimen name="chatting_timestamp_margin_right">6dp</dimen>
+    <dimen name="chatting_timestamp_margin_right">1dp</dimen>
     <dimen name="bottom_sheet_count_tv_margin_left">4dp</dimen>
 
     <!--COMMENT_VIEW-->
@@ -42,4 +42,7 @@
     <dimen name="material_text_display2">45sp</dimen>
     <dimen name="material_text_display3">56sp</dimen>
     <dimen name="material_text_display4">112sp</dimen>
+    <dimen name="toolbar_menu_size">48dp</dimen>
+    <dimen name="toolbar_menu_padding">4dp</dimen>
+    <dimen name="background_view_height">200dp</dimen>
 </resources>

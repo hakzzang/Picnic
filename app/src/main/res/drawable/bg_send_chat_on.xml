@@ -4,7 +4,7 @@
         android:shape="oval">
 
     <solid
-            android:color="@color/colorPrimary"/>
+            android:color="@color/bg_send_chat_color"/>
 
     <size
             android:width="@dimen/message_sending_container_size"

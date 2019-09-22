@@ -1,24 +1,30 @@
 package hbs.com.picnic.view.content
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.R
 import hbs.com.picnic.content.adapter.ChattingAdapter
+import hbs.com.picnic.data.model.Bookmark
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage
 import hbs.com.picnic.databinding.ViewContentBinding
 import hbs.com.picnic.utils.AnimationUtils
+import hbs.com.picnic.utils.KakaoManager
 import hbs.com.picnic.utils.NicknameManager
 import hbs.com.picnic.view.content.adapter.ContentAdapter
 import hbs.com.picnic.view.content.presenter.ContentViewPresenter
 import kotlinx.android.synthetic.main.layout_bottom_sheet.view.*
+import kotlinx.android.synthetic.main.layout_coordinator_toolbar.view.*
 import java.util.*
 
 class ContentView @JvmOverloads constructor(
@@ -27,9 +33,12 @@ class ContentView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) :
     FrameLayout(context, attrs, defStyleAttr), ContentViewContract.View {
+
     private val presenter by lazy {
         ContentViewPresenter(this)
     }
+    private val kakaoManager by lazy { KakaoManager(context) }
+
     private val viewContentBinding = provideDataBinding()
     private val bottomSheetContainer = viewContentBinding.bottomSheetContainer
 
@@ -37,10 +46,11 @@ class ContentView @JvmOverloads constructor(
     private val contentAdapter = ContentAdapter(contentMap)
     private val chattingAdapter = ChattingAdapter()
 
-    private val topic = "hello"
+    private val topic = "hello10"
 
     init {
         presenter.initView()
+        presenter.initBookmark(topic)
         presenter.getChatContents("0001")
     }
 
@@ -50,20 +60,44 @@ class ContentView @JvmOverloads constructor(
     }
 
     override fun initView() {
-        viewContentBinding.let {
-            it.rvContents.apply {
+        viewContentBinding.run {
+            rvContents.apply {
                 adapter = contentAdapter
                 layoutManager = LinearLayoutManager(context)
             }
-            it.bottomSheetContainer.rv_chat.apply {
+            bottomSheetContainer.rv_chat.apply {
                 adapter = chattingAdapter
                 layoutManager = LinearLayoutManager(context)
             }
-            it.srlContents.post {
-                it.srlContents.setOnRefreshListener(refreshListener)
+            srlContents.post {
+                srlContents.setOnRefreshListener(refreshListener)
+            }
+            findActivity<AppCompatActivity>(context)?.let {
+                it.setSupportActionBar(coordinatorToolbar.toolbar)
+                it.supportActionBar
+            }?.run {
+                setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
+                setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+                title = ""
+            }
+            viewContentBinding.coordinatorToolbar.toolbar_bookmark.setOnClickListener {
+                presenter.insertBookmark(
+                    Bookmark(
+                        "새우버거 집",
+                        "https://t1.daumcdn.net/cfile/tistory/277DA93B586C7C180F",
+                        System.currentTimeMillis().toString(),
+                        "1",
+                        false
+                    )
+                )
+                presenter.fetchBookmark(true)
+            }
+            viewContentBinding.coordinatorToolbar.toolbar_share.setOnClickListener {
+                kakaoManager.sendMsg("새우버거는 비가 와도 피크닉을 가요.", "https://t1.daumcdn.net/cfile/tistory/277DA93B586C7C180F")
             }
         }
     }
+
 
     override fun addTextWatcherForAnimation() {
         et_send_chat.apply {
@@ -122,8 +156,11 @@ class ContentView @JvmOverloads constructor(
     }
 
 
-    override fun showFailToastMessage(failMessage: String) {
-        Toast.makeText(context, failMessage, Toast.LENGTH_SHORT).show()
+    override fun showToast(message: Any) {
+        when(message){
+            is String ->Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            is Int -> Toast.makeText(context, context.getString(message), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun provideDataBinding() =
@@ -173,6 +210,27 @@ class ContentView @JvmOverloads constructor(
                 viewContentBinding.srlContents.isRefreshing = true
             }
             presenter.getChatContents("0001")
+        }
+    }
+
+    private fun <T : Activity> findActivity(@NonNull context: Context?): T? {
+        if (context == null) {
+            throw IllegalArgumentException("Context cannot be null!")
+        }
+        return if (context is Activity) {
+            context as T
+        } else {
+            return null
+        }
+    }
+
+    override fun updateBookmark(isBookmark: Boolean) {
+        if (isBookmark) {
+            R.drawable.ic_bookmark_on_24dp
+        } else {
+            R.drawable.ic_bookmark_off_24dp
+        }.run {
+            viewContentBinding.coordinatorToolbar.toolbar_bookmark.setImageResource(this)
         }
     }
 }

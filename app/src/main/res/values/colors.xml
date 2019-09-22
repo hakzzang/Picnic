@@ -11,11 +11,14 @@
 
     <color name="chatting_background_color">#f4f5f5</color>
     <color name="title_line_color">#99ffbb33</color>
+    <color name="title_line_color_dark">#ffffbb33</color>
+    <color name="bg_send_chat_color">#e8554d</color>
     <color name="toolbar_background_color">#99ffffff</color>
 
 
     <!--grey-->
     <color name="md_grey_50">#FAFAFA</color>
+    <color name="md_grey_75">#F7F7F7</color>
     <color name="md_grey_100">#F5F5F5</color>
     <color name="md_grey_200">#EEEEEE</color>
     <color name="md_grey_300">#E0E0E0</color>

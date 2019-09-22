@@ -1,5 +1,7 @@
 package hbs.com.picnic.content.usecase
 
+import hbs.com.picnic.data.local.LocalRepositoryImpl
+import hbs.com.picnic.data.model.Bookmark
 import hbs.com.picnic.remote.MapRepositoryImpl
 import hbs.com.picnic.remote.RetrofitProvider
 import hbs.com.picnic.utils.BaseUrl
@@ -14,13 +16,10 @@ interface ContentUseCase {
 
 class ContentUseCaseImpl : ContentUseCase {
     private val mapRepository = MapRepositoryImpl(RetrofitProvider.provideMapApi(BaseUrl.MAP.url))
-
     override fun getStaticMap(width: String, height: String, marker: String): Observable<ResponseBody> {
         return mapRepository
             .getStaticMap(width, height, marker)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
-
-
 }

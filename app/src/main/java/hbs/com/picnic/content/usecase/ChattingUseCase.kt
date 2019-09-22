@@ -1,14 +1,11 @@
 package hbs.com.picnic.content.usecase
 
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FieldPath.documentId
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import com.google.firebase.messaging.FirebaseMessaging
-import hbs.com.picnic.MainActivity
+import hbs.com.picnic.data.local.LocalRepositoryImpl
+import hbs.com.picnic.data.model.Bookmark
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage
 import hbs.com.picnic.remote.ChatRepository
@@ -28,12 +25,15 @@ interface ChattingUseCase {
     fun listenChats(roomId: String) : Observable<ChatMessage>
     fun postChats(roomId: String, chatMessage: ChatMessage)
     fun sendFcmMessage(cloudMessage: CloudMessage): Observable<ResponseBody>
+    fun changeSubscribeState(topic:String, isSubscribe:Boolean)
+    fun insertBookmark(bookmark: Bookmark)
+    fun selectBookmark(bookmark: Bookmark): Bookmark?
 }
 
 class ChattingUseCaseImpl : ChattingUseCase {
     private val chatRepository: ChatRepository = ChatRepositoryImpl()
     private val fcmFcmRepository = FcmRepositoryImpl(RetrofitProvider.provideFcmApi(BaseUrl.PICNIC_SERVER.url))
-
+    private val localRepository = LocalRepositoryImpl<Bookmark>()
     private var chatReceiver: ListenerRegistration? = null
     override fun postChats(roomId: String, chatMessage: ChatMessage) {
         chatRepository.postChats(roomId, chatMessage)
@@ -92,10 +92,31 @@ class ChattingUseCaseImpl : ChattingUseCase {
     }
 
     override fun sendFcmMessage(cloudMessage: CloudMessage): Observable<ResponseBody> {
-        fcmFcmRepository.addFavoritePlace(cloudMessage.topic)
         return fcmFcmRepository
             .sendMessage(cloudMessage)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.computation())
+    }
+
+    override fun changeSubscribeState(topic: String, isSubscribe: Boolean) {
+        if(isSubscribe){
+            fcmFcmRepository.subscribePlaceNews(topic)
+        }else{
+            fcmFcmRepository.unSubscribePlaceNews(topic)
+        }
+    }
+
+    override fun insertBookmark(bookmark: Bookmark) {
+        localRepository.realm.beginTransaction()
+        localRepository.upsert(localRepository.realm, bookmark)
+        localRepository.realm.commitTransaction()
+
+    }
+
+    override fun selectBookmark(bookmark: Bookmark): Bookmark? {
+        localRepository.realm.beginTransaction()
+        val resultBookmark = localRepository.select(localRepository.realm, bookmark)
+        localRepository.realm.commitTransaction()
+        return resultBookmark
     }
 }
