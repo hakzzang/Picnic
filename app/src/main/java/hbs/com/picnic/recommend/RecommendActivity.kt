@@ -18,10 +18,16 @@ import hbs.com.picnic.view.recommend.adapter.RecommendBottomAdapter
 import kotlinx.android.synthetic.main.activity_recommend.*
 import kotlin.collections.ArrayList
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.util.Log
+import hbs.com.picnic.data.model.TourInfo
+import hbs.com.picnic.data.model.TourRequest
+import hbs.com.picnic.remote.TourAPI
+import hbs.com.picnic.utils.TourType
+import hbs.com.picnic.utils.XmlParser
 import org.json.JSONObject
 
 
@@ -36,73 +42,18 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
     }
 
     private val bottomAdapter: RecommendBottomAdapter by lazy {
-        RecommendBottomAdapter(this@RecommendActivity, bottomDatas)
+        RecommendBottomAdapter(this@RecommendActivity, bottomDatas, currentLocation)
     }
 
     private val itemDecoration: CustomItemDecoration by lazy {
         CustomItemDecoration(RecyclerView.VERTICAL, resources.getDimension(R.dimen.recommend_bottom_space).toInt())
     }
 
-    private var bottomDatas: ArrayList<RecommendBottom> =
-        arrayListOf(
-            RecommendBottom(
-                "금강산도 식후경! 맛있는 피크닉", arrayListOf(
-                    RecommendBottom.BottomInfo(
-                        0,
-                        "새우버거의 치즈는 누가 훔쳤나",
-                        "https://t1.daumcdn.net/cfile/tistory/275CDB3B586C7C172C",
-                        "#새우버거 #치즈 #화남"
-                    ),
-                    RecommendBottom.BottomInfo(
-                        1,
-                        "홍주의 햄버거는 누가 훔쳤나",
-                        "https://t1.daumcdn.net/cfile/tistory/275CDB3B586C7C172C",
-                        "#홍주 #햄버거 #화남"
-                    ),
-                    RecommendBottom.BottomInfo(
-                        2,
-                        "감자튀김의 젤리는 누가 훔쳤나",
-                        "https://t1.daumcdn.net/cfile/tistory/277DA93B586C7C180F",
-                        "#감자튀김 #젤리 #화남"
-                    )
-                )
-            ),
-            RecommendBottom(
-                "지갑이 열리네요~ 지름신이 들어오죠~", arrayListOf(
-                    RecommendBottom.BottomInfo(
-                        0,
-                        "새우버거의 초코는 누가 훔쳤나",
-                        "https://t1.daumcdn.net/cfile/tistory/2779DE3B586C7C1813",
-                        "#새우버거 #초코 #화남"
-                    ),
-                    RecommendBottom.BottomInfo(
-                        1,
-                        "감자튀김의 사탕은 누가 훔쳤나",
-                        "https://t1.daumcdn.net/cfile/tistory/2668B93B586C7C1823",
-                        "#감자튀김 #사탕 #화남"
-                    )
-                )
-            ),
-            RecommendBottom(
-                "교양있는 피크닉", arrayListOf(
-                    RecommendBottom.BottomInfo(
-                        0,
-                        "새우버거의 초코는 누가 훔쳤나",
-                        "https://t1.daumcdn.net/cfile/tistory/2779DE3B586C7C1813",
-                        "#새우버거 #초코 #화남"
-                    ),
-                    RecommendBottom.BottomInfo(
-                        1,
-                        "감자튀김의 사탕은 누가 훔쳤나",
-                        "https://t1.daumcdn.net/cfile/tistory/2668B93B586C7C1823",
-                        "#감자튀김 #사탕 #화남"
-                    )
-                )
-            )
-        )
+    private var bottomDatas: ArrayList<TourInfo> = arrayListOf()
 
-    private var longitude: Double = 0.0
-    private var latitude: Double = 0.0
+    private var currentLong: Double = 0.0
+    private var currentLat: Double = 0.0
+    private var currentLocation: Location = Location("current")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -130,8 +81,8 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
             R.id.ll_recommend_map -> {
                 Intent(this@RecommendActivity, MapActivity::class.java)
                     .apply {
-                        putExtra("longitude", longitude)
-                        putExtra("latitude", latitude)
+                        putExtra("longitude", currentLong)
+                        putExtra("latitude", currentLat)
                         putExtra("type", MapActivity.Type.SELECT_MAP.value)
                         startActivityForResult(this, REQUEST_SELECT_CODE)
                     }
@@ -146,11 +97,29 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
 
     override fun updateLocation(name: String) {
         tv_recommend_map.text = getLocationFrom(name)
-        Toast.makeText(this@RecommendActivity, resources.getString(R.string.update_location), Toast.LENGTH_SHORT).show()
+
+        // TODO : Food 뿐만 아니라 다른 타입의 데이터를 랜덤으로 가져와야 함.
+        recommendPresenter.getTourInfo(
+            arrayListOf(
+                TourRequest(
+                    TourAPI.API.ID,
+                    10,
+                    1,
+                    TourAPI.API.OS,
+                    "Picnic",
+                    "B",
+                    TourType.FOOD.value,
+                    0,
+                    currentLong,
+                    currentLat,
+                    5000
+                )
+            )
+        )
     }
 
-    override fun updateBottoms() {
-
+    override fun updateTourInfo(datas: String) {
+        bottomAdapter.notifyDatas(arrayListOf(XmlParser.tourParser(datas)), currentLocation)
     }
 
     override fun showGPSDialogAgain() {
@@ -182,7 +151,7 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
                 recommendPresenter.getLocationInfo(
                     coords = "${location.getDoubleExtra("longitude", 0.0)}," +
                             "${location.getDoubleExtra("latitude", 0.0)}",
-                    orders = "roadaddr",
+                    orders = "addr",
                     output = "json"
                 )
             }
@@ -201,10 +170,18 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         }
     }
 
+
+    private fun makeRandomList():List<TourRequest>{
+        return listOf(
+
+        )
+    }
     private fun getLocationFrom(jsonString: String): String {
         var resultString = "위치 정보를 불러오지 못했습니다."
         val jsonObject = JSONObject(jsonString)
         with(jsonObject) {
+            val statusCode = getJSONObject("status").getString("code")
+            if (statusCode == "3") return resultString
             val regionObject = getJSONArray("results")
                 .getJSONObject(0)
                 .getJSONObject("region")
@@ -219,8 +196,12 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
                     .getJSONObject("coords")
                     .getJSONObject("center")
 
-                longitude = coordsObj.getDouble("x")
-                latitude = coordsObj.getDouble("y")
+                currentLong = coordsObj.getDouble("x")
+                currentLat = coordsObj.getDouble("y")
+                currentLocation.apply {
+                    longitude = currentLong
+                    latitude = currentLat
+                }
             }
         }
         return resultString

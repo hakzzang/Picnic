@@ -2,35 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
+        android:id="@+id/cl_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <ImageView
             android:id="@+id/iv_bottom_img"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintDimensionRatio="V, 1:1"/>
-    <View android:layout_width="match_parent" android:layout_height="0dp"
-          app:layout_constraintTop_toTopOf="@id/iv_bottom_img"
-          android:background="#11000000"
-          app:layout_constraintBottom_toBottomOf="@id/iv_bottom_img"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="0dp"
+          app:layout_constraintTop_toTopOf="parent"
+          android:background="#33000000"
+          app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
             android:id="@+id/tv_bottom_title"
-            android:textColor="@color/md_white_1000"
             app:layout_constraintTop_toTopOf="@id/iv_bottom_img"
             app:layout_constraintBottom_toBottomOf="@id/iv_bottom_img"
             app:layout_constraintVertical_bias="0.8"
             app:layout_constraintStart_toStartOf="@id/iv_bottom_img"
-            android:layout_marginStart="24dp"
-            android:text="추석 꿀 연휴 힐링템 Event"
-            style="@style/Recommend.Title.Text"/>
+            android:layout_marginStart="@dimen/recommend_bottom_start_margin"
+            style="@style/Recommend.Bottom.Title"/>
+    <TextView
+            android:id="@+id/tv_bottom_distance"
+            android:textColor="@color/md_white_1000"
+            style="@style/Recommend.Menu.Text"
+            app:layout_constraintStart_toStartOf="@id/tv_bottom_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_bottom_title"/>
+
     <TextView
             android:id="@+id/tv_bottom_tag"
             android:textColor="@color/md_white_1000"
             style="@style/Recommend.Menu.Text"
             android:text="#주유권 #해피콘 #마사지 #CGV"
             app:layout_constraintStart_toStartOf="@id/tv_bottom_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_bottom_title"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_bottom_distance"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,32 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CustomItemDecoration(val orientation: Int, val space: Int) : RecyclerView.ItemDecoration() {
 
-
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        val position: Int = parent.getChildAdapterPosition(view)
-        val itemCnt: Int = state.itemCount
-
         when (orientation) {
             RecyclerView.VERTICAL -> {
-                val topRect: Int = if (position == 0) space else space / 2
-                val bottomRect: Int = if (position == itemCnt - 1) space  else space/ 2
-
-                outRect.top = topRect
-                outRect.bottom = bottomRect
+                val space: Int = space/2
+                outRect.top = space
+                outRect.bottom = space
             }
 
-            RecyclerView.HORIZONTAL -> {/*
-                val leftRect: Int = if (position == 0) space else space / 2
-                val rightRect: Int = if (position == itemCnt - 1) space  else space/ 2*/
-//                val leftRect: Int = space
-//                val rightRect: Int = if (position == itemCnt - 1) space  else 0
-                val leftRect: Int = space
-                val rightRect: Int = space
-
-                outRect.left = leftRect
-                outRect.right = rightRect
+            RecyclerView.HORIZONTAL -> {
+                val space: Int = space/2
+                outRect.right = space
+                outRect.left = space
             }
         }
 

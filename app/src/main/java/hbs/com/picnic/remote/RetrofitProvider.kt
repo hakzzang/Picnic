@@ -22,4 +22,5 @@ object RetrofitProvider {
 
     fun provideMapApi(baseUrl: String): MapAPI = RetrofitProvider.makeRetrofit(baseUrl).create(MapAPI::class.java)
     fun provideFcmApi(baseUrl: String): FcmAPI = RetrofitProvider.makeRetrofit(baseUrl).create(FcmAPI::class.java)
+    fun provideTourApi(baseUrl:String) :TourAPI = RetrofitProvider.makeRetrofit(baseUrl).create(TourAPI::class.java)
 }

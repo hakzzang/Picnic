@@ -3,8 +3,11 @@ package hbs.com.picnic.recommend.usecase
 import android.annotation.SuppressLint
 import android.location.Location
 import android.location.LocationManager
+import hbs.com.picnic.data.model.TourRequest
 import hbs.com.picnic.remote.MapRepositoryImpl
 import hbs.com.picnic.remote.RetrofitProvider
+import hbs.com.picnic.remote.TourRepository
+import hbs.com.picnic.remote.TourRepositoryImpl
 import hbs.com.picnic.utils.BaseUrl
 import io.reactivex.Observable
 import io.reactivex.Scheduler
@@ -20,10 +23,15 @@ interface RecommendUseCase {
     ): Observable<ResponseBody>
 
     fun getLastLocation(): Location?
+
+    fun getTourInfoBasedLocation(
+        requests: List<TourRequest>
+    ): List<Observable<ResponseBody>>
 }
 
 class RecommendUseCaseImpl(private val locationManager: LocationManager) : RecommendUseCase {
     private val mapRepository = MapRepositoryImpl(RetrofitProvider.provideMapApi(BaseUrl.MAP.url))
+    private val tourRepository = TourRepositoryImpl(RetrofitProvider.provideTourApi(BaseUrl.TOUR_KOREA.url))
 
     override fun getLocationInfo(coords: String, orders: String, output: String): Observable<ResponseBody> {
         return mapRepository.getLocationInfo(coords, orders, output)
@@ -32,8 +40,19 @@ class RecommendUseCaseImpl(private val locationManager: LocationManager) : Recom
     }
 
     @SuppressLint("MissingPermission")
-    override fun getLastLocation(): Location? =
-        locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+    override fun getLastLocation(): Location? {
+        return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
 
+    }
 
+    override fun getTourInfoBasedLocation(requests: List<TourRequest>): List<Observable<ResponseBody>> {
+        var list:ArrayList<Observable<ResponseBody>> = arrayListOf()
+        for(request in requests){
+            list.add(tourRepository
+                .getListBasedLocation(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()))
+        }
+        return list
+    }
 }
