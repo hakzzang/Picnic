@@ -33,3 +33,5 @@
 - ToupAPI 3.0 : http://api.visitkorea.or.kr/main.do
 - 공공데이터 API : https://www.data.go.kr/dataset/15000496/openapi.do
 - 서울시 공공데이터 API : ;3;
+- 카카오 링크 : https://developers.kakao.com/docs/android/kakaotalk-link
+- 피크닉 서버 : 어딘가
