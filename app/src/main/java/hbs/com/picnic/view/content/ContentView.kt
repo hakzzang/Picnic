@@ -18,6 +18,7 @@ import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage
 import hbs.com.picnic.databinding.ViewContentBinding
 import hbs.com.picnic.utils.AnimationUtils
+import hbs.com.picnic.utils.KakaoManager
 import hbs.com.picnic.utils.NicknameManager
 import hbs.com.picnic.view.content.adapter.ContentAdapter
 import hbs.com.picnic.view.content.presenter.ContentViewPresenter
@@ -35,6 +36,8 @@ class ContentView @JvmOverloads constructor(
     private val presenter by lazy {
         ContentViewPresenter(this)
     }
+    private val kakaoManager by lazy { KakaoManager(context) }
+
     private val viewContentBinding = provideDataBinding()
     private val bottomSheetContainer = viewContentBinding.bottomSheetContainer
 
@@ -78,6 +81,9 @@ class ContentView @JvmOverloads constructor(
             }
             viewContentBinding.coordinatorToolbar.toolbar_bookmark.setOnClickListener {
                 presenter.fetchBookmark(true)
+            }
+            viewContentBinding.coordinatorToolbar.toolbar_share.setOnClickListener {
+                kakaoManager.sendMsg("새우버거는 비가 와도 피크닉을 가요.", "https://t1.daumcdn.net/cfile/tistory/277DA93B586C7C180F")
             }
         }
     }

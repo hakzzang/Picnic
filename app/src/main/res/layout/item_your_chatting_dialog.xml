@@ -18,6 +18,8 @@
             android:textColor="@color/white_color_00"
             android:background="@mipmap/ic_my_dialog"
             android:layout_marginLeft="8dp"
+            android:scaleY="0.8"
+            android:scaleX="0.8"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">

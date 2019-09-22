@@ -14,11 +14,9 @@ class ContentActivity : AppCompatActivity(), ContentContract.View {
         ContentPresenter(this)
     }
 
-    private val kakaoManager by lazy { KakaoManager(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(hbs.com.picnic.R.layout.activity_content)
-
         contentPresenter
             .getStaticMap(
                 width = "300",
@@ -26,7 +24,6 @@ class ContentActivity : AppCompatActivity(), ContentContract.View {
                 marker = "type:d|size:tiny|pos:127.1054221%2037.3591614"
             )
 
-        //kakaoManager.sendMsg("hakzznag","https://t1.daumcdn.net/cfile/tistory/277DA93B586C7C180F")
         contentPresenter.getAuth(this)
     }
 
