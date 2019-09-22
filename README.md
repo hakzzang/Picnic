@@ -35,3 +35,7 @@
 - 서울시 공공데이터 API : ;3;
 - 카카오 링크 : https://developers.kakao.com/docs/android/kakaotalk-link
 - 피크닉 서버 : 어딘가
+
+### 5. Data
+- Remote : Firebase, Custom Server
+- Local : Realm
