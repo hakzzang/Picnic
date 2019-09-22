@@ -14,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.R
 import hbs.com.picnic.content.adapter.ChattingAdapter
+import hbs.com.picnic.data.model.Bookmark
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage
 import hbs.com.picnic.databinding.ViewContentBinding
@@ -80,6 +81,15 @@ class ContentView @JvmOverloads constructor(
                 title = ""
             }
             viewContentBinding.coordinatorToolbar.toolbar_bookmark.setOnClickListener {
+                presenter.insertBookmark(
+                    Bookmark(
+                        "새우버거 집",
+                        "https://t1.daumcdn.net/cfile/tistory/277DA93B586C7C180F",
+                        System.currentTimeMillis().toString(),
+                        "1",
+                        false
+                    )
+                )
                 presenter.fetchBookmark(true)
             }
             viewContentBinding.coordinatorToolbar.toolbar_share.setOnClickListener {

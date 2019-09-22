@@ -1,9 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
 apply plugin: 'com.google.gms.google-services'
 
 def NAVER_CLIENT_ID = MAP_CLIENT_ID ?: "Define Your NAVER CLIENT ID"

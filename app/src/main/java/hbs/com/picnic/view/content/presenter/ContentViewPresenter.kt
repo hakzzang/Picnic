@@ -7,6 +7,7 @@ import android.widget.ImageView
 import hbs.com.picnic.R
 import hbs.com.picnic.content.usecase.ChattingUseCase
 import hbs.com.picnic.content.usecase.ChattingUseCaseImpl
+import hbs.com.picnic.data.model.Bookmark
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage
 import hbs.com.picnic.utils.AnimationUtils
@@ -27,6 +28,7 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
     override fun initView() {
         view.initView()
         view.addTextWatcherForAnimation()
+        chattingUseCase.changeSubscribeState("hello10", true)
     }
 
     override fun sendChatting(roomId: String, chatMessage: ChatMessage) {
@@ -133,19 +135,24 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
             .subscribeOn(Schedulers.computation())
             .subscribe({ isBookmark ->
                 view.updateBookmark(isBookmark)
-                if (isBookmark) {
+                val bookmark = chattingUseCase.selectBookmark(Bookmark("","","","1",isBookmark))
+                if (bookmark!=null && !bookmark.isBookmark) {
+                    chattingUseCase.changeSubscribeState(topic, isBookmark)
                     view.showToast(R.string.all_text_register_bookmark)
                 }
-                chattingUseCase.changeSubscribeState(topic, isBookmark)
             }, { error ->
                 error.printStackTrace()
             }, {
-                Log.d("asdasdasdasdsadas", "dd")
+
             })
     }
 
     //TODO : LOCAL REPOSITORY를 연결해서 bookmark 지정
     override fun fetchBookmark(isBookmark: Boolean) {
         bookmarkSubject.onNext(isBookmark)
+    }
+
+    override fun insertBookmark(bookmark: Bookmark) {
+        chattingUseCase.insertBookmark(bookmark)
     }
 }

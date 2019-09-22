@@ -24,8 +24,8 @@ class FcmRepositoryImpl(private val fcmAPI: FcmAPI) : FcmRepository{
 
 
     override fun subscribePlaceNews(topic: String) =
-        FirebaseMessaging.getInstance().subscribeToTopic("hello")
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
 
     override fun unSubscribePlaceNews(topic: String): Task<Void> =
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("hello")
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
 }

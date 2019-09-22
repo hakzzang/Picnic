@@ -5,7 +5,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.content.presenter.ContentPresenter
-import hbs.com.picnic.utils.KakaoManager
 import kotlinx.android.synthetic.main.activity_content.*
 
 
