@@ -24,9 +24,14 @@
         <activity android:name=".content.ContentActivity"
                   android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
+                <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <action android:name="android.intent.action.SEND" />
+                <data android:mimeType="text/plain" />
+                <data
+                        android:host="@string/kakao_host"
+                        android:scheme="@string/kakao_scheme" />
             </intent-filter>
         </activity>
         <activity android:name=".recommend.RecommendActivity">
@@ -58,6 +63,9 @@
         <meta-data
                 android:name="com.naver.maps.map.CLIENT_ID"
                 android:value="@string/naver_map_id" />
+        <meta-data
+                android:name="com.kakao.sdk.AppKey"
+                android:value="@string/kakao_app_key" />
     </application>
 
 </manifest>
