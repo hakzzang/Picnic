@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import hbs.com.picnic.R
-import hbs.com.picnic.content.ContentActivity
+import hbs.com.picnic.ui.content.ContentActivity
 import hbs.com.picnic.data.model.TourInfo
 import hbs.com.picnic.utils.CustomItemDecoration
 

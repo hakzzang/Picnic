@@ -13,7 +13,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import hbs.com.picnic.databinding.ItemContentSubtitleBinding
-import hbs.com.picnic.map.MapActivity
+import hbs.com.picnic.ui.map.MapActivity
 import kotlinx.android.synthetic.main.item_map.view.*
 
 

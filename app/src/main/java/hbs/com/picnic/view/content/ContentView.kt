@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.R
-import hbs.com.picnic.content.adapter.ChattingAdapter
+import hbs.com.picnic.ui.content.adapter.ChattingAdapter
 import hbs.com.picnic.data.model.Bookmark
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage
