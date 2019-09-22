@@ -10,7 +10,8 @@ import okhttp3.ResponseBody
 
 interface FcmRepository{
     fun sendMessage(cloudMessage: CloudMessage): Observable<ResponseBody>
-    fun addFavoritePlace(topic: String): Task<Void>
+    fun subscribePlaceNews(topic: String): Task<Void>
+    fun unSubscribePlaceNews(topic: String): Task<Void>
 }
 
 class FcmRepositoryImpl(private val fcmAPI: FcmAPI) : FcmRepository{
@@ -22,5 +23,9 @@ class FcmRepositoryImpl(private val fcmAPI: FcmAPI) : FcmRepository{
         }
 
 
-    override fun addFavoritePlace(topic: String) = FirebaseMessaging.getInstance().subscribeToTopic("hello")
+    override fun subscribePlaceNews(topic: String) =
+        FirebaseMessaging.getInstance().subscribeToTopic("hello")
+
+    override fun unSubscribePlaceNews(topic: String): Task<Void> =
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("hello")
 }

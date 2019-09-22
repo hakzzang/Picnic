@@ -11,7 +11,9 @@
             android:layout_height="match_parent"
             android:background="@color/view_content_background">
         <!-- 툴바 관련 -->
-        <include layout="@layout/layout_coordinator_toolbar"/>
+        <include
+                android:id="@+id/coordinator_toolbar"
+                layout="@layout/layout_coordinator_toolbar"/>
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

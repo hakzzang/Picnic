@@ -1,28 +1,27 @@
 package hbs.com.picnic.view.content.presenter
 
-import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.ImageView
-import com.google.firebase.messaging.FirebaseMessaging
 import hbs.com.picnic.R
 import hbs.com.picnic.content.usecase.ChattingUseCase
 import hbs.com.picnic.content.usecase.ChattingUseCaseImpl
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage
-import hbs.com.picnic.remote.FcmRepositoryImpl
-import hbs.com.picnic.remote.RetrofitProvider
 import hbs.com.picnic.utils.AnimationUtils
 import hbs.com.picnic.utils.BaseContract
-import hbs.com.picnic.utils.BaseUrl
 import hbs.com.picnic.view.content.ContentViewContract
-import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 
 class ContentViewPresenter(private val view: ContentViewContract.View) : BaseContract.Presenter(),
     ContentViewContract.Presenter {
-
     private var isAnimation = false
+
+    private val bookmarkSubject = BehaviorSubject.create<Boolean>()
+
     private val chattingUseCase: ChattingUseCase = ChattingUseCaseImpl()
     private val chattingList: ArrayList<ChatMessage> = arrayListOf()
     override fun initView() {
@@ -37,7 +36,11 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
     }
 
     override fun sendFcmMessage(cloudMessage: CloudMessage) {
-        chattingUseCase.sendFcmMessage(cloudMessage).subscribe({}, {})
+        chattingUseCase.sendFcmMessage(cloudMessage).subscribe({
+            fetchBookmark(true)
+        }, {
+
+        })
     }
 
     override fun getChatContents(roomId: String) {
@@ -46,7 +49,7 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
         addDisposable(chattingUseCase.getChats(roomId).subscribe({ chatting ->
             chattingList.add(chatting)
         }, { error ->
-            view.showFailToastMessage(error.localizedMessage)
+            view.showToast(error.localizedMessage)
         },{
             view.refreshContentList()
             chattingList.reverse()
@@ -62,7 +65,7 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
             }
             view.updateChattingContents(chattingList)
         }, { error ->
-            view.showFailToastMessage(error.localizedMessage)
+            view.showToast(error.localizedMessage)
         }))
     }
 
@@ -84,12 +87,10 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
                 val textLength = s?.length
                 if (textLength == 1 && !isAnimation) {
                     playAnimation(backgroundView, iconView, AnimationUtils.AnimationType.EMPTY_TO_FULL)
-                    changeFlag(AnimationUtils.AnimationType.EMPTY_TO_FULL)
-                    isAnimation = true
+                    toggleAnimationFlag(AnimationUtils.AnimationType.EMPTY_TO_FULL)
                 } else if (textLength == 0 && isAnimation) {
                     playAnimation(backgroundView, iconView, AnimationUtils.AnimationType.FULL_TO_EMPTY)
-                    changeFlag(AnimationUtils.AnimationType.FULL_TO_EMPTY)
-                    isAnimation = false
+                    toggleAnimationFlag(AnimationUtils.AnimationType.FULL_TO_EMPTY)
                 }
             }
         }
@@ -123,7 +124,28 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
         view.addAnimation(iconView, flag)
     }
 
-    private fun changeFlag(flag: AnimationUtils.AnimationType) {
+    private fun toggleAnimationFlag(flag: AnimationUtils.AnimationType) {
         isAnimation = flag == AnimationUtils.AnimationType.EMPTY_TO_FULL
+    }
+
+    override fun initBookmark(topic: String) {
+        val bookmarkDisposable = bookmarkSubject.observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.computation())
+            .subscribe({ isBookmark ->
+                view.updateBookmark(isBookmark)
+                if (isBookmark) {
+                    view.showToast(R.string.all_text_register_bookmark)
+                }
+                chattingUseCase.changeSubscribeState(topic, isBookmark)
+            }, { error ->
+                error.printStackTrace()
+            }, {
+                Log.d("asdasdasdasdsadas", "dd")
+            })
+    }
+
+    //TODO : LOCAL REPOSITORY를 연결해서 bookmark 지정
+    override fun fetchBookmark(isBookmark: Boolean) {
+        bookmarkSubject.onNext(isBookmark)
     }
 }

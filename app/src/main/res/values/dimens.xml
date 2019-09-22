@@ -42,4 +42,6 @@
     <dimen name="material_text_display2">45sp</dimen>
     <dimen name="material_text_display3">56sp</dimen>
     <dimen name="material_text_display4">112sp</dimen>
+    <dimen name="toolbar_menu_size">48dp</dimen>
+    <dimen name="toolbar_menu_padding">4dp</dimen>
 </resources>

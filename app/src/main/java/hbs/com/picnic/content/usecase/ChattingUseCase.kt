@@ -28,6 +28,7 @@ interface ChattingUseCase {
     fun listenChats(roomId: String) : Observable<ChatMessage>
     fun postChats(roomId: String, chatMessage: ChatMessage)
     fun sendFcmMessage(cloudMessage: CloudMessage): Observable<ResponseBody>
+    fun changeSubscribeState(topic:String, isSubscribe:Boolean)
 }
 
 class ChattingUseCaseImpl : ChattingUseCase {
@@ -92,10 +93,18 @@ class ChattingUseCaseImpl : ChattingUseCase {
     }
 
     override fun sendFcmMessage(cloudMessage: CloudMessage): Observable<ResponseBody> {
-        fcmFcmRepository.addFavoritePlace(cloudMessage.topic)
+        fcmFcmRepository.subscribePlaceNews(cloudMessage.topic)
         return fcmFcmRepository
             .sendMessage(cloudMessage)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.computation())
+    }
+
+    override fun changeSubscribeState(topic: String, isSubscribe: Boolean) {
+        if(isSubscribe){
+            fcmFcmRepository.subscribePlaceNews(topic)
+        }else{
+            fcmFcmRepository.unSubscribePlaceNews(topic)
+        }
     }
 }
