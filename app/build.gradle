@@ -8,6 +8,7 @@ apply plugin: 'com.google.gms.google-services'
 def NAVER_CLIENT_ID = MAP_CLIENT_ID ?: "Define Your Seoul Api Key"
 def NAVER_CLIENT_SECRET = MAP_CLIENT_SECRET ?: "Define Your Job Cafe Name"
 def NOTIFICATION_FCM_SENDER = FCM_SENDER ?: "Define Your Job Cafe Name"
+def TOUR_API_KEY = TOUR_API_KEY?:"Define Your Tour Key"
 
 android {
     compileSdkVersion 28
@@ -22,6 +23,8 @@ android {
         buildConfigField  "String", "CLIENT_ID", NAVER_CLIENT_ID
         buildConfigField  "String", "CLIENT_SECRET", NAVER_CLIENT_SECRET
         buildConfigField "String", "FCM_SENDER", NOTIFICATION_FCM_SENDER
+        buildConfigField "String", "TOUR_API_KEY", TOUR_API_KEY
+
         resValue("string", "naver_map_id", NAVER_CLIENT_ID)
     }
     buildTypes {

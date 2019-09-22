@@ -15,11 +15,14 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.util.Log
+import hbs.com.picnic.data.model.TourRequest
+import io.reactivex.Observable
 import org.json.JSONObject
 
 class RecommendPresenter(private val view: RecommendContract.View, locationManager: LocationManager) :
     BaseContract.Presenter(),
     RecommendContract.Presenter {
+
     val REQUEST_PERMISSION_LOCATION: Int = 1001;
     private val recommendUseCase = RecommendUseCaseImpl(locationManager)
 
@@ -54,14 +57,22 @@ class RecommendPresenter(private val view: RecommendContract.View, locationManag
             recommendUseCase.getLastLocation()?.let { location ->
                 getLocationInfo(
                     coords = "${location.longitude},${location.latitude}",
-                    orders = "roadaddr",
+                    orders = "addr",
                     output = "json"
                 )
             }
         }
     }
 
-    override fun getTourInfo() {
-        view.updateBottoms()
+    override fun getTourInfo(reqeustInfo: List<TourRequest>) {
+        recommendUseCase.getTourInfoBasedLocation(reqeustInfo)[0]
+            .subscribe(
+                { response ->
+                    val location = response.string()
+                    view.updateTourInfo(location)
+                }, { error ->
+                }).let {
+                addDisposable(it)
+            }
     }
 }

@@ -22,4 +22,11 @@
         <item name="android:textSize">11sp</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
+
+    <style name="Recommend.Bottom.Title" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/nanumbarungothic_bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>
