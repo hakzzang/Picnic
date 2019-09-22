@@ -1,4 +1,5 @@
 # Picnic
+![app_icon](https://user-images.githubusercontent.com/22374750/65391345-15672600-dda3-11e9-909f-8c6c0b4762aa.png)
 - 피크닉 프로젝트를 위한 레파지토리
 - 해당 프로젝트는 서울 관광과 관련되어 각종 정보를 제공해주는 목표를 갖고 있다.
 
