@@ -2,6 +2,7 @@ package hbs.com.picnic.map
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.annotation.NonNull
@@ -13,7 +14,6 @@ import com.naver.maps.map.util.FusedLocationSource
 import hbs.com.picnic.map.presenter.MapPresenter
 import kotlinx.android.synthetic.main.activity_map.*
 
-
 class MapActivity : AppCompatActivity(),
     MapContract.View,
     OnMapReadyCallback {
@@ -21,7 +21,6 @@ class MapActivity : AppCompatActivity(),
     enum class Type(val value: Int) {
         FULL_MAP(0), SELECT_MAP(1), LIST_MAP(2)
     }
-
 
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
@@ -51,6 +50,7 @@ class MapActivity : AppCompatActivity(),
         map_view.getMapAsync(this)
 
         btn_select.setOnClickListener {
+            Log.d("MapActivity", latitude.toString())
             intent.putExtra("latitude", latitude)
             intent.putExtra("longitude", longitude)
             setResult(Activity.RESULT_OK, intent)
