@@ -4,6 +4,7 @@ import android.text.TextWatcher
 import android.widget.ImageView
 import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.data.model.ChatMessage
+import hbs.com.picnic.data.model.CloudMessage
 import hbs.com.picnic.utils.AnimationUtils
 
 interface ContentViewContract{
@@ -31,5 +32,6 @@ interface ContentViewContract{
         fun initView()
         fun makeTextWatcher(backgroundView: ImageView, iconView: ImageView): TextWatcher
         fun changeImageResource(imageView: ImageView, animationType: AnimationUtils.AnimationType)
+        fun sendFcmMessage(cloudMessage: CloudMessage)
     }
 }

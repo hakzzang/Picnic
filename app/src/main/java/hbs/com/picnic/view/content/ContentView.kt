@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.R
 import hbs.com.picnic.content.adapter.ChattingAdapter
 import hbs.com.picnic.data.model.ChatMessage
+import hbs.com.picnic.data.model.CloudMessage
 import hbs.com.picnic.databinding.ViewContentBinding
 import hbs.com.picnic.utils.AnimationUtils
 import hbs.com.picnic.utils.NicknameManager
@@ -35,6 +36,8 @@ class ContentView @JvmOverloads constructor(
     private val contentMap = hashMapOf<String, ByteArray>()
     private val contentAdapter = ContentAdapter(contentMap)
     private val chattingAdapter = ChattingAdapter()
+
+    private val topic = "hello"
 
     init {
         presenter.initView()
@@ -96,7 +99,14 @@ class ContentView @JvmOverloads constructor(
                     nicknameManager.makeWording(firebaseUser.metadata?.creationTimestamp.toString())
                 val chatMessage =
                     ChatMessage(firebaseUser.uid, nickname, message, Date().time.toString())
+                val cloudMessage = CloudMessage(
+                    topic,
+                    "서현역 커피숍-" + chatMessage.name.substring(0, 6),
+                    chatMessage.message,
+                    firebaseUser.uid
+                )
                 presenter.sendChatting("0001", chatMessage)
+                presenter.sendFcmMessage(cloudMessage)
             }
         }
     }

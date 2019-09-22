@@ -28,3 +28,10 @@
 ### 3. 네이버 지도 사용
 - 네이티브 지도 : https://navermaps.github.io/android-map-sdk/guide-ko/0.html
 - Static Map Image : https://docs.ncloud.com/ko/naveropenapi_v3/maps/static/static-map.html
+
+### 4. API
+- ToupAPI 3.0 : http://api.visitkorea.or.kr/main.do
+- 공공데이터 API : https://www.data.go.kr/dataset/15000496/openapi.do
+- 서울시 공공데이터 API : ;3;
+- 카카오 링크 : https://developers.kakao.com/docs/android/kakaotalk-link
+- 피크닉 서버 : 어딘가

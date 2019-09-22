@@ -5,10 +5,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 
-def NAVER_CLIENT_ID = MAP_CLIENT_ID ?: "Define Your Seoul Api Key"
-def NAVER_CLIENT_SECRET = MAP_CLIENT_SECRET ?: "Define Your Job Cafe Name"
-def NOTIFICATION_FCM_SENDER = FCM_SENDER ?: "Define Your Job Cafe Name"
-def TOUR_API_KEY = TOUR_API_KEY?:"Define Your Tour Key"
+def NAVER_CLIENT_ID = MAP_CLIENT_ID ?: "Define Your NAVER CLIENT ID"
+def NAVER_CLIENT_SECRET = MAP_CLIENT_SECRET ?: "Define Your NAVER CLIENT SECRET"
+def NOTIFICATION_FCM_SENDER = FCM_SENDER ?: "Define Your FCM KEY"
+def KAKAO_APP_KEY = KAKAOLINK_APP_KEY ?: "Define Your KAKAO LINK APP KEY"
+def KAKAO_HOST = KAKAOLINK_HOST ?: "Define Your KAKAO LINK HOST"
 
 android {
     compileSdkVersion 28
@@ -26,6 +27,9 @@ android {
         buildConfigField "String", "TOUR_API_KEY", TOUR_API_KEY
 
         resValue("string", "naver_map_id", NAVER_CLIENT_ID)
+        resValue("string", "kakao_app_key", KAKAO_APP_KEY)
+        resValue("string", "kakao_host", KAKAO_HOST)
+        resValue("string", "kakao_scheme", "kakao" + KAKAO_APP_KEY)
     }
     buildTypes {
         release {

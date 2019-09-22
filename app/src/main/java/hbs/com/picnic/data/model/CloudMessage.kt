@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CloudMessage(
     @SerializedName("topic") var topic: String,
-    @SerializedName("notification") var notification: Notification
+    @SerializedName("message") var message: String,
+    @SerializedName("messageTitle") var messageTitle: String,
+    @SerializedName("uid") var uid: String
 )
-
-data class Notification(@SerializedName("body") var body: String,
-                        @SerializedName("title") var title: String)
