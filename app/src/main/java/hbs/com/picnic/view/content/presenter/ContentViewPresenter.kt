@@ -3,18 +3,25 @@ package hbs.com.picnic.view.content.presenter
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.ImageView
+import com.google.firebase.messaging.FirebaseMessaging
 import hbs.com.picnic.R
 import hbs.com.picnic.content.usecase.ChattingUseCase
 import hbs.com.picnic.content.usecase.ChattingUseCaseImpl
 import hbs.com.picnic.data.model.ChatMessage
+import hbs.com.picnic.data.model.CloudMessage
+import hbs.com.picnic.remote.FcmRepositoryImpl
+import hbs.com.picnic.remote.RetrofitProvider
 import hbs.com.picnic.utils.AnimationUtils
 import hbs.com.picnic.utils.BaseContract
+import hbs.com.picnic.utils.BaseUrl
 import hbs.com.picnic.view.content.ContentViewContract
 import io.reactivex.Observable
 
 class ContentViewPresenter(private val view: ContentViewContract.View) : BaseContract.Presenter(),
     ContentViewContract.Presenter {
+
     private var isAnimation = false
     private val chattingUseCase: ChattingUseCase = ChattingUseCaseImpl()
     private val chattingList: ArrayList<ChatMessage> = arrayListOf()
@@ -27,6 +34,10 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
         chattingUseCase.postChats(roomId, chatMessage)
         view.sendChatting()
         view.clearEditText()
+    }
+
+    override fun sendFcmMessage(cloudMessage: CloudMessage) {
+        chattingUseCase.sendFcmMessage(cloudMessage).subscribe({}, {})
     }
 
     override fun getChatContents(roomId: String) {
