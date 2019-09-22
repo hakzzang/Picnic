@@ -2,11 +2,10 @@ package hbs.com.picnic.view.content.presenter
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.ImageView
 import hbs.com.picnic.R
-import hbs.com.picnic.content.usecase.ChattingUseCase
-import hbs.com.picnic.content.usecase.ChattingUseCaseImpl
+import hbs.com.picnic.ui.content.usecase.ChattingUseCase
+import hbs.com.picnic.ui.content.usecase.ChattingUseCaseImpl
 import hbs.com.picnic.data.model.Bookmark
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage

@@ -10,7 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.RemoteMessage
-import hbs.com.picnic.content.ContentActivity
+import hbs.com.picnic.ui.content.ContentActivity
 
 
 class NotificationUtil {
