@@ -11,8 +11,14 @@ import hbs.com.picnic.utils.BaseContract
 import android.location.LocationManager
 import android.util.Log
 import hbs.com.picnic.data.model.TourRequest
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-class RecommendPresenter(private val view: RecommendContract.View, locationManager: LocationManager) :
+class RecommendPresenter(
+    private val view: RecommendContract.View,
+    locationManager: LocationManager
+) :
     BaseContract.Presenter(),
     RecommendContract.Presenter {
 
@@ -25,13 +31,14 @@ class RecommendPresenter(private val view: RecommendContract.View, locationManag
             Log.d("getLocationInfo", location)
             view.updateLocation(location)
         }, { error ->
-        }).let {
-            addDisposable(it)
+        }).run {
+            addDisposable(this)
         }
     }
 
     override fun getGpsInfo(context: Activity) {
-        val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionCheck =
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -58,14 +65,20 @@ class RecommendPresenter(private val view: RecommendContract.View, locationManag
     }
 
     override fun getTourInfo(reqeustInfo: List<TourRequest>) {
-        recommendUseCase.getTourInfoBasedLocation(reqeustInfo)[0]
+        recommendUseCase.getTourInfoBasedLocation(reqeustInfo)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.computation())
             .subscribe(
                 { response ->
                     val location = response.string()
                     view.updateTourInfo(location)
                 }, { error ->
-                }).let {
-                addDisposable(it)
+                }, {}).run {
+                addDisposable(this)
             }
+    }
+
+    override fun onPause() {
+        onClear()
     }
 }

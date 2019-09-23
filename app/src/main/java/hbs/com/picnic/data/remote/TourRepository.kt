@@ -11,17 +11,18 @@ interface TourRepository {
     ): Observable<ResponseBody>
 
     fun getCommonDetail(
-        request:TourRequest
-    ):Observable<ResponseBody>
+        request: TourRequest
+    ): Observable<ResponseBody>
 
     fun getImageDetail(
-        request:TourRequest
-    ):Observable<ResponseBody>
+        request: TourRequest
+    ): Observable<ResponseBody>
 
     fun getDetailInfo(
-        request:TourRequest
-    ):Observable<ResponseBody>
+        request: TourRequest
+    ): Observable<ResponseBody>
 }
+
 class TourRepositoryImpl(private val tourAPI: TourAPI) : TourRepository {
     override fun getListBasedLocation(request: TourRequest): Observable<ResponseBody> {
         return tourAPI.getListBasedLocation(
@@ -53,7 +54,7 @@ class TourRepositoryImpl(private val tourAPI: TourAPI) : TourRepository {
             key = request.key,
             rows = request.rows,
             no = request.no,
-            os =  request.os,
+            os = request.os,
             title = request.title,
             contentId = request.contentId,
             imageYN = request.imageYN

@@ -24,14 +24,19 @@ interface RecommendUseCase {
 
     fun getTourInfoBasedLocation(
         requests: List<TourRequest>
-    ): List<Observable<ResponseBody>>
+    ): Observable<ResponseBody>
 }
 
 class RecommendUseCaseImpl(private val locationManager: LocationManager) : RecommendUseCase {
     private val mapRepository = MapRepositoryImpl(RetrofitProvider.provideMapApi(BaseUrl.MAP.url))
-    private val tourRepository = TourRepositoryImpl(RetrofitProvider.provideTourApi(BaseUrl.TOUR_KOREA.url))
+    private val tourRepository =
+        TourRepositoryImpl(RetrofitProvider.provideTourApi(BaseUrl.TOUR_KOREA.url))
 
-    override fun getLocationInfo(coords: String, orders: String, output: String): Observable<ResponseBody> {
+    override fun getLocationInfo(
+        coords: String,
+        orders: String,
+        output: String
+    ): Observable<ResponseBody> {
         return mapRepository.getLocationInfo(coords, orders, output)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -43,14 +48,9 @@ class RecommendUseCaseImpl(private val locationManager: LocationManager) : Recom
 
     }
 
-    override fun getTourInfoBasedLocation(requests: List<TourRequest>): List<Observable<ResponseBody>> {
-        var list:ArrayList<Observable<ResponseBody>> = arrayListOf()
-        for(request in requests){
-            list.add(tourRepository
-                .getListBasedLocation(request)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()))
-        }
-        return list
-    }
+    override fun getTourInfoBasedLocation(requests: List<TourRequest>): Observable<ResponseBody> =
+        Observable
+            .fromIterable(requests)
+            .flatMap { tourRepository.getListBasedLocation(it) }
+
 }

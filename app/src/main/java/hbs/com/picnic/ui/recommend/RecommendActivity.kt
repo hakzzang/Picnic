@@ -204,4 +204,9 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         }
         return resultString
     }
+
+    override fun onPause() {
+        super.onPause()
+        recommendPresenter.onPause()
+    }
 }
