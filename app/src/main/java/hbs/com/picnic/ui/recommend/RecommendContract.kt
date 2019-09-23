@@ -14,5 +14,6 @@ interface RecommendContract {
         fun getGpsInfo(context: Activity)
         fun getLocationInfo(coords: String, orders: String, output: String)
         fun getTourInfo(reqeustInfo:List<TourRequest>)
+        fun onPause()
     }
 }
