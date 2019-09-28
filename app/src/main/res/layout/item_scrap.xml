@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable name="bookmark" type="hbs.com.picnic.data.model.Bookmark"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scrap_holder_height">
+        <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/scrap_holder_thumbnail_width"
+                android:layout_height="@dimen/scrap_holder_thumbnail_height"
+                android:id="@+id/cv_thumbnail"
+                app:cardCornerRadius="@dimen/scrap_holder_thumbnail__radius"
+                android:layout_marginLeft="@dimen/scrap_holder_content_margin_left"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent">
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"/>
+        </androidx.cardview.widget.CardView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/scrap_holder_thumbnail_height"
+                android:layout_marginLeft="@dimen/scrap_holder_content_margin_left"
+                app:layout_constraintLeft_toRightOf="@id/cv_thumbnail"
+                app:layout_constraintRight_toLeftOf="@id/iv_scrap_tagging"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+            <TextView style="@style/TextViewHeadline6"
+                      android:text="안녕하세요."
+                      android:textColor="@color/black_color_00"
+                      android:id="@+id/tv_scrap_title"
+                      app:layout_constraintTop_toTopOf="parent"
+                      app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <TextView style="@style/TextViewCaption"
+                      android:text="안녕하세요."
+                      android:id="@+id/tv_scrap_content"
+                      android:textColor="@color/black_color_00"
+                      app:layout_constraintTop_toBottomOf="@id/tv_scrap_title"
+                      app:layout_constraintLeft_toLeftOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+                android:layout_width="@dimen/scrap_holder_tagging_size"
+                android:layout_height="@dimen/scrap_holder_tagging_size"
+                android:layout_margin="@dimen/scrap_holder_tagging_margin"
+                android:id="@+id/iv_scrap_tagging"
+                android:background="@color/colorBit"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
