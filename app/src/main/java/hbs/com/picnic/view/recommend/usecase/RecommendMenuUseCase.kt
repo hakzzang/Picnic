@@ -94,7 +94,7 @@ class RecommendMenuUseCaseImpl(private val assets: AssetManager) : RecommendMenu
         return menuList
     }
 
-    fun getAddr(string: String): String {
+    private fun getAddr(string: String): String {
         var result: String = ""
 
         val myPattern = Pattern.compile("\"(.*?)\",?")

@@ -45,4 +45,11 @@
     <dimen name="toolbar_menu_size">48dp</dimen>
     <dimen name="toolbar_menu_padding">4dp</dimen>
     <dimen name="background_view_height">200dp</dimen>
+    <dimen name="scrap_holder_height">88dp</dimen>
+    <dimen name="scrap_holder_thumbnail_width">100dp</dimen>
+    <dimen name="scrap_holder_thumbnail_height">56dp</dimen>
+    <dimen name="scrap_holder_thumbnail__radius">12dp</dimen>
+    <dimen name="scrap_holder_content_margin_left">20dp</dimen>
+    <dimen name="scrap_holder_tagging_size">24dp</dimen>
+    <dimen name="scrap_holder_tagging_margin">16dp</dimen>
 </resources>

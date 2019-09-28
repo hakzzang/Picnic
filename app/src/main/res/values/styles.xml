@@ -34,6 +34,9 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+
+
+
     <style name="dd" parent="Widget.AppCompat.RatingBar.Small">
         <item name="android:maxWidth">120dip</item>
         <item name="android:maxHeight">92dip</item>

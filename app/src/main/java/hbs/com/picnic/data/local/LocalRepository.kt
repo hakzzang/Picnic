@@ -8,11 +8,12 @@ interface LocalRepository<T> where T : Bookmark {
     fun update(item: T, result: T)
     fun insert(realm: Realm, item: T)
     fun upsert(realm: Realm, item: T)
-    fun select(realm: Realm, item: T): Bookmark?
+    fun select(realm: Realm, item: T): T
+    fun selectAll(realm: Realm, item: T): List<T>
 }
 
 class LocalRepositoryImpl<T : Bookmark> : LocalRepository<T> {
-    val realm = Realm.getDefaultInstance()
+    val realm: Realm = Realm.getDefaultInstance()
     override fun insert(realm: Realm, item: T) {
         when (item) {
             is Bookmark -> {
@@ -63,12 +64,11 @@ class LocalRepositoryImpl<T : Bookmark> : LocalRepository<T> {
         }*/
     }
 
-    override fun select(realm: Realm, item: T): Bookmark? {
-        when (item) {
-            is Bookmark -> {
-                return realm.where(Bookmark::class.java).equalTo("uniqueId", item.uniqueId).findFirst()
-            }
-        }
-        return null
+    override fun select(realm: Realm, item: T): T {
+        return realm.where(item.javaClass).equalTo("uniqueId", item.uniqueId).findFirst() as T
+    }
+
+    override fun selectAll(realm: Realm, item: T): List<T> {
+        return realm.where(item.javaClass).equalTo("uniqueId", item.uniqueId).findAll()
     }
 }
