@@ -13,10 +13,10 @@ interface RecommendContract {
     interface Presenter {
         fun getGpsInfo(context: Activity)
         fun getLocationInfo(coords: String, orders: String, output: String)
+        fun updateTourInfo(requestInfo: List<Int>, currentLong:Double, currentLat:Double )
         fun getTourInfo(reqeustInfo:List<TourRequest>)
         fun onPause()
 
         fun getSelectedMenu()
-        fun saveMenu()
     }
 }

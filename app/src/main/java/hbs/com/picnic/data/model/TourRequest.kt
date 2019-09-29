@@ -7,11 +7,10 @@ data class TourRequest (
     val os:String,
     val title:String,
     val arrange:String,
-    val contentTypeId:Int,
+    var contentTypeId:Int,
     val contentId:Int,
     val longitude:Double,
     val latitude:Double,
     val radius:Int,
     val imageYN:String="Y"
-
 )
