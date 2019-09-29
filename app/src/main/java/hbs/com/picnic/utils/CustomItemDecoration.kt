@@ -12,8 +12,7 @@ class CustomItemDecoration(val orientation: Int, val space: Int) : RecyclerView.
 
         when (orientation) {
             RecyclerView.VERTICAL -> {
-                val space: Int = space/2
-                outRect.top = space
+                val space: Int = space
                 outRect.bottom = space
             }
 
