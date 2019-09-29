@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -20,9 +21,11 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
+import android.util.Base64
 import android.util.Log
 import android.view.Gravity
 import androidx.drawerlayout.widget.DrawerLayout
+import com.kakao.util.helper.Utility.getPackageInfo
 import hbs.com.picnic.data.model.TourInfo
 import hbs.com.picnic.data.model.TourRequest
 import hbs.com.picnic.data.remote.TourAPI
@@ -35,6 +38,8 @@ import kotlinx.android.synthetic.main.content_drawer.*
 import kotlinx.android.synthetic.main.content_drawer_menu.*
 import kotlinx.android.synthetic.main.content_recommend.*
 import org.json.JSONObject
+import java.security.MessageDigest
+import kotlin.math.sign
 
 class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnClickListener {
 
@@ -67,8 +72,8 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         setContentView(R.layout.activity_recommend)
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
         setClickListener()
+
         dl_recommend.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerStateChanged(newState: Int) {}
 
@@ -99,8 +104,7 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
             adapter = bottomAdapter
         }
 
-        recommendPresenter
-            .getGpsInfo(this@RecommendActivity)
+        recommendPresenter.getGpsInfo(this@RecommendActivity)
     }
 
     override fun onClick(v: View?) {
@@ -146,11 +150,14 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         tv_recommend_map.text = getLocationFrom(name)
 
         val requestList = arrayListOf<Int>()
+
         TourType.values().filter {
-            SharedManager.getBoolean(this@RecommendActivity, it.name)
+            SharedManager.getBoolean(this@RecommendActivity, it.name) || it.name == TourType.FOOD.name
         }.map {
             requestList.add(it.value)
         }
+
+
         lottie_loading.visibility = View.VISIBLE
         recommendPresenter.updateTourInfo(requestList, currentLong, currentLat)
 
@@ -208,10 +215,20 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == recommendPresenter.REQUEST_PERMISSION_LOCATION) {
-            if (grantResults.isNotEmpty() && grantResults[0] === PackageManager.PERMISSION_GRANTED) {
+            var check_result = true
+
+            for (result in grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    check_result = false
+                    break
+                }
+            }
+            if (check_result) {
                 recommendPresenter.getGpsInfo(this@RecommendActivity)
+
             } else {
                 Toast.makeText(this, resources.getString(R.string.permission_message), Toast.LENGTH_LONG).show()
+
             }
         }
     }
@@ -267,7 +284,8 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
             SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_festival.id).name)
         menu_travel.isSelected =
             SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_travel.id).name)
-        menu_tour.isSelected = SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_tour.id).name)
+        menu_tour.isSelected =
+            SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_tour.id).name)
         menu_sports.isSelected =
             SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_sports.id).name)
         menu_shopping.isSelected =
