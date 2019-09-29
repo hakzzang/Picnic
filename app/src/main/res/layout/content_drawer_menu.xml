@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <!--TOUR-->
+    <LinearLayout
+            android:id="@+id/menu_tour"
+            style="@style/Recommend.Drawer.Menu"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintEnd_toStartOf="@id/menu_culture"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView android:layout_width="@dimen/recommend_drawer_menu_icon_size"
+                   android:layout_height="@dimen/recommend_drawer_menu_icon_size"
+                   android:src="@drawable/selector_tour"/>
+        <TextView
+                android:id="@+id/tv_menu_tour"
+                android:text="관광"
+                style="@style/Recommend.Menu.Text"/>
+    </LinearLayout>
+
+    <!--CULTURE-->
+    <LinearLayout
+            android:id="@+id/menu_culture"
+            style="@style/Recommend.Drawer.Menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/menu_tour"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView android:layout_width="@dimen/recommend_drawer_menu_icon_size"
+                   android:layout_height="@dimen/recommend_drawer_menu_icon_size"
+                   android:src="@drawable/selector_culture"/>
+        <TextView
+                android:id="@+id/tv_menu_culture"
+                android:text="문화"
+                style="@style/Recommend.Menu.Text"/>
+    </LinearLayout>
+    <!--REPORTS-->
+    <LinearLayout
+            android:id="@+id/menu_sports"
+            style="@style/Recommend.Drawer.Menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/menu_tour">
+
+        <ImageView android:layout_width="@dimen/recommend_drawer_menu_icon_size"
+                   android:layout_height="@dimen/recommend_drawer_menu_icon_size"
+                   android:src="@drawable/selector_reports"/>
+        <TextView
+                android:id="@+id/tv_menu_sports"
+                android:text="레포츠"
+                style="@style/Recommend.Menu.Text"/>
+    </LinearLayout>
+
+    <!--FOOD-->
+    <LinearLayout
+            android:id="@+id/menu_food"
+            style="@style/Recommend.Drawer.Menu"
+            app:layout_constraintStart_toEndOf="@id/menu_sports"
+            app:layout_constraintTop_toBottomOf="@id/menu_tour">
+
+        <ImageView android:layout_width="@dimen/recommend_drawer_menu_icon_size"
+                   android:layout_height="@dimen/recommend_drawer_menu_icon_size"
+                   android:src="@drawable/selector_food"/>
+        <TextView
+                android:id="@+id/tv_menu_food"
+                android:text="맛집"
+                style="@style/Recommend.Menu.Text"/>
+    </LinearLayout>
+
+    <!--SHOPPING-->
+    <LinearLayout
+            android:id="@+id/menu_shopping"
+            style="@style/Recommend.Drawer.Menu"
+            app:layout_constraintStart_toEndOf="@id/menu_food"
+            app:layout_constraintTop_toBottomOf="@id/menu_tour">
+
+        <ImageView
+                android:layout_width="@dimen/recommend_drawer_menu_icon_size"
+                android:layout_height="@dimen/recommend_drawer_menu_icon_size"
+                android:src="@drawable/selector_shopping"/>
+        <TextView
+                android:id="@+id/tv_menu_shopping"
+                android:text="쇼핑"
+                style="@style/Recommend.Menu.Text"/>
+    </LinearLayout>
+
+    <!--FESTIVE-->
+    <LinearLayout
+            android:id="@+id/menu_festival"
+            style="@style/Recommend.Drawer.Menu"
+            app:layout_constraintEnd_toEndOf="@id/menu_tour"
+            app:layout_constraintStart_toStartOf="@id/menu_tour"
+            app:layout_constraintTop_toBottomOf="@id/menu_sports">
+
+        <ImageView
+                android:layout_width="@dimen/recommend_drawer_menu_icon_size"
+                android:layout_height="@dimen/recommend_drawer_menu_icon_size"
+                android:src="@drawable/selector_festival"/>
+        <TextView
+                android:id="@+id/tv_menu_festival"
+                android:text="축제"
+                style="@style/Recommend.Menu.Text"/>
+    </LinearLayout>
+
+    <!--TRAVEL-->
+    <LinearLayout
+            android:id="@+id/menu_travel"
+            style="@style/Recommend.Drawer.Menu"
+            app:layout_constraintEnd_toEndOf="@id/menu_culture"
+            app:layout_constraintStart_toStartOf="@id/menu_culture"
+            app:layout_constraintTop_toBottomOf="@id/menu_sports">
+
+        <ImageView
+                android:layout_width="@dimen/recommend_drawer_menu_icon_size"
+                android:layout_height="@dimen/recommend_drawer_menu_icon_size"
+                android:src="@drawable/selector_travel"/>
+        <TextView
+                android:id="@+id/tv_menu_travel"
+                android:text="여행"
+                style="@style/Recommend.Menu.Text"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
