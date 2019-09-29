@@ -4,7 +4,7 @@ import hbs.com.picnic.R
 
 enum class MenuType(val title:String, val fileName: String, val icon:Int) {
     DDUCK("떡 카페", "seoul_dduck.csv", R.drawable.ic_ricecake_line),
-    HANOK("한옥나들이", "seoul_dduck.csv", R.drawable.ic_palace_black_line),
+    HANOK("전통한옥", "seoul_dduck.csv", R.drawable.ic_palace_black_line),
     HANBOK("한복체험","seoul_dduck.csv", R.drawable.ic_hanbok_line),
     KIDS("키즈카페", "seoul_kids.csv", R.drawable.ic_lego_line),
     FOOD_TRUCK("푸드트럭","seoul_foodtruck.csv", R.drawable.ic_foodtruck_line),

@@ -46,14 +46,4 @@ class RecommendMenuView : FrameLayout,
             adapter = RecommendMenuAdapter(context, menus, this@RecommendMenuView)
         }
     }
-
-    private fun getMenus(): List<RecommendMenu> =
-        arrayListOf(
-            RecommendMenu(0, "떡카페", 0),
-            RecommendMenu(1, "한옥나들이", 0),
-            RecommendMenu(2, "한복체험", 0),
-            RecommendMenu(3, "키즈카페", 0),
-            RecommendMenu(4, "푸드트럭",0),
-            RecommendMenu(5, "아이스크림", 0)
-        )
 }
