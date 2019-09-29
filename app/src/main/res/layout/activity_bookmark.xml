@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/bottom_sheet_item_height"
                     android:gravity="center_vertical"
-                    android:text="스크랩"
+                    android:text="북마크"
                     android:paddingStart="@dimen/bottom_sheet_item_padding_start"
                     android:textStyle="bold"
                     android:textColor="@color/md_white_1000"

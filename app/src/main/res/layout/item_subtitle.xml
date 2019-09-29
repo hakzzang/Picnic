@@ -8,6 +8,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="안녕하세요"
+            app:backgroundTint="@color/main_red_color"
             android:id="@+id/btn_hash_tag"
             android:layout_marginEnd="@dimen/button_hash_tag_space"
             app:cornerRadius="@dimen/button_radius_amount"/>

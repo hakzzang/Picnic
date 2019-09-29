@@ -11,8 +11,8 @@ class BookmarkPresenter(private val bookmarkView: BookmarkContract.View) : Bookm
         bookmarkView.initView()
     }
 
-    override fun getBookmarks(uniqueId: String) {
-        bookmarkView.updateBookmarkView(bookmarkUseCase.getBookMarks(uniqueId))
+    override fun getBookmarks() {
+        bookmarkView.updateBookmarkView(bookmarkUseCase.getBookMarks())
     }
 
 

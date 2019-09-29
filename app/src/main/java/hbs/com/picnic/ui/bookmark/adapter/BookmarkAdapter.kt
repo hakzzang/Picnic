@@ -32,6 +32,9 @@ class BookmarkAdapter : ListAdapter<Bookmark, RecyclerView.ViewHolder>(BookmarkD
     inner class ScrapViewHolder(private val binding: ItemScrapBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindView(bookmark: Bookmark) {
             binding.bookmark = bookmark
+            binding.clBookmark.setOnClickListener{
+
+            }
         }
     }
 

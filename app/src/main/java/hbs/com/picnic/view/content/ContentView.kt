@@ -72,19 +72,27 @@ class ContentView @JvmOverloads constructor(
             }?.run {
                 setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
                 setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-                title = ""
+                title = tourItemInfo.title
             }
             coordinatorToolbar.toolbarBookmark.setOnClickListener {
-                presenter.insertBookmark(
-                    Bookmark(
-                        tourItemInfo.title,
-                        tourItemInfo.firstimage,
-                        System.currentTimeMillis().toString(),
-                        tourItemInfo.contentid.toString(),
-                        false
-                    )
+                val bookmark = Bookmark(
+                    tourItemInfo.title,
+                    tourItemInfo.firstimage,
+                    System.currentTimeMillis().toString(),
+                    tourItemInfo.contentid.toString(),
+                    false
                 )
-                presenter.fetchBookmark(true)
+                val resultBookmark = presenter.getBookmark(bookmark.uniqueId)
+                val isBookmark = resultBookmark?.uniqueId != null
+                bookmark.isBookmark = isBookmark
+                presenter.fetchBookmark(tourItemInfo)
+
+                if (isBookmark) {
+                    presenter.deleteBookmark(bookmark)
+                } else {
+                    presenter.sendFcmBookmarkMessage(bookmark)
+                    presenter.insertBookmark(bookmark)
+                }
             }
             coordinatorToolbar.toolbarShare.setOnClickListener {
                 kakaoManager.sendMsg(tourItemInfo.title, tourItemInfo.firstimage)
@@ -93,6 +101,11 @@ class ContentView @JvmOverloads constructor(
         }
         presenter.initView(tourItemInfo)
         presenter.initBookmark(tourItemInfo)
+        val resultBookmark = presenter.getBookmark(tourItemInfo.contentid.toString())
+        val isBookmark = resultBookmark?.uniqueId != null
+        if (isBookmark) {
+            updateBookmark(isBookmark)
+        }
     }
 
     fun getChatContents(tourItemInfo: TourInfo.TourItemInfo){
@@ -134,7 +147,7 @@ class ContentView @JvmOverloads constructor(
                     ChatMessage(firebaseUser.uid, nickname, message, Date().time.toString())
                 val cloudMessage = CloudMessage(
                     tourItemInfo?.contentid.toString(),
-                    tourItemInfo?.title + chatMessage.name.substring(0, 6),
+                    tourItemInfo?.title + "에서 " + chatMessage.name.substring(0, 6),
                     chatMessage.message,
                     firebaseUser.uid
                 )

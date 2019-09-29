@@ -4,7 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-
     <color name="colorBit">#69a9ff</color>
     <color name="black_color_00">#000000</color>
     <color name="white_color_00">#ffffff</color>
@@ -13,6 +12,7 @@
     <color name="title_line_color">#99ffbb33</color>
     <color name="title_line_color_dark">#ffffbb33</color>
     <color name="bg_send_chat_color">#e8554d</color>
+    <color name="main_red_color">#f5695f</color>
     <color name="toolbar_background_color">#99ffffff</color>
 
 

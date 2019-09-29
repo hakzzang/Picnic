@@ -14,7 +14,7 @@
                 android:layout_height="36dp"
                 android:text="HashTag"
                 android:id="@+id/tv_content_subtitle"
-                style="@style/TextViewHeadline5"
+                style="@style/TextViewHeadline6"
                 android:fontFamily="@font/nanumbarungothic_bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>

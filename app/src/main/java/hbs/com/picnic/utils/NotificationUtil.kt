@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.RemoteMessage
+import hbs.com.picnic.ui.bookmark.BookmarkActivity
 import hbs.com.picnic.ui.content.ContentActivity
 
 
@@ -20,7 +21,7 @@ class NotificationUtil {
         val notificationManager =
             context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager?
 
-        val notificationIntent = Intent(context, ContentActivity::class.java)
+        val notificationIntent = Intent(context, BookmarkActivity::class.java)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent = PendingIntent.getActivity(
             context,

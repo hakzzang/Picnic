@@ -26,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import hbs.com.picnic.data.model.TourInfo
 import hbs.com.picnic.data.model.TourRequest
 import hbs.com.picnic.data.remote.TourAPI
+import hbs.com.picnic.ui.bookmark.BookmarkActivity
 import hbs.com.picnic.utils.SharedManager
 import hbs.com.picnic.utils.TourType
 import hbs.com.picnic.utils.XmlParser
@@ -121,15 +122,17 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
             }
             R.id.iv_menu -> dl_recommend.openDrawer(Gravity.RIGHT)
             R.id.iv_drawer_close, R.id.iv_drawer_home -> dl_recommend.closeDrawer(Gravity.RIGHT)
-            R.id.iv_bookmark ->
-                Intent(this, MapActivity::class.java).apply {
+            R.id.ll_bookmark_container ->
+                Intent(this, BookmarkActivity::class.java).apply {
                     startActivity(this)
                 }
 
-            R.id.iv_setting ->
+            R.id.iv_setting ->{
                 Intent(this, MapActivity::class.java).apply {
                     startActivity(this)
                 }
+            }
+
             R.id.cl_drawer -> {
             }
 
@@ -286,8 +289,8 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         iv_menu.setOnClickListener(this)
         iv_drawer_close.setOnClickListener(this)
         iv_drawer_home.setOnClickListener(this)
-        iv_bookmark.setOnClickListener(this)
         iv_setting.setOnClickListener(this)
+        ll_bookmark_container.setOnClickListener(this)
         menu_culture.setOnClickListener(this)
         menu_festival.setOnClickListener(this)
         menu_food.setOnClickListener(this)

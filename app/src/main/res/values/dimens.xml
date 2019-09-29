@@ -48,7 +48,7 @@
     <dimen name="scrap_holder_height">88dp</dimen>
     <dimen name="scrap_holder_thumbnail_width">100dp</dimen>
     <dimen name="scrap_holder_thumbnail_height">56dp</dimen>
-    <dimen name="scrap_holder_thumbnail__radius">12dp</dimen>
+    <dimen name="scrap_holder_thumbnail_radius">8dp</dimen>
     <dimen name="scrap_holder_content_margin_left">20dp</dimen>
     <dimen name="scrap_holder_tagging_size">24dp</dimen>
     <dimen name="scrap_holder_tagging_margin">16dp</dimen>
@@ -56,6 +56,15 @@
     <dimen name="content_tel_icon_margin">12dp</dimen>
     <dimen name="content_tel_padding">4dp</dimen>
     <dimen name="content_holder_body_padding">24dp</dimen>
-    <dimen name="content_holder_distance">8dp</dimen>
+    <dimen name="content_holder_distance">12dp</dimen>
     <dimen name="content_title_bottom_margin">12dp</dimen>
+
+    <dimen name="material_list_image_size">40dp</dimen>
+    <dimen name="normal_text_size">14sp</dimen>
+    <dimen name="jobcafe_text_with_image_padding_size">16dp</dimen>
+    <dimen name="material_desgin_listview_loading_view_width">216dp</dimen>
+    <dimen name="all_padding_small_size">12dp</dimen>
+    <dimen name="all_padding_large_size">16dp</dimen>
+    <dimen name="all_padding_extra_large_size">18dp</dimen>
+    <dimen name="context_text_size">12sp</dimen>
 </resources>

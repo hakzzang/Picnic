@@ -7,7 +7,7 @@ import io.realm.annotations.Required
 open class Bookmark(
     var title: String = "",
     var thumbnail: String = "",
-    var makedAt: String = "",
+    var madeAt: String = "",
     @PrimaryKey var uniqueId: String = "",
     var isBookmark: Boolean = false
 ) : RealmObject()

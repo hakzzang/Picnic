@@ -43,27 +43,34 @@
                 style="@style/Recommend.Title.Text"
                 android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/iv_bookmark"
-                app:layout_constraintBottom_toBottomOf="@id/tv_bookmark"
+                app:layout_constraintTop_toTopOf="@id/ll_bookmark_container"
+                app:layout_constraintBottom_toBottomOf="@id/ll_bookmark_container"
                 android:text="원하는 피크닉을 \n골라주세요."
                 android:lineSpacingMultiplier="1.4"
         />
-        <ImageView
-                android:id="@+id/iv_bookmark"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="@dimen/recommend_drawer_menu_icon"
-                android:layout_height="@dimen/recommend_drawer_menu_icon"
-                android:src="@drawable/ic_bookmark_menu"
+        <LinearLayout
+                android:id="@+id/ll_bookmark_container"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
                 android:layout_marginRight="@dimen/recommend_drawer_menu_icon"
-                app:layout_constraintRight_toLeftOf="@id/iv_setting"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/iv_setting"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="vertical">
+            <ImageView
+                    android:id="@+id/iv_bookmark"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="@dimen/recommend_drawer_menu_icon"
+                    android:layout_height="@dimen/recommend_drawer_menu_icon"
+                    android:src="@drawable/ic_bookmark_menu"/>
 
-        <TextView
-                android:id="@+id/tv_bookmark"
-                app:layout_constraintTop_toBottomOf="@id/iv_bookmark"
-                app:layout_constraintStart_toStartOf="@id/iv_bookmark"
-                app:layout_constraintEnd_toEndOf="@id/iv_bookmark"
-                style="@style/Recommend.Menu.Text"
-                android:text="북마크"/>
+            <TextView
+                    android:id="@+id/tv_bookmark"
+                    style="@style/Recommend.Menu.Text"
+                    android:text="북마크"/>
+
+        </LinearLayout>
 
 
         <ImageView
