@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:text="더보기"
             android:textSize="11sp"
+            android:visibility="gone"
             android:layout_marginEnd="@dimen/recommend_padding"
             android:gravity="center"
             android:fontFamily="@font/nanumbarungothic"

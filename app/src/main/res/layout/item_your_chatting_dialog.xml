@@ -29,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextViewCaption"
+            android:textSize="10sp"
             android:layout_marginLeft="@dimen/chatting_timestamp_margin_right"
             app:layout_constraintBottom_toBottomOf="@id/tv_chat_dialog"
             app:layout_constraintLeft_toRightOf="@id/tv_chat_dialog"/>

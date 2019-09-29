@@ -39,12 +39,13 @@
                       android:text="@{bookmark.title}"
                       android:textColor="@color/black_color_00"
                       android:id="@+id/tv_scrap_title"
-                      android:textSize="16sp"
+                      android:textSize="14sp"
                       app:layout_constraintTop_toTopOf="parent"
                       app:layout_constraintBottom_toTopOf="@id/tv_scrap_content"
                       app:layout_constraintLeft_toLeftOf="parent"/>
 
             <TextView style="@style/TextViewCaption"
+                      android:textSize="12sp"
                       android:id="@+id/tv_scrap_content"
                       android:textColor="@color/md_grey_600"
                       android:layout_height="wrap_content"

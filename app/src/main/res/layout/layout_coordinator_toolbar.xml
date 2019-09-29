@@ -16,9 +16,10 @@
                 android:fitsSystemWindows="true"
                 android:id="@+id/collapsing_toolbar"
                 app:expandedTitleGravity="center"
+                android:background="@color/colorPrimaryDark"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 android:minHeight="?attr/actionBarSize"
-                app:contentScrim="?attr/colorPrimary"
+                app:contentScrim="@color/colorPrimaryDark"
                 app:expandedTitleMarginEnd="64dp"
                 app:expandedTitleMarginStart="48dp">
             <ImageView
