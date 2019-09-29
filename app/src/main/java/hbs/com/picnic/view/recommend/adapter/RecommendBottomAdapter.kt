@@ -109,8 +109,8 @@ class BottomInfoAdapter(
                 .override(ivBottomImg.width, ivBottomImg.height).into(ivBottomImg)
 
             clContainer.setOnClickListener {
-                Intent(view.context, ContentActivity::class.java).apply {
-                    putExtra("data", Gson().toJson(data))
+                Intent(view.context, ContentActivity::class.java).apply{
+                    putExtra("tourItemInfo", data)
                     view.context.startActivity(this)
                 }
             }

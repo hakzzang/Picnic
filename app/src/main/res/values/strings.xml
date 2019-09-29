@@ -20,5 +20,7 @@
     <string name="all_text_kakao_link_on_fail">공유하는 것을 실패했어요. 다시 시도해주세요.</string>
     <string name="all_text_register_bookmark">해당 지역을 스크랩하기 시작했습니다.</string>
     <string name="kakaolink_host">kakaolink</string>
+    <string name="toast_text_not_register_phone_number">등록된 전화번호가 없습니다.</string>
+    <string name="all_text_subcontent_title">추가 정보</string>
 
 </resources>

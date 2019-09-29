@@ -1,13 +1,20 @@
 package hbs.com.picnic.utils
 
 import android.util.Log
+import fr.arnaudguyon.xmltojsonlib.XmlToJson
 import hbs.com.picnic.data.model.TourInfo
+import org.json.JSONObject
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.Reader
 import java.io.StringReader
 
 object XmlParser {
+    fun xmlToToJson(xml: String): JSONObject? {
+        val xmlToJson = XmlToJson.Builder(xml).build();
+        return xmlToJson.toJson()
+    }
+
     fun tourParser(xml: String): TourInfo {
         var tourInfo: TourInfo = TourInfo()
         val tourItemInfos: ArrayList<TourInfo.TourItemInfo>? = arrayListOf()

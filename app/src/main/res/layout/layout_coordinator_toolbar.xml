@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="194dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:fitsSystemWindows="true">
-    <com.google.android.material.appbar.CollapsingToolbarLayout
+<layout>
+    <data>
+        <variable name="tourItemInfo" type="hbs.com.picnic.data.model.TourInfo.TourItemInfo"/>
+    </data>
+    <com.google.android.material.appbar.AppBarLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:minHeight="?attr/actionBarSize"
-            app:contentScrim="?attr/colorPrimary"
-            app:title="안녕."
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp">
-        <ImageView
+            android:layout_height="194dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:fitsSystemWindows="true">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"/>
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 android:minHeight="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-            <LinearLayout
+                app:contentScrim="?attr/colorPrimary"
+                app:title="안녕."
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp">
+            <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="end|center_vertical">
-                <ImageView
-                        android:id="@+id/toolbar_share"
-                        android:layout_width="@dimen/toolbar_menu_size"
-                        android:layout_height="@dimen/toolbar_menu_size"
-                        android:padding="@dimen/toolbar_menu_padding"
-                        android:src="@drawable/ic_share_24dp"/>
-                <ImageView
-                        android:id="@+id/toolbar_bookmark"
-                        android:layout_width="@dimen/toolbar_menu_size"
-                        android:layout_height="@dimen/toolbar_menu_size"
-                        android:padding="@dimen/toolbar_menu_padding"
-                        android:src="@drawable/ic_bookmark_off_24dp"/>
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-</com.google.android.material.appbar.AppBarLayout>
+                    android:scaleType="centerCrop"
+                    glide_url="@{tourItemInfo.firstimage}"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax"/>
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:minHeight="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end|center_vertical">
+                    <ImageView
+                            android:id="@+id/toolbar_share"
+                            android:layout_width="@dimen/toolbar_menu_size"
+                            android:layout_height="@dimen/toolbar_menu_size"
+                            android:padding="@dimen/toolbar_menu_padding"
+                            android:src="@drawable/ic_share_24dp"/>
+                    <ImageView
+                            android:id="@+id/toolbar_bookmark"
+                            android:layout_width="@dimen/toolbar_menu_size"
+                            android:layout_height="@dimen/toolbar_menu_size"
+                            android:padding="@dimen/toolbar_menu_padding"
+                            android:src="@drawable/ic_bookmark_off_24dp"/>
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</layout>

@@ -9,22 +9,20 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.auth.FirebaseUser
 import hbs.com.picnic.R
-import hbs.com.picnic.ui.content.adapter.ChattingAdapter
-import hbs.com.picnic.data.model.Bookmark
-import hbs.com.picnic.data.model.ChatMessage
-import hbs.com.picnic.data.model.CloudMessage
+import hbs.com.picnic.data.model.*
 import hbs.com.picnic.databinding.ViewContentBinding
+import hbs.com.picnic.ui.content.adapter.ChattingAdapter
 import hbs.com.picnic.utils.AnimationUtils
 import hbs.com.picnic.utils.KakaoManager
 import hbs.com.picnic.utils.NicknameManager
 import hbs.com.picnic.view.content.adapter.ContentAdapter
 import hbs.com.picnic.view.content.presenter.ContentViewPresenter
-import kotlinx.android.synthetic.main.layout_bottom_sheet.view.*
-import kotlinx.android.synthetic.main.layout_coordinator_toolbar.view.*
 import java.util.*
 
 class ContentView @JvmOverloads constructor(
@@ -43,29 +41,25 @@ class ContentView @JvmOverloads constructor(
     private val bottomSheetContainer = viewContentBinding.bottomSheetContainer
 
     private val contentMap = hashMapOf<String, ByteArray>()
-    private val contentAdapter = ContentAdapter(contentMap)
+    private var tourItemInfo: TourInfo.TourItemInfo? = null
+    private var tourDetail: TourDetail? = null
     private val chattingAdapter = ChattingAdapter()
-
-    private val topic = "hello10"
-
-    init {
-        presenter.initView()
-        presenter.initBookmark(topic)
-        presenter.getChatContents("0001")
-    }
 
     fun updateMap(mapImage: ByteArray) {
         contentMap["MAP"] = mapImage
-        contentAdapter.notifyItemChanged(3)
+        viewContentBinding.rvContents.adapter?.notifyItemChanged(3)
     }
 
-    override fun initView() {
+    fun initTourItemInfo(tourItemInfo: TourInfo.TourItemInfo){
+        this.tourItemInfo = tourItemInfo
+    }
+    override fun initView(tourItemInfo: TourInfo.TourItemInfo) {
         viewContentBinding.run {
             rvContents.apply {
-                adapter = contentAdapter
+                adapter = ContentAdapter(tourItemInfo, tourDetail, contentMap)
                 layoutManager = LinearLayoutManager(context)
             }
-            bottomSheetContainer.rv_chat.apply {
+            bottomSheetContainer.rvChat.apply {
                 adapter = chattingAdapter
                 layoutManager = LinearLayoutManager(context)
             }
@@ -80,38 +74,43 @@ class ContentView @JvmOverloads constructor(
                 setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
                 title = ""
             }
-            viewContentBinding.coordinatorToolbar.toolbar_bookmark.setOnClickListener {
+            coordinatorToolbar.toolbarBookmark.setOnClickListener {
                 presenter.insertBookmark(
                     Bookmark(
-                        "새우버거 집",
-                        "https://t1.daumcdn.net/cfile/tistory/277DA93B586C7C180F",
+                        tourItemInfo.title,
+                        tourItemInfo.firstimage,
                         System.currentTimeMillis().toString(),
-                        "1",
+                        tourItemInfo.contentid.toString(),
                         false
                     )
                 )
                 presenter.fetchBookmark(true)
             }
-            viewContentBinding.coordinatorToolbar.toolbar_share.setOnClickListener {
-                kakaoManager.sendMsg("새우버거는 비가 와도 피크닉을 가요.", "https://t1.daumcdn.net/cfile/tistory/277DA93B586C7C180F")
+            coordinatorToolbar.toolbarShare.setOnClickListener {
+                kakaoManager.sendMsg(tourItemInfo.title, tourItemInfo.firstimage)
             }
+            viewContentBinding.tourItemInfo = tourItemInfo
         }
+        presenter.initView(tourItemInfo)
+        presenter.initBookmark(tourItemInfo)
     }
 
+    fun getChatContents(tourItemInfo: TourInfo.TourItemInfo){
+        presenter.getChatContents(tourItemInfo.contentid.toString())
+    }
 
     override fun addTextWatcherForAnimation() {
-        et_send_chat.apply {
-            bottomSheetContainer.apply {
-                val textWatcher =
-                    presenter.makeTextWatcher(iv_send_chat_container, iv_send_chat_icon)
-                addTextChangedListener(textWatcher)
-            }
+        bottomSheetContainer.etSendChat.apply {
+            val textWatcher = presenter.makeTextWatcher(
+                bottomSheetContainer.ivSendChatContainer,
+                bottomSheetContainer.ivSendChatIcon
+            )
+            addTextChangedListener(textWatcher)
         }
     }
 
-
     override fun clearEditText() {
-        bottomSheetContainer.et_send_chat.setText("")
+        bottomSheetContainer.etSendChat.setText("")
     }
 
     override fun sendChatting() {
@@ -124,8 +123,8 @@ class ContentView @JvmOverloads constructor(
 
     override fun addSendListener(firebaseUser: FirebaseUser?) {
         val nicknameManager = NicknameManager()
-        bottomSheetContainer.iv_send_chat_icon.setOnClickListener {
-            val message = bottomSheetContainer.et_send_chat.text.toString()
+        bottomSheetContainer.ivSendChatContainer.setOnClickListener {
+            val message = bottomSheetContainer.etSendChat.text.toString()
             if (firebaseUser == null) {
                 Toast.makeText(context, "네트워크 연결이 불안정합니다.", Toast.LENGTH_SHORT).show()
             } else {
@@ -134,12 +133,12 @@ class ContentView @JvmOverloads constructor(
                 val chatMessage =
                     ChatMessage(firebaseUser.uid, nickname, message, Date().time.toString())
                 val cloudMessage = CloudMessage(
-                    topic,
-                    "서현역 커피숍-" + chatMessage.name.substring(0, 6),
+                    tourItemInfo?.contentid.toString(),
+                    tourItemInfo?.title + chatMessage.name.substring(0, 6),
                     chatMessage.message,
                     firebaseUser.uid
                 )
-                presenter.sendChatting("0001", chatMessage)
+                presenter.sendChatting(tourItemInfo?.contentid.toString(), chatMessage)
                 presenter.sendFcmMessage(cloudMessage)
             }
         }
@@ -167,12 +166,12 @@ class ContentView @JvmOverloads constructor(
         ViewContentBinding.inflate(LayoutInflater.from(context), this, true)
 
     override fun initChattingContents(chatMessages: List<ChatMessage>) {
-        bottomSheetContainer.rv_chat.layoutManager?.let {
+        bottomSheetContainer.rvChat.layoutManager?.let {
             chattingAdapter.setData(chatMessages)
-            bottomSheetContainer.tv_bottom_sheet_comment_count.text = context.getString(
+            bottomSheetContainer.tvBottomSheetCommentCount.text = context.getString(
                 R.string.all_text_layout_bottom_sheet_comment_count, chattingAdapter.itemCount
             )
-            bottomSheetContainer.rv_chat.postDelayed({
+            bottomSheetContainer.rvChat.postDelayed({
                 it.scrollToPosition(chatMessages.lastIndex)
             }, 200)
         } ?: run {
@@ -181,9 +180,9 @@ class ContentView @JvmOverloads constructor(
     }
 
     override fun updateChattingContents(chatMessages: List<ChatMessage>) {
-        bottomSheetContainer.rv_chat.layoutManager?.let {
+        bottomSheetContainer.rvChat.layoutManager?.let {
             chattingAdapter.setData(chatMessages)
-            bottomSheetContainer.tv_bottom_sheet_comment_count.text = context.getString(
+            bottomSheetContainer.tvBottomSheetCommentCount.text = context.getString(
                 R.string.all_text_layout_bottom_sheet_comment_count, chattingAdapter.itemCount
             )
             val linearLayoutManager = it as LinearLayoutManager
@@ -196,7 +195,7 @@ class ContentView @JvmOverloads constructor(
     }
 
     override fun refreshContentList() {
-        presenter.initView()
+        tourItemInfo?.let { initView(it) }
         viewContentBinding.srlContents.post {
             if (viewContentBinding.srlContents.isRefreshing) {
                 viewContentBinding.srlContents.isRefreshing = false
@@ -209,7 +208,9 @@ class ContentView @JvmOverloads constructor(
             if (!viewContentBinding.srlContents.isRefreshing) {
                 viewContentBinding.srlContents.isRefreshing = true
             }
-            presenter.getChatContents("0001")
+            presenter.getChatContents(
+                tourItemInfo?.contentid.toString()
+            )
         }
     }
 
@@ -230,7 +231,15 @@ class ContentView @JvmOverloads constructor(
         } else {
             R.drawable.ic_bookmark_off_24dp
         }.run {
-            viewContentBinding.coordinatorToolbar.toolbar_bookmark.setImageResource(this)
+            viewContentBinding.coordinatorToolbar.toolbarBookmark.setImageResource(this)
+        }
+    }
+
+    override fun updateDetailInfo(tourDetail: TourDetail) {
+        this.tourDetail = tourDetail
+
+        if(viewContentBinding.rvContents.adapter is ContentAdapter){
+            (viewContentBinding.rvContents.adapter as ContentAdapter).updateTourDetail()
         }
     }
 }

@@ -1,11 +1,16 @@
 package hbs.com.picnic.data.model
 
-class TourInfo(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class TourInfo(
     var title: String,
     var datas: ArrayList<TourItemInfo>?
-) {
+) : Parcelable {
     constructor() : this("", null)
 
+    @Parcelize
     data class TourItemInfo(
         var contentid: Int,
         var contenttypeid: Int,
@@ -18,7 +23,7 @@ class TourInfo(
         var readcount:String,
         var firstimage:String,
         var firstimage2:String
-    ) {
+    ) : Parcelable {
         constructor() : this(0, 0, 0.0, 0.0, "","","","", "","", "")
     }
 }

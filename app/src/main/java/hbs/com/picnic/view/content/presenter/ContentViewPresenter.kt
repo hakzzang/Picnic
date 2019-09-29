@@ -9,6 +9,7 @@ import hbs.com.picnic.ui.content.usecase.ChattingUseCaseImpl
 import hbs.com.picnic.data.model.Bookmark
 import hbs.com.picnic.data.model.ChatMessage
 import hbs.com.picnic.data.model.CloudMessage
+import hbs.com.picnic.data.model.TourInfo
 import hbs.com.picnic.utils.AnimationUtils
 import hbs.com.picnic.utils.BaseContract
 import hbs.com.picnic.view.content.ContentViewContract
@@ -24,10 +25,11 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
 
     private val chattingUseCase: ChattingUseCase = ChattingUseCaseImpl()
     private val chattingList: ArrayList<ChatMessage> = arrayListOf()
-    override fun initView() {
-        view.initView()
+
+    override fun initView(tourItemInfo: TourInfo.TourItemInfo) {
+        val topic = tourItemInfo.contentid.toString()
         view.addTextWatcherForAnimation()
-        chattingUseCase.changeSubscribeState("hello10", true)
+        chattingUseCase.changeSubscribeState(topic, true)
     }
 
     override fun sendChatting(roomId: String, chatMessage: ChatMessage) {
@@ -129,14 +131,22 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
         isAnimation = flag == AnimationUtils.AnimationType.EMPTY_TO_FULL
     }
 
-    override fun initBookmark(topic: String) {
+    override fun initBookmark(tourItemInfo: TourInfo.TourItemInfo) {
         val bookmarkDisposable = bookmarkSubject.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.computation())
             .subscribe({ isBookmark ->
                 view.updateBookmark(isBookmark)
-                val bookmark = chattingUseCase.selectBookmark(Bookmark("","","","1",isBookmark))
+                val bookmark = chattingUseCase.selectBookmark(
+                    Bookmark(
+                        tourItemInfo.title,
+                        tourItemInfo.firstimage,
+                        System.currentTimeMillis().toString(),
+                        tourItemInfo.contentid.toString(),
+                        isBookmark
+                    )
+                )
                 if (bookmark!=null && !bookmark.isBookmark) {
-                    chattingUseCase.changeSubscribeState(topic, isBookmark)
+                    chattingUseCase.changeSubscribeState(tourItemInfo.contentid.toString(), isBookmark)
                     view.showToast(R.string.all_text_register_bookmark)
                 }
             }, { error ->
