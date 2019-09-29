@@ -18,26 +18,53 @@
           android:background="#33000000"
           app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <ImageView android:layout_width="12dp" android:layout_height="12dp"
+               android:src="@drawable/ic_heart_white"
+               app:layout_constraintRight_toLeftOf="@id/tv_bottom_like"
+               app:layout_constraintTop_toTopOf="@id/tv_bottom_like"
+               android:layout_marginRight="6dp"
+               app:layout_constraintBottom_toBottomOf="@id/tv_bottom_like"
+    />
+    <TextView
+            android:id="@+id/tv_bottom_like"
+            android:textColor="@color/md_white_1000"
+            style="@style/Recommend.Menu.Text"
+            android:layout_marginTop="@dimen/recommend_bottom_start_margin"
+            android:layout_marginRight="@dimen/recommend_menu_padding"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
     <TextView
             android:id="@+id/tv_bottom_title"
-            app:layout_constraintTop_toTopOf="@id/iv_bottom_img"
-            app:layout_constraintBottom_toBottomOf="@id/iv_bottom_img"
-            app:layout_constraintVertical_bias="0.8"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_bottom_distance"
             app:layout_constraintStart_toStartOf="@id/iv_bottom_img"
+            app:layout_constraintEnd_toEndOf="@id/iv_bottom_img"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/recommend_bottom_start_margin"
             android:layout_marginStart="@dimen/recommend_bottom_start_margin"
             style="@style/Recommend.Bottom.Title"/>
+    <ImageView
+            android:id="@+id/iv_distance"
+            android:layout_width="12dp" android:layout_height="12dp"
+            android:src="@drawable/ic_place_pin"
+            app:layout_constraintStart_toStartOf="@id/tv_bottom_title"
+            app:layout_constraintTop_toTopOf="@id/tv_bottom_distance"
+            app:layout_constraintBottom_toBottomOf="@id/tv_bottom_distance"/>
     <TextView
             android:id="@+id/tv_bottom_distance"
             android:textColor="@color/md_white_1000"
             style="@style/Recommend.Menu.Text"
-            app:layout_constraintStart_toStartOf="@id/tv_bottom_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_bottom_title"/>
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toEndOf="@id/iv_distance"
+            app:layout_constraintBottom_toTopOf="@id/tv_bottom_addr"/>
 
     <TextView
-            android:id="@+id/tv_bottom_tag"
+            android:id="@+id/tv_bottom_addr"
             android:textColor="@color/md_white_1000"
             style="@style/Recommend.Menu.Text"
-            android:text="#주유권 #해피콘 #마사지 #CGV"
-            app:layout_constraintStart_toStartOf="@id/tv_bottom_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_bottom_distance"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/recommend_menu_padding"
+            app:layout_constraintStart_toStartOf="@id/tv_bottom_title"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

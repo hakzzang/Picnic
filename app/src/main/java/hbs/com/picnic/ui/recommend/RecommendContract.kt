@@ -7,7 +7,7 @@ interface RecommendContract {
     interface View {
         fun showGPSDialogAgain()
         fun updateLocation(name:String)
-        fun updateTourInfo(datas:String)
+        fun updateTourInfo(datas:List<String>)
     }
 
     interface Presenter {
@@ -15,5 +15,8 @@ interface RecommendContract {
         fun getLocationInfo(coords: String, orders: String, output: String)
         fun getTourInfo(reqeustInfo:List<TourRequest>)
         fun onPause()
+
+        fun getSelectedMenu()
+        fun saveMenu()
     }
 }

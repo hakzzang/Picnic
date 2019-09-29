@@ -37,7 +37,7 @@ object XmlParser {
                     when (tagname) {
                         "item" ->
                             tourItemInfo?.let { tourItem ->
-                                if(tourItemInfo.firstimage.isNotEmpty()){
+                                if (tourItemInfo.firstimage.isNotEmpty()) {
                                     tourItemInfos?.add(tourItem)
                                 }
                             }
@@ -50,6 +50,8 @@ object XmlParser {
                             tourItemInfo?.contenttypeid = Integer.parseInt(value)
                             tourInfo.title = convertTitle(Integer.parseInt(value))
                         }
+                        "addr1" ->
+                            tourItemInfo?.addr1 = value
                         "mapx" ->
                             tourItemInfo?.mapx = value.toDouble()
                         "mapy" ->
@@ -58,13 +60,15 @@ object XmlParser {
                             tourItemInfo?.tel = value
                         "title" ->
                             tourItemInfo?.title = value
+                        "readcount" ->
+                            tourItemInfo?.readcount = value
                         "cat2" ->
                             tourItemInfo?.cat2 = value
-                        "firstimage" ->{
+                        "firstimage" -> {
                             Log.d("XmlParser", value)
                             tourItemInfo?.firstimage = value
                         }
-                        "firstimage2" ->{
+                        "firstimage2" -> {
                             Log.d("XmlParser2", value)
                             tourItemInfo?.firstimage2 = value
                         }
@@ -75,15 +79,15 @@ object XmlParser {
         return tourInfo
     }
 
-    private fun convertTitle(contentId:Int):String=
-        when(contentId){
-            TourType.FOOD.value->"맛있는 피크닉"
-            TourType.SHOPPING.value->"쇼핑 피크닉"
-            TourType.REPORTS.value->"레포츠 피크닉"
-            TourType.TRAVEL.value->"여행 피크닉"
-            TourType.FESTIVAL.value->"축제 피크닉"
-            TourType.CULTURE.value->"문화 피크닉"
-            TourType.TOUR.value->"관광 피크닉"
-            else -> "오늘도 즐거운 피크닉♥"
+    private fun convertTitle(contentId: Int): String =
+        when (contentId) {
+            TourType.FOOD.value -> "맛있는 피크닉"
+            TourType.SHOPPING.value -> "쇼핑 피크닉"
+            TourType.REPORTS.value -> "레포츠 피크닉"
+            TourType.TRAVEL.value -> "여행 피크닉"
+            TourType.FESTIVAL.value -> "축제 피크닉"
+            TourType.CULTURE.value -> "문화 피크닉"
+            TourType.TOUR.value -> "관광 피크닉"
+            else -> "오늘도 즐거운 피크닉되세요(하트)"
         }
 }

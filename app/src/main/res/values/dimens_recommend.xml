@@ -2,13 +2,18 @@
 <resources>
     <dimen name="recommend_padding_half">6dp</dimen>
     <dimen name="recommend_padding">12dp</dimen>
-    <dimen name="recommend_top_margin">20dp</dimen>
-    <dimen name="recommend_menu_space_vertical">4dp</dimen>
-    <dimen name="recommend_menu_space_horizontal">8dp</dimen>
+    <dimen name="recommend_top_margin">14dp</dimen>
+    <dimen name="recommend_menu_space">4dp</dimen>
     <dimen name="recommend_menu_padding">20dp</dimen>
-    <dimen name="recommend_menu_icon_size">36dp</dimen>
+    <dimen name="recommend_menu_icon_size">30dp</dimen>
     <dimen name="recommend_menu_height">270dp</dimen>
 
     <dimen name="recommend_bottom_space">56dp</dimen>
     <dimen name="recommend_bottom_start_margin">24dp</dimen>
+
+    <dimen name="recommend_drawer_margin_right">-64dp</dimen>
+    <dimen name="recommend_drawer_space">64dp</dimen>
+    <dimen name="recommend_drawer_menu_icon">24dp</dimen>
+    <dimen name="recommend_drawer_menu_icon_size">36dp</dimen>
+    <dimen name="recommend_drawer_menu_size">100dp</dimen>
 </resources>

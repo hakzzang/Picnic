@@ -16,12 +16,14 @@ data class TourInfo(
         var contenttypeid: Int,
         var mapx: Double,
         var mapy: Double,
+        var addr1:String,
         var cat2: String,
         var title: String,
         var tel: String,
+        var readcount:String,
         var firstimage:String,
         var firstimage2:String
     ) : Parcelable {
-        constructor() : this(0, 0, 0.0, 0.0, "","","", "", "")
+        constructor() : this(0, 0, 0.0, 0.0, "","","","", "","", "")
     }
 }

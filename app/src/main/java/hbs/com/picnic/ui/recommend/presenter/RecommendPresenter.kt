@@ -10,25 +10,21 @@ import hbs.com.picnic.ui.recommend.usecase.RecommendUseCaseImpl
 import hbs.com.picnic.utils.BaseContract
 import android.location.LocationManager
 import android.util.Log
+import hbs.com.picnic.data.model.TourInfo
 import hbs.com.picnic.data.model.TourRequest
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class RecommendPresenter(
-    private val view: RecommendContract.View,
-    locationManager: LocationManager
-) :
-    BaseContract.Presenter(),
-    RecommendContract.Presenter {
+class RecommendPresenter(private val view: RecommendContract.View, locationManager: LocationManager) : BaseContract.Presenter(), RecommendContract.Presenter {
 
     val REQUEST_PERMISSION_LOCATION: Int = 1001;
+
     private val recommendUseCase = RecommendUseCaseImpl(locationManager)
 
     override fun getLocationInfo(coords: String, orders: String, output: String) {
         recommendUseCase.getLocationInfo(coords, orders, output).subscribe({ response ->
             val location = response.string()
-            Log.d("getLocationInfo", location)
             view.updateLocation(location)
         }, { error ->
         }).run {
@@ -41,11 +37,7 @@ class RecommendPresenter(
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    context,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 view.showGPSDialogAgain()
             } else {
                 ActivityCompat.requestPermissions(
@@ -53,7 +45,8 @@ class RecommendPresenter(
                     REQUEST_PERMISSION_LOCATION
                 )
             }
-        } else {
+        }
+        else {
             recommendUseCase.getLastLocation()?.let { location ->
                 getLocationInfo(
                     coords = "${location.longitude},${location.latitude}",
@@ -65,17 +58,29 @@ class RecommendPresenter(
     }
 
     override fun getTourInfo(reqeustInfo: List<TourRequest>) {
+        val tourInfos = arrayListOf<String>()
+
         recommendUseCase.getTourInfoBasedLocation(reqeustInfo)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.computation())
             .subscribe(
                 { response ->
                     val location = response.string()
-                    view.updateTourInfo(location)
+                    tourInfos.add(location)
                 }, { error ->
-                }, {}).run {
+                }, {
+                    view.updateTourInfo(tourInfos)
+                }).run {
                 addDisposable(this)
             }
+    }
+
+    override fun getSelectedMenu() {
+
+    }
+
+    override fun saveMenu() {
+
     }
 
     override fun onPause() {

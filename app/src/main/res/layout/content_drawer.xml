@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_drawer"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/recommend_padding"
+        android:layout_gravity="end"
+        android:layout_marginRight="@dimen/recommend_drawer_margin_right"
+        android:background="@color/md_white_1000">
+    <ImageView
+            android:id="@+id/iv_drawer_close"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_drawer_home"
+            app:layout_constraintBottom_toBottomOf="@id/iv_drawer_home"/>
+
+    <ImageView
+            android:id="@+id/iv_drawer_home"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_home"
+            android:layout_marginRight="@dimen/recommend_drawer_margin_right"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/recommend_padding"
+            android:paddingLeft="@dimen/recommend_padding"
+            android:layout_marginTop="@dimen/recommend_drawer_space"
+            android:layout_marginRight="@dimen/recommend_drawer_margin_right"
+            app:layout_constraintTop_toBottomOf="@id/iv_drawer_home">
+
+        <TextView
+                android:id="@+id/tv_select"
+                style="@style/Recommend.Title.Text"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_bookmark"
+                app:layout_constraintBottom_toBottomOf="@id/tv_bookmark"
+                android:text="원하는 피크닉을 \n골라주세요."
+                android:lineSpacingMultiplier="1.4"
+        />
+        <ImageView
+                android:id="@+id/iv_bookmark"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="@dimen/recommend_drawer_menu_icon"
+                android:layout_height="@dimen/recommend_drawer_menu_icon"
+                android:src="@drawable/ic_bookmark_menu"
+                android:layout_marginRight="@dimen/recommend_drawer_menu_icon"
+                app:layout_constraintRight_toLeftOf="@id/iv_setting"/>
+
+        <TextView
+                android:id="@+id/tv_bookmark"
+                app:layout_constraintTop_toBottomOf="@id/iv_bookmark"
+                app:layout_constraintStart_toStartOf="@id/iv_bookmark"
+                app:layout_constraintEnd_toEndOf="@id/iv_bookmark"
+                style="@style/Recommend.Menu.Text"
+                android:text="북마크"/>
+
+
+        <ImageView
+                android:id="@+id/iv_setting"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginRight="64dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="@dimen/recommend_drawer_menu_icon"
+                android:layout_height="@dimen/recommend_drawer_menu_icon"
+                android:src="@drawable/ic_setting_menu"/>
+
+        <TextView
+                app:layout_constraintTop_toBottomOf="@id/iv_setting"
+                app:layout_constraintStart_toStartOf="@id/iv_setting"
+                app:layout_constraintEnd_toEndOf="@id/iv_setting"
+                style="@style/Recommend.Menu.Text"
+                android:text="설정"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+            android:id="@+id/line"
+            android:layout_width="match_parent" android:layout_height="0.5dp"
+            app:layout_constraintTop_toBottomOf="@id/cl_menu"
+            android:layout_marginTop="@dimen/recommend_drawer_space"
+            android:background="@color/md_grey_500"/>
+
+    <include
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            layout="@layout/content_drawer_menu"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

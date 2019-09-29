@@ -17,7 +17,7 @@ class RecommendMenuPresenter(
     private val menuUseCase = RecommendMenuUseCaseImpl(assets)
 
     override fun makeMenuList() {
-        view.setMenuList(MenuType.values().toList())
+        view.setMenuList(MenuType.values().toList().subList(0, 4))
     }
 
     override fun clickMenu(type: MenuType) {
