@@ -7,13 +7,15 @@
             xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/content_holder_distance">
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:text="Subtitle"
+                android:text="HashTag"
                 android:id="@+id/tv_content_subtitle"
                 style="@style/TextViewHeadline5"
+                android:fontFamily="@font/nanumbarungothic_bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 

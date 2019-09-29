@@ -3,72 +3,53 @@ package hbs.com.picnic.data.local
 import hbs.com.picnic.data.model.Bookmark
 import io.realm.Realm
 
-interface LocalRepository<T> where T : Bookmark {
-    fun remove(item: T)
-    fun update(item: T, result: T)
-    fun insert(realm: Realm, item: T)
-    fun upsert(realm: Realm, item: T)
-    fun select(realm: Realm, item: T): T
-    fun selectAll(realm: Realm, item: T): List<T>
+interface LocalRepository{
+    fun remove(item: Bookmark)
+    fun update(item: Bookmark, result: Bookmark)
+    fun insert(realm: Realm, item: Bookmark)
+    fun upsert(realm: Realm, item: Bookmark)
+    fun select(realm: Realm, item: Bookmark): Bookmark?
+    fun selectAll(realm: Realm, item: Bookmark): List<Bookmark>
 }
 
-class LocalRepositoryImpl<T : Bookmark> : LocalRepository<T> {
+class LocalRepositoryImpl: LocalRepository{
     val realm: Realm = Realm.getDefaultInstance()
-    override fun insert(realm: Realm, item: T) {
-        when (item) {
-            is Bookmark -> {
-                realm.createObject(item.javaClass, item.uniqueId).apply {
-                    title = item.title
-                    thumbnail = item.thumbnail
-                    makedAt = item.makedAt
-                    isBookmark = item.isBookmark
-                }
-            }
+    override fun insert(realm: Realm, item: Bookmark) {
+        realm.createObject(item.javaClass, item.uniqueId).apply {
+            title = item.title
+            thumbnail = item.thumbnail
+            makedAt = item.makedAt
+            isBookmark = item.isBookmark
         }
     }
 
-    override fun remove(item: T) {
+    override fun remove(item: Bookmark) {
 
     }
 
-    override fun update(item: T, result: T) {
-        when (item) {
-            is Bookmark -> {
-                (result as Bookmark).apply {
-                    makedAt = item.makedAt
-                    isBookmark = item.isBookmark
-                    thumbnail = item.thumbnail
-                    title = item.title
-                }
-            }
+    override fun update(item: Bookmark, result: Bookmark) {
+        result.apply {
+            makedAt = item.makedAt
+            isBookmark = item.isBookmark
+            thumbnail = item.thumbnail
+            title = item.title
         }
     }
 
-    override fun upsert(realm: Realm, item: T) {
+    override fun upsert(realm: Realm, item: Bookmark) {
         val selectItem = select(realm, item)
         if(selectItem==null){
             insert(realm, item)
         }else{
-            update(item, selectItem as T)
+            update(item, selectItem)
         }
-        /*select(realm, item)?.apply {
-            update(item, this as T)
-            if(this.realm.isInTransaction){
-                this.realm.commitTransaction()
-            }
-        } ?: run {
-            if(!this.realm.isInTransaction){
-                this.realm.beginTransaction()
-            }
-            insert(realm, item)
-        }*/
     }
 
-    override fun select(realm: Realm, item: T): T {
-        return realm.where(item.javaClass).equalTo("uniqueId", item.uniqueId).findFirst() as T
+    override fun select(realm: Realm, item: Bookmark): Bookmark? {
+        return realm.where(Bookmark::class.java).equalTo("uniqueId", item.uniqueId).findFirst()
     }
 
-    override fun selectAll(realm: Realm, item: T): List<T> {
-        return realm.where(item.javaClass).equalTo("uniqueId", item.uniqueId).findAll()
+    override fun selectAll(realm: Realm, item: Bookmark): List<Bookmark> {
+        return realm.where(Bookmark::class.java).equalTo("uniqueId", item.uniqueId).findAll()
     }
 }

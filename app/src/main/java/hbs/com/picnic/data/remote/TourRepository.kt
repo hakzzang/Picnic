@@ -1,11 +1,14 @@
 package hbs.com.picnic.data.remote
 
+import hbs.com.picnic.data.model.TourDetail
+import hbs.com.picnic.data.model.TourDetailRequest
 import hbs.com.picnic.data.model.TourRequest
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 
 
 interface TourRepository {
+
     fun getListBasedLocation(
         request: TourRequest
     ): Observable<ResponseBody>
@@ -19,7 +22,7 @@ interface TourRepository {
     ): Observable<ResponseBody>
 
     fun getDetailInfo(
-        request: TourRequest
+        tourDetailRequest: TourDetailRequest
     ): Observable<ResponseBody>
 }
 
@@ -61,15 +64,15 @@ class TourRepositoryImpl(private val tourAPI: TourAPI) : TourRepository {
         )
     }
 
-    override fun getDetailInfo(request: TourRequest): Observable<ResponseBody> {
+    override fun getDetailInfo(tourDetailRequest: TourDetailRequest): Observable<ResponseBody> {
         return tourAPI.getDetailInfo(
-            key = request.key,
-            rows = request.rows,
-            no = request.no,
-            os = request.os,
-            title = request.title,
-            contentId = request.contentId,
-            contentTypeId = request.contentTypeId
+            TourAPI.API.ID,
+            tourDetailRequest.numOfRows,
+            tourDetailRequest.pageNo,
+            tourDetailRequest.mobileOS,
+            tourDetailRequest.mobileApp,
+            tourDetailRequest.contentId,
+            tourDetailRequest.contentTypeId
         )
     }
 }

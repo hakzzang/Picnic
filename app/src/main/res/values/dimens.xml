@@ -52,4 +52,10 @@
     <dimen name="scrap_holder_content_margin_left">20dp</dimen>
     <dimen name="scrap_holder_tagging_size">24dp</dimen>
     <dimen name="scrap_holder_tagging_margin">16dp</dimen>
+    <dimen name="content_tel_icon_size">48dp</dimen>
+    <dimen name="content_tel_icon_margin">12dp</dimen>
+    <dimen name="content_tel_padding">4dp</dimen>
+    <dimen name="content_holder_body_padding">24dp</dimen>
+    <dimen name="content_holder_distance">8dp</dimen>
+    <dimen name="content_title_bottom_margin">12dp</dimen>
 </resources>

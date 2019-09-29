@@ -106,10 +106,9 @@ class BottomInfoAdapter(
             Glide.with(view.context).load(data.firstimage)
                 .override(ivBottomImg.width, ivBottomImg.height).into(ivBottomImg)
 
-            Log.d("BottomViewHolder", Gson().toJson(data))
             clContainer.setOnClickListener {
                 Intent(view.context, ContentActivity::class.java).apply{
-                    putExtra("data", Gson().toJson(data))
+                    putExtra("tourItemInfo", data)
                     view.context.startActivity(this)
                 }
             }

@@ -37,9 +37,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     dataBinding {
         enabled = true
+    }
+    androidExtensions {
+        experimental = true
     }
 }
 
@@ -97,6 +99,10 @@ dependencies {
 
     implementation "com.kakao.sdk:usermgmt:1.21.1"
     implementation "com.kakao.sdk:kakaolink:1.21.1"
+
+    //xml to json
+    implementation 'com.github.smart-fun:XmlToJson:1.4.5'
+
 
     // required if you want to use Mockito for Android tests
     testImplementation 'org.mockito:mockito-core:2.24.5'

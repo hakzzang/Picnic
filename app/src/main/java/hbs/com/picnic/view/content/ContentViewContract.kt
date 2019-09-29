@@ -4,14 +4,12 @@ import android.text.TextWatcher
 import android.widget.ImageView
 import androidx.lifecycle.LifecycleOwner
 import com.google.firebase.auth.FirebaseUser
-import hbs.com.picnic.data.model.Bookmark
-import hbs.com.picnic.data.model.ChatMessage
-import hbs.com.picnic.data.model.CloudMessage
+import hbs.com.picnic.data.model.*
 import hbs.com.picnic.utils.AnimationUtils
 
 interface ContentViewContract{
     interface View{
-        fun initView()
+        fun initView(tourItemInfo: TourInfo.TourItemInfo)
         fun initChattingContents(chatMessages: List<ChatMessage>)
 
         fun updateChatRooms()
@@ -27,11 +25,11 @@ interface ContentViewContract{
 
         fun showToast(message: Any)
         fun refreshContentList()
+        fun updateDetailInfo(tourDetail:TourDetail)
     }
 
     interface Presenter{
-        fun initView()
-
+        fun initView(tourItemInfo: TourInfo.TourItemInfo)
         fun getChatContents(roomId: String)
         fun getChatRooms()
 
@@ -39,7 +37,7 @@ interface ContentViewContract{
         fun updateChatContents(roomId: String)
         fun sendFcmMessage(cloudMessage: CloudMessage)
 
-        fun initBookmark(topic: String)
+        fun initBookmark(tourItemInfo: TourInfo.TourItemInfo)
         fun fetchBookmark(isBookmark: Boolean)
         fun makeTextWatcher(backgroundView: ImageView, iconView: ImageView): TextWatcher
         fun changeImageResource(imageView: ImageView, animationType: AnimationUtils.AnimationType)

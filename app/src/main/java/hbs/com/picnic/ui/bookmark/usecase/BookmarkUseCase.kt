@@ -9,7 +9,7 @@ interface BookmarkUseCase {
 }
 
 class BookmarkUseCaseImpl() : BookmarkUseCase {
-    private val localRepository = LocalRepositoryImpl<Bookmark>()
+    private val localRepository = LocalRepositoryImpl()
     override fun getBookMarks(uniqueId: String): List<Bookmark> {
         localRepository.realm.beginTransaction()
         val bookmarks = localRepository.selectAll(localRepository.realm, Bookmark(uniqueId=uniqueId))

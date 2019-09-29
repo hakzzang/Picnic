@@ -3,10 +3,13 @@ package hbs.com.picnic.ui.content.presenter
 import android.content.Context
 import android.util.Log
 import com.google.firebase.auth.FirebaseUser
+import hbs.com.picnic.data.model.TourDetail
+import hbs.com.picnic.data.model.TourDetailRequest
 import hbs.com.picnic.ui.content.ContentContract
 import hbs.com.picnic.ui.content.usecase.ContentUseCaseImpl
 import hbs.com.picnic.utils.AuthManager
 import hbs.com.picnic.utils.BaseContract
+import hbs.com.picnic.utils.XmlParser
 import java.lang.Exception
 
 class ContentPresenter(private val view: ContentContract.View) : BaseContract.Presenter(), ContentContract.Presenter {
@@ -31,4 +34,16 @@ class ContentPresenter(private val view: ContentContract.View) : BaseContract.Pr
         }))
     }
 
+    override fun getTourDetail(tourDetailRequest: TourDetailRequest) {
+        contentUseCase.getTourDetail(tourDetailRequest).subscribe (
+            {
+                val xml = it.string()
+                val json = XmlParser.xmlToToJson(xml) ?: return@subscribe
+                val tourDetail = TourDetail().parseData(json.toString())
+                view.updateDetailInfo(tourDetail)
+            },{
+                    error->Log.d("response-error",error.toString())
+            }
+        )
+    }
 }

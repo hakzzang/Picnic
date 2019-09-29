@@ -15,13 +15,6 @@
             android:supportsRtl="false"
             android:networkSecurityConfig="@xml/network_security_config"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
         <activity android:name=".ui.bookmark.BookmarkActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -44,7 +37,9 @@
         </activity>
         <activity android:name="hbs.com.picnic.ui.recommend.RecommendActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name="hbs.com.picnic.ui.map.MapActivity">

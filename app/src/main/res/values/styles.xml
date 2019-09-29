@@ -16,22 +16,29 @@
     <style name="TextViewHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/nanumbarungothic_bold</item>
+        <item name="android:fontFamily">@font/nanumbarungothic_bold</item>
     </style>
 
     <style name="TextViewHeadline6" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/nanumbarungothic_bold</item>
+        <item name="fontFamily">@font/nanumbarungothic</item>
+        <item name="android:fontFamily">@font/nanumbarungothic</item>
     </style>
 
     <style name="TextViewBody1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/nanumbarungothic</item>
+        <item name="fontFamily">@font/nanumbarungothic</item>
     </style>
 
     <style name="TextViewCaption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/nanumbarungothic_light</item>
+        <item name="fontFamily">@font/nanumbarungothic_light</item>
     </style>
 
 

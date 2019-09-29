@@ -9,7 +9,8 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/content_holder_distance">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -21,26 +22,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/content_content_title_height"
                     android:gravity="bottom"
-                    android:id="@+id/rv_content_content_title"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="설명"
+                    android:id="@+id/rv_sub_content_content_title"
+                    android:text="@string/all_text_subcontent_title"
                     android:fontFamily="@font/nanumbarungothic_bold"
+                    app:layout_constraintTop_toTopOf="parent"
                     style="@style/TextViewHeadline5"/>
             <TextView
-                    android:id="@+id/rv_content_content_body"
+                    android:id="@+id/rv_sub_content_content_body"
                     android:layout_width="match_parent"
                     android:paddingTop="@dimen/content_holder_body_padding"
                     android:paddingBottom="@dimen/content_holder_body_padding"
                     android:fontFamily="@font/nanumbarungothic"
-                    app:layout_constraintTop_toBottomOf="@id/rv_content_content_title"
+                    app:layout_constraintTop_toBottomOf="@id/rv_sub_content_content_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    tour_guide="@{tourDetail}"
+                    tour_info="@{tourDetail}"
                     style="@style/TextViewBody1"/>
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/md_grey_300"
-                    app:layout_constraintTop_toBottomOf="@id/rv_content_content_body"/>
+                    app:layout_constraintTop_toBottomOf="@id/rv_sub_content_content_body"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_loading_view"

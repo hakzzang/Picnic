@@ -33,7 +33,7 @@ interface ChattingUseCase {
 class ChattingUseCaseImpl : ChattingUseCase {
     private val chatRepository: ChatRepository = ChatRepositoryImpl()
     private val fcmFcmRepository = FcmRepositoryImpl(RetrofitProvider.provideFcmApi(BaseUrl.PICNIC_SERVER.url))
-    private val localRepository = LocalRepositoryImpl<Bookmark>()
+    private val localRepository = LocalRepositoryImpl()
     private var chatReceiver: ListenerRegistration? = null
     override fun postChats(roomId: String, chatMessage: ChatMessage) {
         chatRepository.postChats(roomId, chatMessage)
