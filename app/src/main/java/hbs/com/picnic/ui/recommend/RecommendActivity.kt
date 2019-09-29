@@ -69,7 +69,6 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         setClickListener()
-
         dl_recommend.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerStateChanged(newState: Int) {}
 
@@ -102,7 +101,6 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
 
         recommendPresenter
             .getGpsInfo(this@RecommendActivity)
-
     }
 
     override fun onClick(v: View?) {
@@ -155,6 +153,9 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         }
         lottie_loading.visibility = View.VISIBLE
         recommendPresenter.updateTourInfo(requestList, currentLong, currentLat)
+
+        reco_theme_view.updateTheme(currentLocation, recommendPresenter)
+
     }
 
     /** 하단 Tour 리스트 업데이트 **/

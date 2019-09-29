@@ -11,12 +11,12 @@ import java.util.regex.Pattern
 
 
 interface RecommendMenuUseCase {
-    fun readCSVFile(name: String): List<Any>
+    fun readCSVFile(name: String): ArrayList<ParkInfo>
 }
 
 class RecommendMenuUseCaseImpl(private val assets: AssetManager) : RecommendMenuUseCase {
 
-    override fun readCSVFile(name: String): List<Any> {
+    override fun readCSVFile(name: String): ArrayList<ParkInfo> {
         return when (name) {
             MenuType.PARK.fileName -> {
                 readCsvFile(name)
@@ -27,11 +27,9 @@ class RecommendMenuUseCaseImpl(private val assets: AssetManager) : RecommendMenu
         }
     }
 
-    private fun readCsvFile(fileName: String): MutableList<Any> {
+    private fun readCsvFile(fileName: String): ArrayList<ParkInfo> {
 
-        val isMarket: Boolean = fileName == MenuType.PARK.fileName
-
-        val menuList: MutableList<Any> = mutableListOf()
+        val menuList: ArrayList<ParkInfo> = arrayListOf()
 
         val inputStram = assets.open(fileName)
 
@@ -40,54 +38,35 @@ class RecommendMenuUseCaseImpl(private val assets: AssetManager) : RecommendMenu
         )
 
         var line: String = ""
-        var addr: String = ""
 
         bufferedReader.read()
 
-        while ((bufferedReader.readLine()) != null) {
+        while ((bufferedReader.readLine()) != null && menuList.size<30) {
             line = bufferedReader.readLine()
-
-            addr = getAddr(line)
-
-            line = line.replace("\"$addr\"", "")
 
             val columns = line.split(",")
 
-            addr =
-                if (columns[1].isEmpty()) addr
-                else columns[1]
-
             val menuInfo =
-                if(isMarket){
-                    ParkInfo(
-                        columns[0],
-                        columns[2],
-                        columns[1],
-                        columns[3],
-                        columns[4],
-                        columns[5],
-                        columns[6],
-                        columns[7],
-                        columns[8],
-                        columns[9],
-                        columns[10],
-                        columns[11],
-                        columns[12],
-                        columns[13],
-                        columns[14],
-                        columns[15],
-                        columns[16]
-                    )
-                }else{
-                    MenuInfo(
-                        columns[0],
-                        addr,
-                        columns[2],
-                        columns[3],
-                        columns[4]
-                    )
-                }
-
+                ParkInfo(
+                    columns[0],
+                    columns[1],
+                    columns[2],
+                    columns[3],
+                    columns[4],
+                    columns[5],
+                    columns[6],
+                    columns[7],
+                    columns[8],
+                    columns[9],
+                    columns[10],
+                    columns[11],
+                    columns[12],
+                    columns[13],
+                    columns[14],
+                    columns[15],
+                    columns[16],
+                    0f
+                )
             menuList.add(menuInfo)
         }
 

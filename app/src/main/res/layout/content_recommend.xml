@@ -75,8 +75,8 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <hbs.com.picnic.view.recommend.RecommendMenuView
-                    android:id="@+id/reco_menu_view"
+            <hbs.com.picnic.view.recommend.RecommendThemeView
+                    android:id="@+id/reco_theme_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
