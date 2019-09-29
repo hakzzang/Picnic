@@ -127,12 +127,6 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
                     startActivity(this)
                 }
 
-            R.id.iv_setting ->{
-                Intent(this, MapActivity::class.java).apply {
-                    startActivity(this)
-                }
-            }
-
             R.id.cl_drawer -> {
             }
 
@@ -289,7 +283,6 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         iv_menu.setOnClickListener(this)
         iv_drawer_close.setOnClickListener(this)
         iv_drawer_home.setOnClickListener(this)
-        iv_setting.setOnClickListener(this)
         ll_bookmark_container.setOnClickListener(this)
         menu_culture.setOnClickListener(this)
         menu_festival.setOnClickListener(this)

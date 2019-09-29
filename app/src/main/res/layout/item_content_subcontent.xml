@@ -33,6 +33,7 @@
                     android:paddingTop="@dimen/content_holder_body_padding"
                     android:paddingBottom="@dimen/content_holder_body_padding"
                     android:fontFamily="@font/nanumbarungothic"
+                    android:lineSpacingMultiplier="1.2"
                     app:layout_constraintTop_toBottomOf="@id/rv_sub_content_content_title"
                     app:layout_constraintStart_toStartOf="parent"
                     tour_info="@{tourDetail}"

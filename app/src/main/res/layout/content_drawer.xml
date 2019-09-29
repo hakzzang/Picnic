@@ -55,7 +55,7 @@
                 android:gravity="center"
                 android:layout_marginRight="@dimen/recommend_drawer_menu_icon"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/iv_setting"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:orientation="vertical">
             <ImageView
@@ -73,21 +73,6 @@
         </LinearLayout>
 
 
-        <ImageView
-                android:id="@+id/iv_setting"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="64dp"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_width="@dimen/recommend_drawer_menu_icon"
-                android:layout_height="@dimen/recommend_drawer_menu_icon"
-                android:src="@drawable/ic_setting_menu"/>
-
-        <TextView
-                app:layout_constraintTop_toBottomOf="@id/iv_setting"
-                app:layout_constraintStart_toStartOf="@id/iv_setting"
-                app:layout_constraintEnd_toEndOf="@id/iv_setting"
-                style="@style/Recommend.Menu.Text"
-                android:text="설정"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View

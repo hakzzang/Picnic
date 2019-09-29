@@ -5,7 +5,7 @@ import com.naver.maps.map.overlay.Marker
 
 interface MapContract {
     interface View {
-        fun singleMarker(marker:Marker)
+        fun singleMarker(marker:Marker) : Marker
         fun multipleMarker(markers:List<Marker>)
     }
 

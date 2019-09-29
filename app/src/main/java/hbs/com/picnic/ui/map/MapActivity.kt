@@ -13,6 +13,9 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import hbs.com.picnic.ui.map.presenter.MapPresenter
 import kotlinx.android.synthetic.main.activity_map.*
+import com.naver.maps.map.overlay.InfoWindow
+
+
 
 class MapActivity : AppCompatActivity(),
     MapContract.View,
@@ -37,6 +40,7 @@ class MapActivity : AppCompatActivity(),
 
     private lateinit var naverMap: NaverMap
     private lateinit var cameraUpdate: CameraUpdate
+    private var currentMarker:Marker? = null
 
     private lateinit var fusedLocationSource: FusedLocationSource
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,23 +66,24 @@ class MapActivity : AppCompatActivity(),
         naverMap = mapInstance
 
         when (type) {
-            Type.SELECT_MAP.value or Type.FULL_MAP.value -> {
+            Type.SELECT_MAP.value, Type.FULL_MAP.value -> {
                 initMap()
 
-                naverMap.apply {
+                mapInstance.apply {
                     isIndoorEnabled = true
                 }
-                naverMap.uiSettings.apply {
+                mapInstance.uiSettings.apply {
                     isIndoorLevelPickerEnabled = true
                     isZoomControlEnabled = true
                     isCompassEnabled = true
                     isLogoClickEnabled = true
                     isLocationButtonEnabled = true
                 }
+                mapInstance.locationSource = fusedLocationSource
 
                 if (type == Type.SELECT_MAP.value) {
                     tv_select.visibility = VISIBLE
-                    naverMap.setOnMapClickListener { _, latLng ->
+                    mapInstance.setOnMapClickListener { _, latLng ->
                         latitude = latLng.latitude
                         longitude = latLng.longitude
 
@@ -88,6 +93,13 @@ class MapActivity : AppCompatActivity(),
                         tv_select.visibility = GONE
                         btn_select.visibility = VISIBLE
                     }
+                }
+
+                if (type == Type.FULL_MAP.value) {
+                    mapInstance.uiSettings.isLocationButtonEnabled = true
+                    btn_ok.visibility = VISIBLE
+                    btn_ok.text = "확인"
+                    btn_ok.setOnClickListener { finish() }
                 }
             }
             Type.LIST_MAP.value -> {
@@ -109,9 +121,25 @@ class MapActivity : AppCompatActivity(),
         mapPresenter.fullMap(latLng)
     }
 
-    override fun singleMarker(marker: Marker) {
+    override fun singleMarker(marker: Marker): Marker {
+        if(currentMarker!=null){
+            currentMarker?.map = null
+        }
         marker.map = naverMap
+        currentMarker = marker
         naverMap.moveCamera(cameraUpdate)
+        if (type == Type.FULL_MAP.value) {
+            val mapTitle = intent.getStringExtra("title")
+            marker.captionText = mapTitle
+            val infoWindow = InfoWindow()
+            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(this) {
+                override fun getText(infoWindow: InfoWindow): CharSequence {
+                    return mapTitle
+                }
+            }
+            infoWindow.open(marker)
+        }
+        return marker
     }
 
     override fun multipleMarker(markers: List<Marker>) {

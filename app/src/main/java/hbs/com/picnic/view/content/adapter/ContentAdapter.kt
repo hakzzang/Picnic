@@ -189,6 +189,7 @@ class ContentAdapter(
                     putExtra("type", MapActivity.Type.FULL_MAP.value)
                     putExtra("longitude", tourItemInfo.mapx)
                     putExtra("latitude", tourItemInfo.mapy)
+                    putExtra("title", tourItemInfo.title)
                     it.context.startActivity(this)
                 }
             }
@@ -223,25 +224,42 @@ class ContentAdapter(
                 val hashArray = arrayListOf<String>()
                 when (tourDetailContent.contentTypeId.toInt()) {
                     TourType.FOOD.value -> {
-
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkcreditcardfood, "신용카드 사용: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.discountInfoFood, "할인정보: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.kidsfacility, "놀이방: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.opendatefood, "개업일:", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.packing, "포장 가능:", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.seat, "좌석수:", true)
                     }
                     TourType.SHOPPING.value -> {
-
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkbabycarriageshopping, "유모차 대여: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkcreditcardshopping, "신용카드 사용: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkpetshopping, "애완동물 시설: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.restroom, "화장실: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.scaleShopping, "사이즈: ", true)
                     }
                     TourType.REPORTS.value -> {
-
+                        checkNullAndAddContent(hashArray, tourDetailContent.accomcountLeports, "명", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkbabycarriageleports, "유모차 대여: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkcreditcardleports, "신용카드 사용: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkpetleports, "애완동물 시설: ", true)
                     }
                     TourType.TRAVEL.value -> {
-
+                        checkNullAndAddContent(hashArray, tourDetailContent.theme, "테마:", true)
                     }
                     TourType.FESTIVAL.value -> {
-
+                        checkNullAndAddContent(hashArray, tourDetailContent.ageLimit, "", false)
+                        checkNullAndAddContent(hashArray, tourDetailContent.discountInfoFestival, "유모차 대여: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.eventPlace, "장소: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.festivalGrade, "축제규모: ", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.playtime, "공연시간:", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.useTimeFestival, "요금:", true)
                     }
                     TourType.CULTURE.value -> {
                         checkNullAndAddContent(hashArray,tourDetailContent.accomcount, "명", false)
                         checkNullAndAddContent(hashArray,tourDetailContent.chkbabycarriageculture, "유모차 대여: ", true)
                         checkNullAndAddContent(hashArray,tourDetailContent.chkcreditcardculture, "신용카드 사용: ", true)
-                        checkNullAndAddContent(hashArray,tourDetailContent.chkpetculture, "애완동물과 함께", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkpetculture, "애완동물 시설: ", true)
                         checkNullAndAddContent(hashArray,tourDetailContent.parkingCulture, "parking:", true)
                         checkNullAndAddContent(hashArray,tourDetailContent.parkingFee, "주차요금:", true)
                     }
@@ -249,7 +267,7 @@ class ContentAdapter(
                         checkNullAndAddContent(hashArray,tourDetailContent.accomcount, "명", false)
                         checkNullAndAddContent(hashArray,tourDetailContent.chkbabycarriage, "유모차 대여: ", true)
                         checkNullAndAddContent(hashArray,tourDetailContent.chkcreditcard, "신용카드 사용: ", true)
-                        checkNullAndAddContent(hashArray,tourDetailContent.chkpet, "애완동물과 함께", true)
+                        checkNullAndAddContent(hashArray, tourDetailContent.chkpet, "애완동물 시설: ", true)
                         checkNullAndAddContent(hashArray,tourDetailContent.parking, "parking:", true)
                     }
                     else -> ""
