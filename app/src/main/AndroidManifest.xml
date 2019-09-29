@@ -14,7 +14,7 @@
             android:roundIcon="@mipmap/app_icon_round"
             android:supportsRtl="false"
             android:networkSecurityConfig="@xml/network_security_config"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
+            android:theme="@style/AppTheme">
         <activity android:name=".ui.bookmark.BookmarkActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

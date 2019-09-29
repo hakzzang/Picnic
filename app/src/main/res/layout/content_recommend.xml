@@ -84,7 +84,17 @@
                     android:id="@+id/rv_recommend_bottom"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/recommend_bottom_space_half"
                     android:nestedScrollingEnabled="false"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_loading"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            app:lottie_fileName="loading_progress.json"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

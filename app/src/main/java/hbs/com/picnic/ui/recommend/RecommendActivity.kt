@@ -3,6 +3,7 @@ package hbs.com.picnic.ui.recommend
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -26,6 +27,7 @@ import hbs.com.picnic.data.model.TourInfo
 import hbs.com.picnic.data.model.TourRequest
 import hbs.com.picnic.data.remote.TourAPI
 import hbs.com.picnic.ui.bookmark.BookmarkActivity
+import hbs.com.picnic.utils.SharedManager
 import hbs.com.picnic.utils.TourType
 import hbs.com.picnic.utils.XmlParser
 import kotlinx.android.synthetic.main.activity_recommend.*
@@ -74,13 +76,22 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
 
             override fun onDrawerClosed(drawerView: View) {
-                recommendPresenter.saveMenu()
+                val requestList = arrayListOf<Int>()
+
+                TourType.values().filter {
+                    SharedManager.getBoolean(this@RecommendActivity, it.name)
+                }.map {
+                    requestList.add(it.value)
+                }
+
+                lottie_loading.visibility = View.VISIBLE
+
+                recommendPresenter.updateTourInfo(requestList, currentLong, currentLat)
             }
 
             override fun onDrawerOpened(drawerView: View) {
-                recommendPresenter.getSelectedMenu()
+                setSelection()
             }
-
         })
 
         rv_recommend_bottom.apply {
@@ -129,6 +140,10 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
             R.id.menu_culture, R.id.menu_festival, R.id.menu_shopping,
             R.id.menu_sports, R.id.menu_travel, R.id.menu_tour -> {
                 v.isSelected = !v.isSelected
+                SharedManager.putBoolean(
+                    this@RecommendActivity,
+                    convertStringFrom(v?.id).name, v.isSelected
+                )
             }
 
         }
@@ -138,98 +153,14 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
     override fun updateLocation(name: String) {
         tv_recommend_map.text = getLocationFrom(name)
 
-        // TODO : Food 뿐만 아니라 다른 타입의 데이터를 랜덤으로 가져와야 함.
-        recommendPresenter.getTourInfo(
-            arrayListOf(
-                TourRequest(
-                    TourAPI.API.ID,
-                    10,
-                    1,
-                    TourAPI.API.OS,
-                    "Picnic",
-                    "B",
-                    TourType.FOOD.value,
-                    0,
-                    currentLong,
-                    currentLat,
-                    5000
-                ),
-                TourRequest(
-                    TourAPI.API.ID,
-                    10,
-                    1,
-                    TourAPI.API.OS,
-                    "Picnic",
-                    "B",
-                    TourType.TOUR.value,
-                    0,
-                    currentLong,
-                    currentLat,
-                    5000
-                ),
-                TourRequest(
-                    TourAPI.API.ID,
-                    10,
-                    1,
-                    TourAPI.API.OS,
-                    "Picnic",
-                    "B",
-                    TourType.CULTURE.value,
-                    0,
-                    currentLong,
-                    currentLat,
-                    5000
-                ),TourRequest(
-                    TourAPI.API.ID,
-                    10,
-                    1,
-                    TourAPI.API.OS,
-                    "Picnic",
-                    "B",
-                    TourType.FESTIVAL.value,
-                    0,
-                    currentLong,
-                    currentLat,
-                    5000
-                ),TourRequest(
-                    TourAPI.API.ID,
-                    10,
-                    1,
-                    TourAPI.API.OS,
-                    "Picnic",
-                    "B",
-                    TourType.TRAVEL.value,
-                    0,
-                    currentLong,
-                    currentLat,
-                    5000
-                ),TourRequest(
-                    TourAPI.API.ID,
-                    10,
-                    1,
-                    TourAPI.API.OS,
-                    "Picnic",
-                    "B",
-                    TourType.REPORTS.value,
-                    0,
-                    currentLong,
-                    currentLat,
-                    5000
-                ),TourRequest(
-                    TourAPI.API.ID,
-                    10,
-                    1,
-                    TourAPI.API.OS,
-                    "Picnic",
-                    "B",
-                    TourType.SHOPPING.value,
-                    0,
-                    currentLong,
-                    currentLat,
-                    5000
-                )
-            )
-        )
+        val requestList = arrayListOf<Int>()
+        TourType.values().filter {
+            SharedManager.getBoolean(this@RecommendActivity, it.name)
+        }.map {
+            requestList.add(it.value)
+        }
+        lottie_loading.visibility = View.VISIBLE
+        recommendPresenter.updateTourInfo(requestList, currentLong, currentLat)
     }
 
     /** 하단 Tour 리스트 업데이트 **/
@@ -239,6 +170,8 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
         datas.map {
             bottomDatas.add(XmlParser.tourParser(it))
         }
+        lottie_loading.visibility = View.GONE
+
         bottomAdapter.notifyDatas(bottomDatas, currentLocation)
     }
 
@@ -290,7 +223,7 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
 
     /** JSON String 값으로 주소 이름 받아오기 **/
     private fun getLocationFrom(jsonString: String): String {
-        var resultString = "위치 정보를 불러오지 못했습니다."
+        var resultString = "위치 정보를 불러오지 못했습니다. 다시 시도해주세요."
         val jsonObject = JSONObject(jsonString)
         with(jsonObject) {
             val statusCode = getJSONObject("status").getString("code")
@@ -333,6 +266,21 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
     }
 
 
+    private fun setSelection() {
+        SharedManager.putBoolean(this@RecommendActivity, TourType.FOOD.name, true)
+        menu_festival.isSelected =
+            SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_festival.id).name)
+        menu_travel.isSelected =
+            SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_travel.id).name)
+        menu_tour.isSelected = SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_tour.id).name)
+        menu_sports.isSelected =
+            SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_sports.id).name)
+        menu_shopping.isSelected =
+            SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_shopping.id).name)
+        menu_culture.isSelected =
+            SharedManager.getBoolean(this@RecommendActivity, convertStringFrom(menu_culture.id).name)
+    }
+
     /** OnClickListener 설정 */
     private fun setClickListener() {
         cl_drawer.setOnClickListener(this)
@@ -353,5 +301,17 @@ class RecommendActivity : AppCompatActivity(), RecommendContract.View, View.OnCl
 
         menu_food.isSelected = true
     }
+
+    private fun convertStringFrom(id: Int): TourType =
+        when (id) {
+            R.id.menu_food -> TourType.FOOD
+            R.id.menu_culture -> TourType.CULTURE
+            R.id.menu_festival -> TourType.FESTIVAL
+            R.id.menu_shopping -> TourType.SHOPPING
+            R.id.menu_sports -> TourType.REPORTS
+            R.id.menu_travel -> TourType.TRAVEL
+            R.id.menu_tour -> TourType.TOUR
+            else -> TourType.FOOD
+        }
 
 }
