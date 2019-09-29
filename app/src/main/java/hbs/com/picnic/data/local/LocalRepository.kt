@@ -9,7 +9,7 @@ interface LocalRepository{
     fun insert(realm: Realm, item: Bookmark)
     fun upsert(realm: Realm, item: Bookmark)
     fun select(realm: Realm, bookmarkId: String): Bookmark?
-    fun selectAll(realm: Realm, item: Bookmark): List<Bookmark>
+    fun selectAll(realm: Realm): List<Bookmark>
 }
 
 class LocalRepositoryImpl: LocalRepository{
@@ -18,7 +18,7 @@ class LocalRepositoryImpl: LocalRepository{
         realm.createObject(item.javaClass, item.uniqueId).apply {
             title = item.title
             thumbnail = item.thumbnail
-            makedAt = item.makedAt
+            madeAt = item.madeAt
             isBookmark = item.isBookmark
         }
     }
@@ -30,7 +30,7 @@ class LocalRepositoryImpl: LocalRepository{
 
     override fun update(item: Bookmark, result: Bookmark) {
         result.apply {
-            makedAt = item.makedAt
+            madeAt = item.madeAt
             isBookmark = item.isBookmark
             thumbnail = item.thumbnail
             title = item.title
@@ -50,7 +50,7 @@ class LocalRepositoryImpl: LocalRepository{
         return realm.where(Bookmark::class.java).equalTo("uniqueId", bookmarkId).findFirst()
     }
 
-    override fun selectAll(realm: Realm, item: Bookmark): List<Bookmark> {
-        return realm.where(Bookmark::class.java).equalTo("uniqueId", item.uniqueId).findAll()
+    override fun selectAll(realm: Realm): List<Bookmark> {
+        return realm.where(Bookmark::class.java).findAll()
     }
 }

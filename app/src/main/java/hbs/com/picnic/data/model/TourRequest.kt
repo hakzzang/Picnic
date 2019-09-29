@@ -13,5 +13,4 @@ data class TourRequest (
     val latitude:Double,
     val radius:Int,
     val imageYN:String="Y"
-
 )

@@ -48,7 +48,7 @@
     <dimen name="scrap_holder_height">88dp</dimen>
     <dimen name="scrap_holder_thumbnail_width">100dp</dimen>
     <dimen name="scrap_holder_thumbnail_height">56dp</dimen>
-    <dimen name="scrap_holder_thumbnail__radius">12dp</dimen>
+    <dimen name="scrap_holder_thumbnail_radius">8dp</dimen>
     <dimen name="scrap_holder_content_margin_left">20dp</dimen>
     <dimen name="scrap_holder_tagging_size">24dp</dimen>
     <dimen name="scrap_holder_tagging_margin">16dp</dimen>
@@ -56,7 +56,7 @@
     <dimen name="content_tel_icon_margin">12dp</dimen>
     <dimen name="content_tel_padding">4dp</dimen>
     <dimen name="content_holder_body_padding">24dp</dimen>
-    <dimen name="content_holder_distance">8dp</dimen>
+    <dimen name="content_holder_distance">12dp</dimen>
     <dimen name="content_title_bottom_margin">12dp</dimen>
 
     <dimen name="material_list_image_size">40dp</dimen>

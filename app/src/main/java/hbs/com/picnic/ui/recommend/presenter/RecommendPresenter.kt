@@ -59,7 +59,6 @@ class RecommendPresenter(private val view: RecommendContract.View, locationManag
 
     override fun getTourInfo(reqeustInfo: List<TourRequest>) {
         val tourInfos = arrayListOf<String>()
-
         recommendUseCase.getTourInfoBasedLocation(reqeustInfo)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.computation())

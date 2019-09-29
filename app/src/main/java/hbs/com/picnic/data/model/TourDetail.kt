@@ -20,6 +20,9 @@ data class TourDetailContent(
     @SerializedName("contenttypeid") val contentTypeId:String,
 
     @SerializedName("accomcount") val accomcount: String,
+    @SerializedName("chkbabycarriage") val chkbabycarriage: String,
+    @SerializedName("chkcreditcard") val chkcreditcard: String,
+    @SerializedName("chkpet") val chkpet: String,
     @SerializedName("expagerange") val expAgeRange: String,
     @SerializedName("expguide") val expGuide: String,
     @SerializedName("infocenter") val infoCenter: String,
@@ -29,6 +32,9 @@ data class TourDetailContent(
     @SerializedName("useseason") val useSeason: String,
     @SerializedName("usetime") val useTime: String,
 
+    @SerializedName("chkbabycarriageculture") val chkbabycarriageculture: String,
+    @SerializedName("chkcreditcardculture") val chkcreditcardculture: String,
+    @SerializedName("chkpetculture") val chkpetculture: String,
     @SerializedName("accomcountculture") val accomcountCulture: String,
     @SerializedName("discountinfo") val disCountInfo: String,
     @SerializedName("infocenterculture") val infoCenterCulture: String,

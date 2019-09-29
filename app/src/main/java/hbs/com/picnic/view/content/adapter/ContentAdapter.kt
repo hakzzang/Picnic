@@ -21,6 +21,7 @@ import hbs.com.picnic.databinding.ItemContentSubcontentBinding
 import hbs.com.picnic.databinding.ItemContentSubtitleBinding
 import hbs.com.picnic.databinding.ItemContentTitleBinding
 import hbs.com.picnic.ui.map.MapActivity
+import hbs.com.picnic.utils.TourType
 import kotlinx.android.synthetic.main.item_map.view.*
 
 
@@ -124,7 +125,7 @@ class ContentAdapter(
     inner class TitleViewHolder(private val itemContentTitleBinding: ItemContentTitleBinding) :
         RecyclerView.ViewHolder(itemContentTitleBinding.root) {
         fun bindView(tourItemInfo: TourInfo.TourItemInfo) {
-            itemContentTitleBinding.title = tourItemInfo.title
+            itemContentTitleBinding.tourItemInfo = tourItemInfo
             itemContentTitleBinding.tvContentTitle.isSelected = true
             itemContentTitleBinding.ivTelIcon.setOnClickListener {
                 if(tourItemInfo.tel.isEmpty()){
@@ -138,7 +139,6 @@ class ContentAdapter(
                 }
             }
         }
-
     }
 
     inner class ContentViewHolder(private val binding: ItemContentContentBinding) :
@@ -218,17 +218,55 @@ class ContentAdapter(
                     flexDirection = FlexDirection.ROW
                     justifyContent = JustifyContent.FLEX_START
                 }
-                adapter = ContentHashTagAdapter(
-                    listOf(
-                        "내 여자친구는",
-                        "배가",
-                        "고플것이다",
-                        "새우버거는",
-                        "응가를",
-                        "했을 것이다.",
-                        "응가~~"
-                    )
-                )
+                val tourDetailContent =
+                    tourDetail?.tourDetailResponse?.body?.tourDetailItems?.tourDetailContent ?: return
+                val hashArray = arrayListOf<String>()
+                when (tourDetailContent.contentTypeId.toInt()) {
+                    TourType.FOOD.value -> {
+
+                    }
+                    TourType.SHOPPING.value -> {
+
+                    }
+                    TourType.REPORTS.value -> {
+
+                    }
+                    TourType.TRAVEL.value -> {
+
+                    }
+                    TourType.FESTIVAL.value -> {
+
+                    }
+                    TourType.CULTURE.value -> {
+                        checkNullAndAddContent(hashArray,tourDetailContent.accomcount, "명", false)
+                        checkNullAndAddContent(hashArray,tourDetailContent.chkbabycarriageculture, "유모차 대여: ", true)
+                        checkNullAndAddContent(hashArray,tourDetailContent.chkcreditcardculture, "신용카드 사용: ", true)
+                        checkNullAndAddContent(hashArray,tourDetailContent.chkpetculture, "애완동물과 함께", true)
+                        checkNullAndAddContent(hashArray,tourDetailContent.parkingCulture, "parking:", true)
+                        checkNullAndAddContent(hashArray,tourDetailContent.parkingFee, "주차요금:", true)
+                    }
+                    TourType.TOUR.value -> {
+                        checkNullAndAddContent(hashArray,tourDetailContent.accomcount, "명", false)
+                        checkNullAndAddContent(hashArray,tourDetailContent.chkbabycarriage, "유모차 대여: ", true)
+                        checkNullAndAddContent(hashArray,tourDetailContent.chkcreditcard, "신용카드 사용: ", true)
+                        checkNullAndAddContent(hashArray,tourDetailContent.chkpet, "애완동물과 함께", true)
+                        checkNullAndAddContent(hashArray,tourDetailContent.parking, "parking:", true)
+                    }
+                    else -> ""
+                }
+                adapter = ContentHashTagAdapter(hashArray)
+            }
+        }
+    }
+
+    private fun checkNullAndAddContent(hashArray: MutableList<String>, content: String?, addString: String, isLeft:Boolean) {
+        if (content.isNullOrEmpty() || content == "NULL") {
+
+        }else{
+            if(isLeft){
+                hashArray.add(addString+content)
+            }else{
+                hashArray.add(content+addString)
             }
         }
     }

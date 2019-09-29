@@ -1,8 +1,11 @@
 package hbs.com.picnic.view.content.adapter
 
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.htmlEncode
 import androidx.recyclerview.widget.RecyclerView
 import hbs.com.picnic.R
 import kotlinx.android.synthetic.main.item_subtitle.view.*
@@ -19,7 +22,14 @@ class ContentHashTagAdapter(private val hashTags:List<String>) : RecyclerView.Ad
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as HomeCategoryViewHolder).apply {
-            val content = hashTags[position].replace(" ","_")
+            val cleanHtmlText = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                // FROM_HTML_MODE_LEGACY is the behaviour that was used for versions below android N
+                // we are using this flag to give a consistent behaviour
+                Html.fromHtml(hashTags[position], Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                Html.fromHtml(hashTags[position])
+            }
+            val content = cleanHtmlText.toString().replace(" ", "_")
             itemView.btn_hash_tag.text = "#$content"
         }
     }

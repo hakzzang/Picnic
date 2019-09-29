@@ -5,7 +5,7 @@ import hbs.com.picnic.data.model.Bookmark
 interface BookmarkContract {
     interface Presenter {
         fun initView()
-        fun getBookmarks(uniqueId: String)
+        fun getBookmarks()
     }
 
     interface View {

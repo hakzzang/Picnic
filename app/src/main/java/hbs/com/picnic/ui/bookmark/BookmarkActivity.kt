@@ -12,20 +12,23 @@ import kotlinx.android.synthetic.main.activity_bookmark.*
 class BookmarkActivity : AppCompatActivity(), BookmarkContract.View {
     private val bookmarkAdapter = BookmarkAdapter()
     private val bookmarkPresenter = BookmarkPresenter(this)
-    private val uniqueId by lazy { intent.getStringExtra("uniqueId") }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark)
 
         bookmarkPresenter.initView()
-        bookmarkPresenter.getBookmarks("1")
+        bookmarkPresenter.getBookmarks()
     }
 
     override fun initView() {
         rv_bookmark.apply {
             adapter = bookmarkAdapter
             layoutManager = LinearLayoutManager(this@BookmarkActivity)
+        }
+
+        iv_toggle.setOnClickListener {
+            finish()
         }
     }
 
