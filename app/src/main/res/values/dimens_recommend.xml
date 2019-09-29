@@ -8,6 +8,7 @@
     <dimen name="recommend_menu_icon_size">30dp</dimen>
     <dimen name="recommend_menu_height">270dp</dimen>
 
+    <dimen name="recommend_bottom_space_half">28dp</dimen>
     <dimen name="recommend_bottom_space">56dp</dimen>
     <dimen name="recommend_bottom_start_margin">24dp</dimen>
 
