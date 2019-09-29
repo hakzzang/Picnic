@@ -15,6 +15,7 @@
             android:fontFamily="@font/nanumbarungothic_bold"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/content_title_bottom_margin"
+            android:layout_marginBottom="16dp"
     />
     <ImageView
             android:id="@+id/iv_static_map"
