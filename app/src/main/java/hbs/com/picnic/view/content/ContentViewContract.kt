@@ -31,17 +31,18 @@ interface ContentViewContract{
     interface Presenter{
         fun initView(tourItemInfo: TourInfo.TourItemInfo)
         fun getChatContents(roomId: String)
-        fun getChatRooms()
 
         fun sendChatting(roomId: String, chatMessage: ChatMessage)
         fun updateChatContents(roomId: String)
         fun sendFcmMessage(cloudMessage: CloudMessage)
-
+        fun sendFcmBookmarkMessage(bookmark: Bookmark)
         fun initBookmark(tourItemInfo: TourInfo.TourItemInfo)
-        fun fetchBookmark(isBookmark: Boolean)
+        fun fetchBookmark(tourItemInfo: TourInfo.TourItemInfo)
         fun makeTextWatcher(backgroundView: ImageView, iconView: ImageView): TextWatcher
         fun changeImageResource(imageView: ImageView, animationType: AnimationUtils.AnimationType)
 
+        fun getBookmark(bookmarkId: String) : Bookmark?
         fun insertBookmark(bookmark: Bookmark)
+        fun deleteBookmark(bookmark: Bookmark)
     }
 }

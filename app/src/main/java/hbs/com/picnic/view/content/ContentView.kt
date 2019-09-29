@@ -75,16 +75,24 @@ class ContentView @JvmOverloads constructor(
                 title = ""
             }
             coordinatorToolbar.toolbarBookmark.setOnClickListener {
-                presenter.insertBookmark(
-                    Bookmark(
-                        tourItemInfo.title,
-                        tourItemInfo.firstimage,
-                        System.currentTimeMillis().toString(),
-                        tourItemInfo.contentid.toString(),
-                        false
-                    )
+                val bookmark = Bookmark(
+                    tourItemInfo.title,
+                    tourItemInfo.firstimage,
+                    System.currentTimeMillis().toString(),
+                    tourItemInfo.contentid.toString(),
+                    false
                 )
-                presenter.fetchBookmark(true)
+                val resultBookmark = presenter.getBookmark(bookmark.uniqueId)
+                val isBookmark = resultBookmark?.uniqueId != null
+                bookmark.isBookmark = isBookmark
+                presenter.fetchBookmark(tourItemInfo)
+
+                if (isBookmark) {
+                    presenter.deleteBookmark(bookmark)
+                } else {
+                    presenter.sendFcmBookmarkMessage(bookmark)
+                    presenter.insertBookmark(bookmark)
+                }
             }
             coordinatorToolbar.toolbarShare.setOnClickListener {
                 kakaoManager.sendMsg(tourItemInfo.title, tourItemInfo.firstimage)
@@ -93,6 +101,11 @@ class ContentView @JvmOverloads constructor(
         }
         presenter.initView(tourItemInfo)
         presenter.initBookmark(tourItemInfo)
+        val resultBookmark = presenter.getBookmark(tourItemInfo.contentid.toString())
+        val isBookmark = resultBookmark?.uniqueId != null
+        if (isBookmark) {
+            updateBookmark(isBookmark)
+        }
     }
 
     fun getChatContents(tourItemInfo: TourInfo.TourItemInfo){
@@ -134,7 +147,7 @@ class ContentView @JvmOverloads constructor(
                     ChatMessage(firebaseUser.uid, nickname, message, Date().time.toString())
                 val cloudMessage = CloudMessage(
                     tourItemInfo?.contentid.toString(),
-                    tourItemInfo?.title + chatMessage.name.substring(0, 6),
+                    tourItemInfo?.title + "에서 " + chatMessage.name.substring(0, 6),
                     chatMessage.message,
                     firebaseUser.uid
                 )

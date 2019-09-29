@@ -2,7 +2,9 @@ package hbs.com.picnic.view.content.presenter
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.ImageView
+import com.google.firebase.auth.FirebaseAuth
 import hbs.com.picnic.R
 import hbs.com.picnic.ui.content.usecase.ChattingUseCase
 import hbs.com.picnic.ui.content.usecase.ChattingUseCaseImpl
@@ -12,16 +14,19 @@ import hbs.com.picnic.data.model.CloudMessage
 import hbs.com.picnic.data.model.TourInfo
 import hbs.com.picnic.utils.AnimationUtils
 import hbs.com.picnic.utils.BaseContract
+import hbs.com.picnic.utils.NicknameManager
 import hbs.com.picnic.view.content.ContentViewContract
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ContentViewPresenter(private val view: ContentViewContract.View) : BaseContract.Presenter(),
     ContentViewContract.Presenter {
     private var isAnimation = false
 
-    private val bookmarkSubject = BehaviorSubject.create<Boolean>()
+    private val bookmarkSubject = BehaviorSubject.create<TourInfo.TourItemInfo>()
 
     private val chattingUseCase: ChattingUseCase = ChattingUseCaseImpl()
     private val chattingList: ArrayList<ChatMessage> = arrayListOf()
@@ -40,7 +45,26 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
 
     override fun sendFcmMessage(cloudMessage: CloudMessage) {
         chattingUseCase.sendFcmMessage(cloudMessage).subscribe({
-            fetchBookmark(true)
+
+        }, {
+
+        })
+    }
+
+    override fun sendFcmBookmarkMessage(bookmark: Bookmark) {
+        val nicknameManager = NicknameManager()
+        val firebaseUser = FirebaseAuth.getInstance().currentUser ?: return
+        val nickname = nicknameManager.makeWording(firebaseUser.metadata?.creationTimestamp.toString())
+        val chatMessage =
+            ChatMessage(firebaseUser.uid, nickname, "${bookmark.title}, 즐겨찾기 했던 곳을 누군가도 좋아합니다.", Date().time.toString())
+        val cloudMessage = CloudMessage(
+            bookmark.uniqueId,
+            bookmark.title + "에서 온 메시지",
+            chatMessage.message,
+            firebaseUser.uid
+        )
+        chattingUseCase.sendFcmMessage(cloudMessage).subscribe({
+
         }, {
 
         })
@@ -70,10 +94,6 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
         }, { error ->
             view.showToast(error.localizedMessage)
         }))
-    }
-
-    override fun getChatRooms() {
-
     }
 
     override fun makeTextWatcher(backgroundView: ImageView, iconView: ImageView): TextWatcher {
@@ -133,35 +153,37 @@ class ContentViewPresenter(private val view: ContentViewContract.View) : BaseCon
 
     override fun initBookmark(tourItemInfo: TourInfo.TourItemInfo) {
         val bookmarkDisposable = bookmarkSubject.observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.computation())
-            .subscribe({ isBookmark ->
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribe({ tourItemInfo ->
+                val bookmark = chattingUseCase.selectBookmark(tourItemInfo.contentid.toString())
+                val isBookmark = bookmark?.uniqueId != null
+                Log.d("bookmarkbookmark", bookmark.toString())
+                Log.d("bookmarkbookmark", bookmark?.uniqueId.toString())
+                Log.d("bookmarkbookmark", isBookmark.toString())
+                chattingUseCase.changeSubscribeState(tourItemInfo.contentid.toString(), isBookmark)
                 view.updateBookmark(isBookmark)
-                val bookmark = chattingUseCase.selectBookmark(
-                    Bookmark(
-                        tourItemInfo.title,
-                        tourItemInfo.firstimage,
-                        System.currentTimeMillis().toString(),
-                        tourItemInfo.contentid.toString(),
-                        isBookmark
-                    )
-                )
-                if (bookmark!=null && !bookmark.isBookmark) {
-                    chattingUseCase.changeSubscribeState(tourItemInfo.contentid.toString(), isBookmark)
-                    view.showToast(R.string.all_text_register_bookmark)
-                }
             }, { error ->
                 error.printStackTrace()
             }, {
 
             })
+        //검색
     }
 
     //TODO : LOCAL REPOSITORY를 연결해서 bookmark 지정
-    override fun fetchBookmark(isBookmark: Boolean) {
-        bookmarkSubject.onNext(isBookmark)
+    override fun fetchBookmark(tourItemInfo: TourInfo.TourItemInfo) {
+        bookmarkSubject.onNext(tourItemInfo)
     }
 
     override fun insertBookmark(bookmark: Bookmark) {
         chattingUseCase.insertBookmark(bookmark)
+    }
+
+    override fun deleteBookmark(bookmark: Bookmark) {
+        chattingUseCase.removeBookmark(bookmark)
+    }
+
+    override fun getBookmark(bookmarkId: String): Bookmark? {
+        return chattingUseCase.selectBookmark(bookmarkId)
     }
 }

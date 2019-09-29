@@ -186,6 +186,7 @@ class ContentAdapter(
             }
             holder.itemView.setOnClickListener {
                 Intent(it.context, MapActivity::class.java).apply {
+                    putExtra("type", MapActivity.Type.FULL_MAP.value)
                     putExtra("longitude", tourItemInfo.mapx)
                     putExtra("latitude", tourItemInfo.mapy)
                     it.context.startActivity(this)

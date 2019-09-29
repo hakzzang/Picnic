@@ -27,7 +27,8 @@ interface ChattingUseCase {
     fun sendFcmMessage(cloudMessage: CloudMessage): Observable<ResponseBody>
     fun changeSubscribeState(topic:String, isSubscribe:Boolean)
     fun insertBookmark(bookmark: Bookmark)
-    fun selectBookmark(bookmark: Bookmark): Bookmark?
+    fun removeBookmark(bookmark: Bookmark)
+    fun selectBookmark(bookmarkId:String): Bookmark?
 }
 
 class ChattingUseCaseImpl : ChattingUseCase {
@@ -110,12 +111,17 @@ class ChattingUseCaseImpl : ChattingUseCase {
         localRepository.realm.beginTransaction()
         localRepository.upsert(localRepository.realm, bookmark)
         localRepository.realm.commitTransaction()
-
     }
 
-    override fun selectBookmark(bookmark: Bookmark): Bookmark? {
+    override fun removeBookmark(bookmark: Bookmark) {
         localRepository.realm.beginTransaction()
-        val resultBookmark = localRepository.select(localRepository.realm, bookmark)
+        localRepository.remove(localRepository.realm, bookmark)
+        localRepository.realm.commitTransaction()
+    }
+
+    override fun selectBookmark(bookmarkId: String): Bookmark? {
+        localRepository.realm.beginTransaction()
+        val resultBookmark = localRepository.select(localRepository.realm, bookmarkId)
         localRepository.realm.commitTransaction()
         return resultBookmark
     }
