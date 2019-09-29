@@ -9,14 +9,13 @@ import hbs.com.picnic.ui.recommend.RecommendContract
 import hbs.com.picnic.ui.recommend.usecase.RecommendUseCaseImpl
 import hbs.com.picnic.utils.BaseContract
 import android.location.LocationManager
-import android.util.Log
-import hbs.com.picnic.data.model.TourInfo
 import hbs.com.picnic.data.model.TourRequest
-import io.reactivex.Scheduler
+import hbs.com.picnic.data.remote.TourAPI
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class RecommendPresenter(private val view: RecommendContract.View, locationManager: LocationManager) : BaseContract.Presenter(), RecommendContract.Presenter {
+class RecommendPresenter(private val view: RecommendContract.View, locationManager: LocationManager) :
+    BaseContract.Presenter(), RecommendContract.Presenter {
 
     val REQUEST_PERMISSION_LOCATION: Int = 1001;
 
@@ -37,7 +36,11 @@ class RecommendPresenter(private val view: RecommendContract.View, locationManag
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    context,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
                 view.showGPSDialogAgain()
             } else {
                 ActivityCompat.requestPermissions(
@@ -45,8 +48,7 @@ class RecommendPresenter(private val view: RecommendContract.View, locationManag
                     REQUEST_PERMISSION_LOCATION
                 )
             }
-        }
-        else {
+        } else {
             recommendUseCase.getLastLocation()?.let { location ->
                 getLocationInfo(
                     coords = "${location.longitude},${location.latitude}",
@@ -55,6 +57,30 @@ class RecommendPresenter(private val view: RecommendContract.View, locationManag
                 )
             }
         }
+    }
+
+    override fun updateTourInfo(requestInfo: List<Int>, currentLong: Double, currentLat: Double) {
+        val requestList = arrayListOf<TourRequest>()
+
+        for (type in requestInfo) {
+            val item = TourRequest(
+                TourAPI.API.ID,
+                10,
+                1,
+                TourAPI.API.OS,
+                "Picnic",
+                "B",
+                0,
+                0,
+                currentLong,
+                currentLat,
+                5000
+            )
+            item.contentTypeId = type
+            requestList.add(item)
+        }
+
+        getTourInfo(requestList)
     }
 
     override fun getTourInfo(reqeustInfo: List<TourRequest>) {
@@ -76,10 +102,6 @@ class RecommendPresenter(private val view: RecommendContract.View, locationManag
     }
 
     override fun getSelectedMenu() {
-
-    }
-
-    override fun saveMenu() {
 
     }
 
