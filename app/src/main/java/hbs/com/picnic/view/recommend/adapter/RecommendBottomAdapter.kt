@@ -3,7 +3,6 @@ package hbs.com.picnic.view.recommend.adapter
 import android.content.Context
 import android.content.Intent
 import android.location.Location
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import hbs.com.picnic.R
 import hbs.com.picnic.ui.content.ContentActivity
 import hbs.com.picnic.data.model.TourInfo
-import hbs.com.picnic.utils.CustomItemDecoration
 
 open class RecommendBottomAdapter(val context: Context, var currentLocation: Location) :
     RecyclerView.Adapter<RecommendBottomAdapter.RecommendViewHolder>() {

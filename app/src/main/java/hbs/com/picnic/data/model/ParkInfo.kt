@@ -17,5 +17,6 @@ data class ParkInfo (
     val y:String,
     val x1:String,
     val y1:String,
-    val url:String
+    val url:String,
+    var distance:Float
 )

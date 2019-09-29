@@ -9,13 +9,12 @@
             android:id="@+id/tv_recommend_title"
             android:text="@string/title_recommend"
             android:layout_marginStart="@dimen/recommend_padding"
-            android:background="@drawable/bg_textview_line"
             style="@style/Recommend.Title.Text"/>
 
     <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/recommend_padding"
-            android:paddingLeft="@dimen/recommend_padding"
+            android:clipToPadding="false"
             android:layout_marginTop="@dimen/recommend_top_margin"/>
 </LinearLayout>

@@ -2,6 +2,7 @@
 <network-security-config>
     <base-config cleartextTrafficPermitted="false"/>
     <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">parks.seoul.go.kr</domain>
         <domain includeSubdomains="true">api.visitkorea.or.kr</domain>
         <domain includeSubdomains="true">tong.visitkorea.or.kr</domain>
         <domain includeSubdomains="true">http://openapi.seoul.go.kr:8088</domain>

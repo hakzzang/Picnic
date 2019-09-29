@@ -65,11 +65,9 @@ object XmlParser {
                         "cat2" ->
                             tourItemInfo?.cat2 = value
                         "firstimage" -> {
-                            Log.d("XmlParser", value)
                             tourItemInfo?.firstimage = value
                         }
                         "firstimage2" -> {
-                            Log.d("XmlParser2", value)
                             tourItemInfo?.firstimage2 = value
                         }
                     }
@@ -81,7 +79,7 @@ object XmlParser {
 
     private fun convertTitle(contentId: Int): String =
         when (contentId) {
-            TourType.FOOD.value -> "맛있는 피크닉"
+            TourType.FOOD.value -> "맛집 피크닉"
             TourType.SHOPPING.value -> "쇼핑 피크닉"
             TourType.REPORTS.value -> "레포츠 피크닉"
             TourType.TRAVEL.value -> "여행 피크닉"
